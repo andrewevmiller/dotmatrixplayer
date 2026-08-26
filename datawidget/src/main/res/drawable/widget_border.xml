@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The over-limit border, when the indicator is set to BORDER.
+
+    Stroke only, no fill, so it can be laid over the card without hiding it -
+    and it is drawn white so a single RemoteViews setColorFilter can take it to
+    whichever accent the user picked. A set of pre-tinted drawables would mean
+    one file per colour and a new one every time the palette grows.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="26dp" />
+    <stroke android:width="2dp" android:color="@color/nt_white" />
+</shape>

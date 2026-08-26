@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The 4x2 scorecard: 250 x 110dp on a standard launcher grid.
+
+    Four bands, top to bottom:
+
+      1. league, broadcast, live marker        - who and where
+      2. the two matrices, abbreviations, score - the game
+      3. clock, and the sport's own context     - where in the game
+      4. win probability, top performer, pager  - everything the smaller
+                                                  sizes had to drop
+
+    Band 4 is the whole reason this size exists. The brief puts broadcast, top
+    performer and win probability here and nowhere else, and that is right: each
+    is a full-width line, and a banner that tried to carry them would be setting
+    9sp type against a 20dp matrix.
+
+    Every label is an ImageView - see widget_score_strip.xml and TextRenderer.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/score_widget_bg"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/card_padding"
+    android:paddingTop="@dimen/card_padding"
+    android:paddingEnd="@dimen/card_padding"
+    android:paddingBottom="@dimen/card_padding">
+
+    <!-- ============ 1. league / broadcast / live ============ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/league_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null" />
+
+        <!--
+            The spacer does the right-alignment, not a weight on the label.
+
+            Every one of these ImageViews holds a bitmap TextRenderer already
+            drew at the exact pixel size it should appear at. Give one of them a
+            layout_weight and a scaleType that fits to bounds and the view
+            *upscales* the bitmap to fill the row - which is not a subtle bug:
+            a short broadcast name like "MLB.TV" grew to the full width of the
+            card, four times its intended size, and pushed the score and both
+            matrices off it entirely.
+
+            So: wrap_content, no adjustViewBounds, and no fit* scaleType
+            anywhere a text bitmap lives. A Space carries the weight instead.
+        -->
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/broadcast_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_broadcast"
+            android:paddingStart="8dp" />
+
+        <ImageView
+            android:id="@+id/live_dot"
+            android:layout_width="@dimen/score_live_dot"
+            android:layout_height="@dimen/score_live_dot"
+            android:layout_marginStart="7dp"
+            android:contentDescription="@string/cd_live"
+            android:src="@drawable/score_live_dot"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <!-- ============ 2. the game ============ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/away_glyph"
+            android:layout_width="@dimen/card_glyph"
+            android:layout_height="@dimen/card_glyph"
+            android:contentDescription="@string/cd_away_team"
+            android:scaleType="fitCenter" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/away_abbrev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null" />
+
+            <ImageView
+                android:id="@+id/away_possession"
+                android:layout_width="@dimen/possession_dot"
+                android:layout_height="@dimen/possession_dot"
+                android:layout_marginTop="3dp"
+                android:contentDescription="@string/cd_possession"
+                android:src="@drawable/possession_dot"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/scoreline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_score" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/home_abbrev"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null" />
+
+            <ImageView
+                android:id="@+id/home_possession"
+                android:layout_width="@dimen/possession_dot"
+                android:layout_height="@dimen/possession_dot"
+                android:layout_marginTop="3dp"
+                android:contentDescription="@string/cd_possession"
+                android:src="@drawable/possession_dot"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/home_glyph"
+            android:layout_width="@dimen/card_glyph"
+            android:layout_height="@dimen/card_glyph"
+            android:contentDescription="@string/cd_home_team"
+            android:scaleType="fitCenter" />
+    </LinearLayout>
+
+    <!-- ============ 3. clock and sport context ============ -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/clock_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_clock" />
+
+        <!--
+            The diamond and the down-and-distance occupy the same slot, because
+            no game is ever both. The bases are a bitmap of their own rather
+            than a line of type - a runner on second is a position, and writing
+            it out as words costs more width than drawing it and reads slower.
+        -->
+        <ImageView
+            android:id="@+id/bases"
+            android:layout_width="@dimen/card_bases"
+            android:layout_height="@dimen/card_bases"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/cd_bases"
+            android:scaleType="fitCenter"
+            android:visibility="gone" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/context_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@null"
+            android:paddingStart="8dp" />
+    </LinearLayout>
+
+    <!-- ============ 4. win probability / stat line / pager ============ -->
+    <ImageView
+        android:id="@+id/field_rail"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/card_rail_height"
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/cd_field_position"
+        android:scaleType="fitXY"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:baselineAligned="false"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!--
+            The win rail and the stat line share this row and take turns. Both
+            are full-width things and the card has one row left; which one shows
+            is decided by the game's state, in WidgetRenderer - the probability
+            while it is running, the performance once it is over, because before
+            the final whistle nobody has been the top performer yet.
+        -->
+        <ImageView
+            android:id="@+id/win_rail"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/card_rail_height"
+            android:layout_weight="1"
+            android:contentDescription="@string/cd_win_probability"
+            android:scaleType="fitXY"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/performer_line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_top_performer"
+            android:visibility="gone" />
+
+        <!--
+            The carousel control - a dot per card, current one lit, tap to step
+            forward. See widget_score_banner.xml for why this is a tap and not
+            the swipe the brief asks for.
+        -->
+        <ImageView
+            android:id="@+id/pager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:contentDescription="@string/cd_next_game"
+            android:paddingStart="6dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

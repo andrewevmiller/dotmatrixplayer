@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nothing OS reads as a monochrome system with one signal colour.
+         Everything is pure black / pure white; colour is reserved for state. -->
+    <color name="nt_black">#FF000000</color>
+    <color name="nt_white">#FFFFFFFF</color>
+
+    <!-- Widget surface. Near-black rather than pure black so the card still
+         reads as an object against a black wallpaper. Matches the sibling
+         media tile so the two sit together on one home screen. -->
+    <color name="widget_surface">#FF1B1B1B</color>
+    <color name="widget_stroke">#1FFFFFFF</color>
+
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#99FFFFFF</color>
+    <color name="text_tertiary">#5CFFFFFF</color>
+
+    <color name="meter_active">#FFFFFFFF</color>
+    <color name="meter_inactive">#2EFFFFFF</color>
+
+    <!-- The three the user can pick between for the over-limit indicator.
+         Red is Nothing's own signal colour and the default; amber is a step
+         below alarm; white keeps the tile strictly monochrome and lets the
+         indicator signal by placement alone.
+         Values are N-Red and N-Yellow from Nothing's brand guidelines
+         (HEX #C8102E / #FFC700), not arbitrary reds/ambers. -->
+    <color name="nt_red">#FFC8102E</color>
+    <color name="nt_amber">#FFFFC700</color>
+
+    <color name="config_bg">#FF000000</color>
+    <color name="config_card">#FF0E0E0E</color>
+    <color name="config_field">#FF161616</color>
+    <color name="chip_on">#FFFFFFFF</color>
+    <color name="chip_off">#14FFFFFF</color>
+</resources>

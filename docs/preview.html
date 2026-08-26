@@ -1,0 +1,1421 @@
+<title>Dot Matrix Player</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Martian+Mono:wght@400;500;600&display=swap">
+
+<style>
+  /* ---- Tokens: complete light palette on bare :root ------------------- */
+  :root {
+    --ground:      #F3F1F0;
+    --surface:     #FFFFFF;
+    --ink:         #121011;
+    --ink-2:       #4A4446;
+    --ink-3:       #8A8285;
+    --rule:        #DDD8D7;
+    --rule-strong: #C3BDBC;
+    --dim:         #A29A9C;
+    --accent:      #D71921;
+    --accent-soft: rgba(215, 25, 33, 0.09);
+
+    /* The widget is the same black object on either ground - that is true
+       of the real thing, so the preview does not recolour it. */
+    --card:        #1B1B1B;
+    --card-edge:   rgba(255, 255, 255, 0.13);
+
+    --shadow: 0 1px 2px rgba(18,16,17,.05), 0 12px 34px rgba(18,16,17,.10);
+
+    --maxw: 1080px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #0C0B0B;
+      --surface:     #151313;
+      --ink:         #EFEBEA;
+      --ink-2:       #A9A2A1;
+      --ink-3:       #736C6C;
+      --rule:        #262323;
+      --rule-strong: #3A3535;
+      --dim:         #5C5555;
+      --accent:      #FF3B43;
+      --accent-soft: rgba(255, 59, 67, 0.12);
+      --card-edge:   rgba(255, 255, 255, 0.16);
+      --shadow: 0 1px 2px rgba(0,0,0,.5), 0 16px 40px rgba(0,0,0,.45);
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground:      #0C0B0B;
+    --surface:     #151313;
+    --ink:         #EFEBEA;
+    --ink-2:       #A9A2A1;
+    --ink-3:       #736C6C;
+    --rule:        #262323;
+    --rule-strong: #3A3535;
+    --dim:         #5C5555;
+    --accent:      #FF3B43;
+    --accent-soft: rgba(255, 59, 67, 0.12);
+    --card-edge:   rgba(255, 255, 255, 0.16);
+    --shadow: 0 1px 2px rgba(0,0,0,.5), 0 16px 40px rgba(0,0,0,.45);
+  }
+
+  /* ---- Base ----------------------------------------------------------- */
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Archivo", ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  .mono {
+    font-family: "Martian Mono", ui-monospace, "SFMono-Regular", monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .eyebrow {
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  h1, h2, h3 { text-wrap: balance; margin: 0; }
+
+  h1 {
+    font-size: clamp(2.6rem, 7vw, 4.4rem);
+    font-weight: 700;
+    letter-spacing: -0.033em;
+    line-height: 0.96;
+  }
+
+  h2 {
+    font-size: 1.28rem;
+    font-weight: 600;
+    letter-spacing: -0.012em;
+  }
+
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+
+  p { margin: 0; }
+  a { color: inherit; }
+
+  /* ---- Header --------------------------------------------------------- */
+  header {
+    padding: 68px 0 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .head-grid {
+    display: grid;
+    gap: 26px;
+  }
+
+  .lede {
+    font-size: 1.09rem;
+    color: var(--ink-2);
+    max-width: 60ch;
+  }
+
+  .lede strong { color: var(--ink); font-weight: 600; }
+
+  .specstrip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .specstrip div {
+    padding: 8px 15px;
+    border: 1px solid var(--rule);
+    border-radius: 100px;
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    color: var(--ink-2);
+    background: var(--surface);
+  }
+
+  .specstrip b { color: var(--ink); font-weight: 600; }
+
+  /* A colour named in prose should be shown, not described in the theme's
+     own accent - the widget's red is fixed regardless of page theme. */
+  .swatch {
+    display: inline-block;
+    width: 9px; height: 9px;
+    border-radius: 2px;
+    background: #D71921;
+    margin-right: 5px;
+    vertical-align: -1px;
+  }
+
+  /* ---- Figure --------------------------------------------------------- */
+  section { padding: 56px 0; border-bottom: 1px solid var(--rule); }
+
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+  }
+
+  .sec-head p { color: var(--ink-2); font-size: .95rem; max-width: 54ch; }
+
+  .stage {
+    /* Dot field: the same drawing language as the widget's own rail. */
+    background-image: radial-gradient(var(--rule-strong) 1px, transparent 1px);
+    background-size: 16px 16px;
+    background-position: -1px -1px;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 18px;
+    overflow-x: auto;
+  }
+
+  canvas { display: block; max-width: 100%; height: auto; }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    margin-top: 18px;
+    align-items: center;
+  }
+
+  /* Grouped rather than separated by rules: a divider that wraps to the end
+     of a line reads as a dangling mark. */
+  .ctl-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  button {
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    background: var(--surface);
+    border: 1px solid var(--rule-strong);
+    border-radius: 100px;
+    padding: 8px 15px;
+    cursor: pointer;
+    transition: color .14s, border-color .14s, background .14s;
+  }
+
+  button:hover { color: var(--ink); border-color: var(--ink-3); }
+
+  button[aria-pressed="true"] {
+    color: var(--surface);
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+
+  /* ---- Anatomy -------------------------------------------------------- */
+  .anatomy {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(232px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .anatomy > div {
+    background: var(--surface);
+    padding: 20px;
+  }
+
+  .anatomy dt {
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 10px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .anatomy dd {
+    margin: 0;
+    font-size: .9rem;
+    color: var(--ink-2);
+    line-height: 1.55;
+  }
+
+  .anatomy dd b { color: var(--ink); font-weight: 600; }
+
+  /* ---- Notes ---------------------------------------------------------- */
+  .notes { display: grid; gap: 20px; }
+
+  .note {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 24px 26px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  @media (min-width: 800px) {
+    .note { grid-template-columns: 220px minmax(0, 1fr); gap: 32px; }
+  }
+
+  .note h3 { color: var(--ink); }
+  .note p { color: var(--ink-2); font-size: .94rem; }
+  .note p + p { margin-top: 11px; }
+
+  code {
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 0.82em;
+    background: var(--accent-soft);
+    color: var(--ink);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* ---- Tables --------------------------------------------------------- */
+  .tablewrap { overflow-x: auto; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .9rem;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 11px 16px 11px 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  th {
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 500;
+    border-bottom-color: var(--rule-strong);
+    white-space: nowrap;
+  }
+
+  td { color: var(--ink-2); }
+  td:first-child { color: var(--ink); font-weight: 500; white-space: nowrap; }
+
+  td.num {
+    font-family: "Martian Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--ink);
+  }
+
+  tr:last-child th, tr:last-child td { border-bottom: 0; }
+
+  /* ---- Footer --------------------------------------------------------- */
+  footer {
+    padding: 40px 0 72px;
+    color: var(--ink-3);
+    font-size: .84rem;
+    display: grid;
+    gap: 8px;
+  }
+
+  footer .dot {
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 8px;
+    vertical-align: 1px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="head-grid">
+      <div class="eyebrow">Android home-screen widget &nbsp;/&nbsp; 5 &times; 3 cells</div>
+      <h1>Dot&nbsp;Matrix Player</h1>
+      <p class="lede">
+        Media controls for whatever is already playing &mdash; album art, transport keys and a
+        scrub bar you can tap to seek &mdash; drawn in a monochrome dot-matrix idiom.
+        <strong>The widget below is live</strong>, rendered from the same layout arithmetic the
+        Kotlin uses. The shipping app draws its type with Ndot&nbsp;77 JP Extended and
+        Ndot&nbsp;57 Aligned; this page approximates the dot face with a drawn
+        5&nbsp;&times;&nbsp;7 matrix.
+      </p>
+      <div class="specstrip">
+        <div><b>1.5&nbsp;MB</b> release</div>
+        <div><b>0</b> dependencies</div>
+        <div><b>3</b> bundled faces</div>
+        <div>minSdk <b>26</b></div>
+        <div>compileSdk <b>36</b></div>
+        <div><b>0</b> manifest permissions</div>
+      </div>
+    </div>
+  </header>
+
+  <section>
+    <div class="sec-head">
+      <h2>The tile</h2>
+      <p>Every measurement is the real one. Switch states to see what the renderer does when a
+        session is paused, has no artwork, or has not been granted access yet.</p>
+    </div>
+
+    <div class="stage">
+      <canvas id="stage" width="800" height="620" aria-label="Live rendering of the media widget"></canvas>
+    </div>
+
+    <div class="controls">
+      <div class="ctl-group" role="group" aria-label="Session state">
+        <button data-state="playing"  aria-pressed="true">Playing</button>
+        <button data-state="paused"   aria-pressed="false">Paused</button>
+        <button data-state="noart"    aria-pressed="false">No artwork</button>
+        <button data-state="idle"     aria-pressed="false">Nothing playing</button>
+        <button data-state="resume"   aria-pressed="false">App closed</button>
+        <button data-state="noaccess" aria-pressed="false">Not connected</button>
+      </div>
+      <div class="ctl-group" role="group" aria-label="Size and annotation">
+        <button data-state="compact" aria-pressed="false">Resized &rarr; 5 &times; 2</button>
+        <button id="dimtoggle" aria-pressed="true">Dimensions</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Anatomy</h2>
+      <p>Nothing's language is monochrome with one signal colour. Red is spent on exactly two
+        things, and both of them mean &ldquo;this is live right now&rdquo;.</p>
+    </div>
+
+    <dl class="anatomy">
+      <div>
+        <dt>Album art</dt>
+        <dd><b>94&nbsp;dp, square.</b> Centre-cropped into the bitmap before it is parcelled
+          &mdash; RemoteViews has no <code>clipToOutline</code>, so anything shaped has to be
+          shaped at draw time. Left square: a sleeve is a square object, and the corners were
+          the one soft edge in an otherwise hard-edged tile. On the two-cell layout it runs
+          the full height at 86&nbsp;dp.</dd>
+      </div>
+      <div>
+        <dt>Source app</dt>
+        <dd><b>Monochrome, 20&nbsp;dp.</b> Which app the audio is coming from. Adaptive icons can
+          carry a monochrome layer &mdash; the one the system uses for themed icons &mdash; and
+          that is taken and tinted when present; otherwise the icon is desaturated and clipped to a
+          circle. Either way no third-party colour lands on the card. Hidden when there is no app
+          to name. <em>On this page it is an anonymous stand-in</em> - there is no running app to
+          read an icon from.</dd>
+      </div>
+      <div>
+        <dt>Source carousel</dt>
+        <dd><b>One dot per app holding a session.</b> Several apps can own a session at once - a
+          podcast paused mid-episode while music plays - and the tile has room for one. Tapping the
+          source mark pages to the next; the dots say there is anywhere to page to, and which one is
+          showing. Below two sources nothing is drawn at all, because a control that cannot do
+          anything reads worse than no control.
+          <br><br>
+          A tap, not a swipe: RemoteViews supports no gesture beyond a click, so the mark and its
+          dots are wrapped in one padded container to clear the 48&nbsp;dp touch minimum without
+          changing what is drawn. Never the platform's own recency order, which reshuffles
+          underneath the widget and would make <span class="mono">next</span> land somewhere
+          different each press &mdash; the ring order is arranged on the setup screen, and falls
+          back to alphabetical until it is.
+          <br><br>
+          That settings list holds only apps the widget has actually seen holding a session, not
+          every app publishing a <span class="mono">MediaBrowserService</span> &mdash; on a real
+          device that is twenty-odd, most of them a newspaper or a cloud drive that will never
+          appear in the ring at all.
+          <br><br>
+          A paged-to source outranks even a session that is playing &mdash; the user said which one
+          they wanted. That pin expires after two minutes so paging once does not quietly break the
+          tile for every song afterwards, and renews itself for as long as the pinned source is the
+          one actually playing.</dd>
+      </div>
+      <div>
+        <dt>Empty artwork</dt>
+        <dd><b>The disc glyph, not a music note.</b> Shown whenever there is nothing to draw album
+          art from &mdash; no session, or a session whose app published neither an artwork bitmap nor
+          a URI <span class="mono">ArtworkTools</span> could decode. Reuses the same disc-with-play-
+          triangle mark as the source-app stand-in below, rather than a second invented glyph for the
+          same idea: "audio, unidentified."</dd>
+      </div>
+      <div>
+        <dt>Status label</dt>
+        <dd><b>Ndot 57 Aligned, 10&nbsp;sp.</b> Drawn to a bitmap, not set on a TextView &mdash;
+          see below. Reads <span class="mono">NOW PLAYING</span>, <span class="mono">PAUSED</span>,
+          <span class="mono">TAP TO RESUME</span>, <span class="mono">NOTHING PLAYING</span> or
+          <span class="mono">TAP TO CONNECT</span>.</dd>
+      </div>
+      <div>
+        <dt>Live dot</dt>
+        <dd><b>6&nbsp;dp, <span class="swatch"></span>#D71921.</b> Visible only while
+          audio is actually moving. Paused hides it and the label reads <span class="mono">PAUSED</span>.</dd>
+      </div>
+      <div>
+        <dt>Scrub rail</dt>
+        <dd><b>Dots, not a track.</b> Played dots solid white, remaining at 20%. Rendered at the
+          widget's true pixel width &mdash; a dot rail stretched by <code>fitXY</code> becomes an
+          ellipse rail.</dd>
+      </div>
+      <div>
+        <dt>Playhead</dt>
+        <dd><b>The second red.</b> A full-height bar over the rail. Turns white when paused, so the
+          accent never appears on a stopped widget.</dd>
+      </div>
+      <div>
+        <dt>Transport</dt>
+        <dd><b>40&nbsp;dp keys, 30&nbsp;dp apart.</b> Play/pause is the only one with a container:
+          a 1.5&nbsp;dp hairline ring. Skip keys dim to 27% when the session says it cannot honour
+          them.</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Four things that fought back</h2>
+      <p>Each of these shaped the architecture rather than being worked around.</p>
+    </div>
+
+    <div class="notes">
+      <div class="note">
+        <h3>A widget cannot use a custom font at all</h3>
+        <div>
+          <p>Two routes look like they should work, and neither does. Loading the face and applying
+            a <code>TypefaceSpan</code> in code parcels only a <em>family name</em>, so the span
+            arrives in the launcher meaning nothing. Declaring
+            <code>android:fontFamily</code> in the layout looks safer &mdash; the launcher does
+            inflate that layout with <em>our</em> resources &mdash; but
+            <code>AppWidgetHostView</code> builds its inflation context with
+            <code>CONTEXT_RESTRICTED</code>, and <code>TextView</code> only resolves a font resource
+            when <code>!context.isRestricted()</code>. In a widget that test fails and the attribute
+            is skipped.</p>
+          <p>Both failures are silent: no exception, nothing in the log, just the system face where
+            the Nothing one should be. This page originally described the XML route as the answer;
+            it was wrong, and the widget shipped in the default font until a phone showed otherwise.</p>
+          <p>Pixels are the only thing that survives the trip. <code>TextRenderer</code> loads the
+            face in the app's own process, where it resolves normally, draws the string, and sends a
+            bitmap. Every label is an <code>ImageView</code>. A Gradle check fails the build if a
+            <code>TextView</code> reappears in a widget layout, because that regression is invisible
+            until someone looks at a home screen.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <h3>~21,000 codepoints, because the text is not ours</h3>
+        <div>
+          <p>Title and artist are the only two strings the widget does not author &mdash; they
+            arrive from whichever app is playing, in whatever script it likes. Set in NType&nbsp;82
+            they would cover about 240 codepoints: full ASCII, most of Latin-1, curly quotes. A
+            Japanese or Russian title would fall through, character by character, to the system
+            face.</p>
+          <p>Ndot&nbsp;77 JP Extended covers ~21,000 &mdash; Latin, Greek, Cyrillic, kana and most
+            common CJK &mdash; so it draws the title and artist instead. The trade is 14.9&nbsp;MB
+            of font, which compresses to about 1.4&nbsp;MB in the APK.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <h3>The aligned cut exists for exactly this</h3>
+        <div>
+          <p>Ndot ships in a proportional cut and an &ldquo;Aligned&rdquo; one. The difference is
+            invisible until digits move: in plain Ndot&nbsp;57 the numeral <span class="mono">1</span>
+            is 40 units wide against 60 for every other digit.</p>
+          <p>On a clock that re-renders once a second, that makes the elapsed time visibly breathe
+            every time a <span class="mono">1</span> enters or leaves. The Aligned cut is tabular
+            &mdash; all ten digits at 60 &mdash; so the time codes are set in that. Its capitals are
+            metrically identical to the proportional cut, which means one font resource covers the
+            time codes and the status label both, and the other file need not ship at all.</p>
+          <p>Ndot&nbsp;77 is proportional in exactly the same way, which is why it draws the title
+            and artist but never the clock.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <h3>Album art hides in two different fields</h3>
+        <div>
+          <p>Apps split roughly evenly between embedding the cover as a bitmap
+            (<code>METADATA_KEY_ALBUM_ART</code> and its neighbours) and publishing only a
+            reference (<code>&hellip;_ART_URI</code>). Reading just the bitmap keys is the obvious
+            implementation, and it quietly shows the empty panel for half the apps on the device:
+            Spotify embeds a bitmap, SoundCloud leaves every bitmap key null and hands over a
+            <code>content://</code> URI instead.</p>
+          <p>Both are tried, bitmaps first. Reading another app's <code>content://</code> URI turns
+            out to need no permission grant at all &mdash; Spotify's own provider served a
+            320&nbsp;&times;&nbsp;320 cover directly. Remote <code>http(s)</code> art is
+            deliberately not fetched: the app holds no <code>INTERNET</code> permission, and
+            keeping it that way is worth more than covers for the few apps that only offer a URL.</p>
+          <p>Two smaller hazards live in the same place. Art is decoded subsampled, so a
+            3000&nbsp;px cover never lands in memory at full size just to be shrunk. And a
+            <code>HARDWARE</code>-config bitmap &mdash; which apps do hand out &mdash; is copied to
+            a software config first, because it has no readable pixels and would throw the moment
+            anything tried to scale or shade it.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <h3>What happens after the app is gone</h3>
+        <div>
+          <p>A media session vanishes the moment its app leaves recents, taking the metadata and the
+            artwork with it. The honest reading of that is &ldquo;nothing playing&rdquo;, which is
+            also useless &mdash; the thing you most likely want is the thing you were just
+            listening to.</p>
+          <p>So every live frame is written to disk: title, artist, position, and the artwork
+            re-encoded to WEBP. Writes are throttled to a track change or three seconds of movement,
+            so a 1&nbsp;Hz repaint is not a 1&nbsp;Hz disk write. With nothing live but something
+            cached, the tile shows that track, the rail dimmed where it was left, the skip keys dark
+            &mdash; there is no session to skip within &mdash; and play rebound to
+            <span class="mono">RESUME</span>.</p>
+          <p>Restarting a dead app is the part with no clean answer. It connects to the app's
+            <code>MediaBrowserService</code>, which is what Android's own resumption tile does. Apps
+            may refuse: several allowlist Android Auto and Wear and reject everyone else. A refusal
+            is expected rather than exceptional, and the fallback is simply to open the app.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <h3>Scrubbing with no touch events</h3>
+        <div>
+          <p>A RemoteViews tree receives no touch events of its own, so there is no drag to read an
+            x-coordinate from. Instead, sixteen invisible tap targets lie edge to edge over the bar,
+            each carrying the fraction of the track it covers.</p>
+          <p>Over a ~210&nbsp;dp bar that is a ~13&nbsp;dp target, and a four-minute song scrubs in
+            15-second steps. Each region aims at its own centre, so a tap lands where it looks like it
+            should rather than at the region's leading edge.</p>
+        </div>
+      </div>
+
+      <div class="note">
+        <h3>Two layouts, and the second one turns ninety degrees</h3>
+        <div>
+          <p>Both tiles carry identical view ids, so the renderer populates either without knowing
+            which is on screen. But at two cells the tile is 110&nbsp;dp tall &mdash; 94&nbsp;dp of
+            content &mdash; and the stacked arrangement simply does not fit. Forced into it, the
+            artwork could only ever be as tall as one row of three: 42&nbsp;dp.</p>
+          <p>So the two-cell layout runs the artwork down the full height on the left, with title,
+            artist, scrub and transport in a column beside it. That puts it at 86&nbsp;dp. The
+            three-cell layout gained too &mdash; trimming the transport row and the scrub margins
+            took it from 80 to 94.</p>
+          <p>Both used to be handed over together in a
+            <code>RemoteViews(Map&lt;SizeF, …&gt;)</code> so the launcher could swap on resize with no
+            round trip. That stopped being viable once every label became a bitmap: one variant
+            measures ~460&nbsp;KB, and two would sit against the 1&nbsp;MB binder limit. Now one
+            variant goes over at a time and a resize costs a repaint.</p>
+          <p>The catch that has not changed: a RemoteViews action aimed at a missing id throws at
+            <code>apply()</code>. The compact layout therefore keeps the labels it has no room for
+            as <code>gone</code> views rather than omitting them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>Grid arithmetic</h2>
+      <p>Android sizes widget cells at <span class="mono">70n&nbsp;&minus;&nbsp;30</span> dp. The 5&nbsp;&times;&nbsp;3
+        minimum is 320&nbsp;&times;&nbsp;180&nbsp;dp; with 12&nbsp;dp padding the rows consume the
+        remaining 296&nbsp;&times;&nbsp;156 exactly.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Row</th><th>Height</th><th>Behaviour</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Artwork + metadata</td>
+            <td class="num">94 dp</td>
+            <td>The only weighted row &mdash; absorbs extra height on roomier launchers. Art fills it: 94&nbsp;dp square.</td>
+          </tr>
+          <tr>
+            <td>Scrub bar + time codes</td>
+            <td class="num">12 dp <span style="color:var(--ink-3)">+ 8</span></td>
+            <td>Time codes are dot-matrix bitmaps; the bar takes whatever width is left between them.</td>
+          </tr>
+          <tr>
+            <td>Transport</td>
+            <td class="num">36 dp <span style="color:var(--ink-3)">+ 6</span></td>
+            <td>Fixed. Three 36&nbsp;dp keys, 30&nbsp;dp gaps, centred on the tile's midline.</td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td class="num">156 dp</td>
+            <td>Against 180&nbsp;dp minus 24&nbsp;dp of padding. <code>targetCellWidth</code>/<code>Height</code> pin it to 5&nbsp;&times;&nbsp;3 on Android&nbsp;12+.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p style="margin-top:22px;color:var(--ink-2);font-size:.95rem;max-width:60ch">
+      Pulled down to 5&nbsp;&times;&nbsp;2 the tile is 320&nbsp;&times;&nbsp;110&nbsp;dp, leaving
+      94&nbsp;dp after 8&nbsp;dp of padding &mdash; the same number, but now it is the
+      <em>whole</em> height rather than one row of three. That is the entire reason the layout
+      turns sideways: 86&nbsp;dp of artwork on the left, and a column holding title, artist, scrub
+      and transport in 87 of the 94. The time codes do not fit and are not drawn.
+    </p>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>What makes it repaint</h2>
+      <p>Two triggers, and <code>updatePeriodMillis</code> is zero &mdash; the system never polls the app.</p>
+    </div>
+
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th>Trigger</th><th>Cost</th><th>Covers</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>MediaController.Callback</td>
+            <td class="num">free</td>
+            <td>Track changes, play/pause, and apps handing playback off to one another. Event-driven, instant.</td>
+          </tr>
+          <tr>
+            <td>1-second ticker</td>
+            <td class="num">gated</td>
+            <td>Only so the scrub bar advances. Runs only while audio is <em>playing</em>, the screen is <em>on</em>, and a widget is <em>actually placed</em>. Any one going false stops it.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section style="border-bottom:0">
+    <div class="sec-head">
+      <h2>Why it needs notification access</h2>
+      <p>The one permission prompt, and the reason for it.</p>
+    </div>
+    <p style="max-width:66ch;color:var(--ink-2)">
+      <code>MediaSessionManager.getActiveSessions()</code> is the only way for a third-party app to read
+      and control another app's playback, and it will only return sessions to a caller with an enabled
+      <code>NotificationListenerService</code>. That is the sole reason the app asks for it. The service
+      never reads a notification &mdash; it exists to satisfy that check and to host the refresh logic.
+      There are no <code>&lt;uses-permission&gt;</code> entries in the manifest at all, and nothing leaves
+      the device.
+    </p>
+  </section>
+
+  <footer>
+    <div><span class="dot"></span>Rendered live in this page from a JavaScript port of the widget's layout arithmetic and its <span class="mono">ProgressRenderer</span> &mdash; same dp measurements, same colours.</div>
+    <div>The type here is an approximation: the labels are a drawn 5&nbsp;&times;&nbsp;7 matrix standing in for Ndot&nbsp;57 Aligned, and the title and artist use this page's own faces rather than Ndot&nbsp;77 JP Extended. The fonts themselves are Nothing's and are not embedded in this page. The source-app mark is a stand-in here; on device it is the real icon of whatever is playing. Track name and artwork are placeholders; the real widget shows whatever session is active.</div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ===================================================================
+     Port of DotMatrixFont.kt - 5 x 7 glyph table, fixed advance.
+     =================================================================== */
+  var COLS = 5, ROWS = 7, ADVANCE = 6;
+
+  var TABLE = {
+    " ": "00000/00000/00000/00000/00000/00000/00000",
+    "0": "01110/10001/10011/10101/11001/10001/01110",
+    "1": "00100/01100/00100/00100/00100/00100/01110",
+    "2": "01110/10001/00001/00010/00100/01000/11111",
+    "3": "11111/00010/00100/00010/00001/10001/01110",
+    "4": "00010/00110/01010/10010/11111/00010/00010",
+    "5": "11111/10000/11110/00001/00001/10001/01110",
+    "6": "00110/01000/10000/11110/10001/10001/01110",
+    "7": "11111/00001/00010/00100/01000/01000/01000",
+    "8": "01110/10001/10001/01110/10001/10001/01110",
+    "9": "01110/10001/10001/01111/00001/00010/01100",
+    "A": "01110/10001/10001/11111/10001/10001/10001",
+    "B": "11110/10001/10001/11110/10001/10001/11110",
+    "C": "01110/10001/10000/10000/10000/10001/01110",
+    "D": "11100/10010/10001/10001/10001/10010/11100",
+    "E": "11111/10000/10000/11110/10000/10000/11111",
+    "F": "11111/10000/10000/11110/10000/10000/10000",
+    "G": "01110/10001/10000/10111/10001/10001/01111",
+    "H": "10001/10001/10001/11111/10001/10001/10001",
+    "I": "01110/00100/00100/00100/00100/00100/01110",
+    "J": "00111/00010/00010/00010/00010/10010/01100",
+    "K": "10001/10010/10100/11000/10100/10010/10001",
+    "L": "10000/10000/10000/10000/10000/10000/11111",
+    "M": "10001/11011/10101/10101/10001/10001/10001",
+    "N": "10001/11001/11001/10101/10011/10011/10001",
+    "O": "01110/10001/10001/10001/10001/10001/01110",
+    "P": "11110/10001/10001/11110/10000/10000/10000",
+    "Q": "01110/10001/10001/10001/10101/10010/01101",
+    "R": "11110/10001/10001/11110/10100/10010/10001",
+    "S": "01111/10000/10000/01110/00001/00001/11110",
+    "T": "11111/00100/00100/00100/00100/00100/00100",
+    "U": "10001/10001/10001/10001/10001/10001/01110",
+    "V": "10001/10001/10001/10001/10001/01010/00100",
+    "W": "10001/10001/10001/10101/10101/11011/10001",
+    "X": "10001/10001/01010/00100/01010/10001/10001",
+    "Y": "10001/10001/01010/00100/00100/00100/00100",
+    "Z": "11111/00001/00010/00100/01000/10000/11111",
+    ":": "00000/00000/00100/00000/00100/00000/00000",
+    ".": "00000/00000/00000/00000/00000/00000/00100",
+    "-": "00000/00000/00000/01110/00000/00000/00000",
+    "/": "00001/00010/00010/00100/01000/01000/10000",
+    "?": "01110/10001/00001/00010/00100/00000/00100"
+  };
+
+  var GLYPH = {};
+  Object.keys(TABLE).forEach(function (k) { GLYPH[k] = TABLE[k].split("/"); });
+
+  function dotTextWidth(text, heightDp) {
+    var pitch = heightDp / ROWS;
+    return (text.length * ADVANCE - 1) * pitch;
+  }
+
+  /** Draws dot-matrix text with its top-left at (x, y). Returns width. */
+  function dotText(ctx, text, x, y, heightDp, color) {
+    var pitch = heightDp / ROWS;
+    var radius = pitch * 0.42;
+    var up = text.toUpperCase();
+    ctx.fillStyle = color;
+    for (var i = 0; i < up.length; i++) {
+      var g = GLYPH[up.charAt(i)] || GLYPH["?"];
+      var ox = x + i * ADVANCE * pitch;
+      for (var r = 0; r < ROWS; r++) {
+        for (var c = 0; c < COLS; c++) {
+          if (g[r].charAt(c) !== "1") continue;
+          ctx.beginPath();
+          ctx.arc(ox + (c + 0.5) * pitch, y + (r + 0.5) * pitch, radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+    }
+    return dotTextWidth(up, heightDp);
+  }
+
+  /* ===================================================================
+     Port of ProgressRenderer.kt
+     =================================================================== */
+  function formatTime(ms) {
+    if (ms <= 0) return "0:00";
+    var total = Math.round(ms / 1000);
+    var s = total % 60, m = Math.floor(total / 60) % 60, h = Math.floor(total / 3600);
+    var pad = function (n) { return (n < 10 ? "0" : "") + n; };
+    return h > 0 ? h + ":" + pad(m) + ":" + pad(s) : m + ":" + pad(s);
+  }
+
+  function dotRail(ctx, x, y, w, h, fraction, active, inactive, head) {
+    var dotR = h * 0.13;
+    var pitch = dotR * 3.4;
+    var count = Math.max(2, Math.floor((w - dotR * 2) / pitch) + 1);
+    var step = count > 1 ? (w - dotR * 2) / (count - 1) : 0;
+    var cy = y + h / 2;
+    var headX = fraction === null ? null : x + dotR + fraction * (w - dotR * 2);
+
+    for (var i = 0; i < count; i++) {
+      var dx = x + dotR + i * step;
+      ctx.fillStyle = (headX !== null && dx <= headX) ? active : inactive;
+      ctx.beginPath();
+      ctx.arc(dx, cy, dotR, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    if (headX !== null) {
+      var halfW = Math.max(0.7, h * 0.10);
+      var halfH = h * 0.42;
+      ctx.fillStyle = head;
+      roundRect(ctx, headX - halfW, cy - halfH, halfW * 2, halfH * 2, halfW);
+      ctx.fill();
+    }
+  }
+
+  /* ===================================================================
+     Drawing helpers
+     =================================================================== */
+  function roundRect(ctx, x, y, w, h, r) {
+    r = Math.min(r, w / 2, h / 2);
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  function ellipsize(ctx, text, maxW) {
+    if (ctx.measureText(text).width <= maxW) return text;
+    var t = text;
+    while (t.length > 1 && ctx.measureText(t + "…").width > maxW) {
+      t = t.slice(0, -1);
+    }
+    return t + "…";
+  }
+
+  var SYS = 'ui-sans-serif, system-ui, "Segoe UI", Roboto, sans-serif';
+
+  /* Transport glyphs, traced from the vector drawables (24-unit viewport). */
+  function icon(ctx, kind, x, y, size, color) {
+    var k = size / 24;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.scale(k, k);
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    if (kind === "play") {
+      ctx.moveTo(7, 4.5); ctx.lineTo(19.5, 12); ctx.lineTo(7, 19.5); ctx.closePath();
+    } else if (kind === "pause") {
+      ctx.rect(7, 4.5, 3.6, 15);
+      ctx.rect(13.4, 4.5, 3.6, 15);
+    } else if (kind === "next") {
+      ctx.moveTo(4, 5); ctx.lineTo(15, 12); ctx.lineTo(4, 19); ctx.closePath();
+      ctx.rect(17, 5, 3, 14);
+    } else if (kind === "prev") {
+      ctx.moveTo(20, 5); ctx.lineTo(9, 12); ctx.lineTo(20, 19); ctx.closePath();
+      ctx.rect(4, 5, 3, 14);
+    }
+    ctx.fill();
+    ctx.restore();
+  }
+
+  /**
+   * Empty-artwork state: the disc-with-play-triangle mark, sized up to fill
+   * the tile - the same glyph appGlyph() draws as the source-app stand-in,
+   * reused rather than inventing a second "nothing to show" mark. Mirrors
+   * res/drawable/ic_art_glyph_disc.xml.
+   */
+  function emptyArtPanel(ctx, x, y, size) {
+    appGlyph(ctx, x, y, size, "rgba(255,255,255,0.16)");
+  }
+
+  /* Placeholder cover art: a halftone field, drawn in the same dot language. */
+  function coverArt(ctx, x, y, size, radius) {
+    ctx.save();
+    roundRect(ctx, x, y, size, size, radius);
+    ctx.clip();
+
+    ctx.fillStyle = "#0F0F0F";
+    ctx.fillRect(x, y, size, size);
+
+    var pitch = size / 15;
+    for (var r = 0; r < 15; r++) {
+      for (var c = 0; c < 15; c++) {
+        var nx = (c + 0.5) / 15, ny = (r + 0.5) / 15;
+        // Diagonal sweep with a soft circular hotspot, quantised into dots.
+        var d = Math.sqrt(Math.pow(nx - 0.30, 2) + Math.pow(ny - 0.34, 2));
+        var v = Math.max(0, 1 - d * 1.55) * 0.85 + (1 - nx) * 0.22;
+        v = Math.max(0, Math.min(1, v));
+        if (v < 0.06) continue;
+        ctx.fillStyle = "rgba(255,255,255," + (0.10 + v * 0.85).toFixed(3) + ")";
+        ctx.beginPath();
+        ctx.arc(x + (c + 0.5) * pitch, y + (r + 0.5) * pitch, pitch * 0.40 * (0.35 + v * 0.65), 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    // One red dot: the same restraint the widget itself uses.
+    ctx.fillStyle = "#D71921";
+    ctx.beginPath();
+    ctx.arc(x + 11.5 * pitch, y + 4.5 * pitch, pitch * 0.42, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.restore();
+  }
+
+  /* ===================================================================
+     The widget, drawn in dp units
+     =================================================================== */
+  var WHITE = "#FFFFFF";
+  var SECONDARY = "rgba(255,255,255,0.60)";
+  var TERTIARY = "rgba(255,255,255,0.36)";
+  var INACTIVE = "rgba(255,255,255,0.20)";
+  var RED = "#D71921";
+  /* The source-app mark, brighter than the tertiary text beside it: a 20dp
+     shape needs more contrast than a line of type. Mirrors R.color.app_glyph. */
+  var GLYPH_TINT = "rgba(255,255,255,0.88)";
+
+  function drawWidget(ctx, ox, oy, st) {
+    // The two-cell tile is 5 x 2 as well - it does not get narrower, it gets
+    // shorter, and the layout turns ninety degrees to cope.
+    var W = 320;
+    var H = st.compact ? 110 : 180;
+    var PAD = st.compact ? 8 : 12;
+
+    ctx.save();
+    ctx.translate(ox, oy);
+
+    // Card
+    ctx.fillStyle = "#1B1B1B";
+    roundRect(ctx, 0, 0, W, H, st.compact ? 20 : 26);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(255,255,255,0.13)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    if (st.compact) {
+      drawCompact(ctx, W, H, PAD, st);
+      ctx.restore();
+      return { w: W, h: H };
+    }
+
+    var artSize = 94;
+    var artRadius = 0;
+    var gap = 12;
+    var barH = 12;
+    var ctlSize = 36;
+    var ctlGap = 30;
+    var barTopGap = 8;
+    var ctlTopGap = 6;
+
+    var contentH = H - PAD * 2;
+    var row1H = contentH - (barTopGap + barH + ctlTopGap + ctlSize);
+
+    // ---- Artwork -----------------------------------------------------
+    var artY = PAD + (row1H - artSize) / 2;
+    drawArt(ctx, PAD, artY, artSize, artRadius, st.hasArt, 64);
+
+    // ---- Metadata column ---------------------------------------------
+    var colX = PAD + artSize + gap;
+    var colW = W - PAD - colX;
+
+    var titlePx = 16;
+    var artistPx = 12;
+    var labelH = 8;
+    var dotSize = 6;
+    var glyphSize = 20, glyphTop = 8;
+
+    var titleLine = Math.round(titlePx * 1.18);
+    var artistLine = Math.round(artistPx * 1.18);
+
+    // Empty label and empty artist are hidden outright on device, so the rows
+    // they sat in collapse rather than holding blank space open.
+    var showGlyph = st.hasSession || st.resumable;
+    var showLabel = !!st.label;
+    var showArtist = !!st.artist;
+
+    // The mark is the tallest thing in the status row, so it sets the row height.
+    var labelRowH = Math.max(dotSize, showLabel ? labelH : 0, showGlyph ? glyphSize + glyphTop : 0);
+    var colH = labelRowH + 8 + titleLine + (showArtist ? 5 + artistLine : 0);
+    var colY = PAD + (row1H - colH) / 2;
+
+    if (st.playing) {
+      ctx.fillStyle = RED;
+      ctx.beginPath();
+      ctx.arc(colX + dotSize / 2, colY + labelRowH / 2, dotSize / 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    if (showLabel) {
+      dotText(ctx, st.label, colX + dotSize + 7, colY + (labelRowH - labelH) / 2, labelH,
+              st.playing ? SECONDARY : TERTIARY);
+    }
+
+    if (showGlyph) {
+      appGlyph(ctx, colX + colW - glyphSize, colY + glyphTop, glyphSize, GLYPH_TINT);
+    }
+
+    ctx.textBaseline = "top";
+    ctx.font = "700 " + titlePx + "px " + SYS;
+    ctx.fillStyle = WHITE;
+    ctx.fillText(ellipsize(ctx, st.title, colW), colX, colY + labelRowH + 8);
+
+    if (showArtist) {
+      ctx.font = artistPx + "px " + SYS;
+      ctx.fillStyle = SECONDARY;
+      ctx.fillText(ellipsize(ctx, st.artist, colW), colX, colY + labelRowH + 8 + titleLine + 5);
+    }
+
+    // ---- Scrub row ----------------------------------------------------
+    var barY = PAD + row1H + barTopGap;
+    var elapsed = formatTime(st.position);
+    var total = st.duration > 0 ? formatTime(st.duration) : "--:--";
+    var labelDp = 9;
+    var ew = dotTextWidth(elapsed, labelDp);
+    var tw = dotTextWidth(total, labelDp);
+
+    dotText(ctx, elapsed, PAD, barY + (barH - labelDp) / 2, labelDp, SECONDARY);
+    dotText(ctx, total, W - PAD - tw, barY + (barH - labelDp) / 2, labelDp, TERTIARY);
+
+    var barX = PAD + ew + 8;
+    var barW = (W - PAD - tw - 8) - barX;
+
+    drawRail(ctx, barX, barY, barW, barH, st);
+
+    // ---- Transport ------------------------------------------------------
+    drawTransport(ctx, W, barY + barH + ctlTopGap, ctlSize, ctlGap, 18, 20, st);
+
+    ctx.restore();
+    return { w: W, h: H };
+  }
+
+  /**
+   * The two-cell tile. Artwork runs the full height on the left; title, artist,
+   * scrub and transport stack in the column beside it. There is no room for the
+   * time codes, so they are not drawn.
+   */
+  function drawCompact(ctx, W, H, PAD, st) {
+    var artSize = 86;
+    var gap = 10;
+    var barH = 10;
+    var ctlSize = 30;
+    var ctlGap = 26;
+
+    var artY = PAD + (H - PAD * 2 - artSize) / 2;
+    drawArt(ctx, PAD, artY, artSize, 0, st.hasArt, 58);
+
+    var colX = PAD + artSize + gap;
+    var colW = W - PAD - colX;
+
+    var titlePx = 13;
+    var artistPx = 11;
+    var dotSize = 5;
+    var glyphSize = 15, glyphTop = 4;
+    var titleLine = Math.round(titlePx * 1.18);
+    var artistLine = Math.round(artistPx * 1.18);
+    var labelRowH = Math.max(dotSize, titleLine, glyphSize + glyphTop);
+
+    var colH = labelRowH + 3 + artistLine + 7 + barH + 5 + ctlSize;
+    var colY = PAD + (H - PAD * 2 - colH) / 2;
+
+    if (st.playing) {
+      ctx.fillStyle = RED;
+      ctx.beginPath();
+      ctx.arc(colX + dotSize / 2, colY + labelRowH / 2, dotSize / 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.font = "600 " + titlePx + "px " + SYS;
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = WHITE;
+    ctx.fillText(ellipsize(ctx, st.title, colW - dotSize - 6 - glyphSize - 6),
+                 colX + dotSize + 6, colY + labelRowH / 2);
+
+    if (st.hasSession || st.resumable) {
+      appGlyph(ctx, colX + colW - glyphSize, colY + glyphTop, glyphSize, GLYPH_TINT);
+    }
+
+    ctx.font = artistPx + "px " + SYS;
+    ctx.textBaseline = "top";
+    ctx.fillStyle = SECONDARY;
+    ctx.fillText(ellipsize(ctx, st.artist, colW - 11), colX + 11, colY + labelRowH + 3);
+
+    var barY = colY + labelRowH + 3 + artistLine + 7;
+    drawRail(ctx, colX, barY, colW, barH, st);
+
+    drawTransport(ctx, W, barY + barH + 5, ctlSize, ctlGap, 14, 16, st, colX, colW);
+  }
+
+  /**
+   * Stand-in for the source-app mark.
+   *
+   * On device this is the *real* icon of whatever is playing - its monochrome
+   * layer, tinted, or the icon desaturated when it has no such layer. This page
+   * has no app to read, so it draws a deliberately anonymous mark instead: a
+   * filled disc with a play triangle knocked out. Anonymous on purpose - an
+   * invented logo that resembles a real one would misrepresent the treatment as
+   * belonging to a particular brand.
+   */
+  function appGlyph(ctx, x, y, size, color) {
+    var cx = x + size / 2, cy = y + size / 2, r = size / 2;
+    ctx.save();
+    ctx.fillStyle = color;
+
+    // Disc and triangle as one path, filled even-odd, so the triangle is a
+    // counter in the shape. Erasing it with destination-out would punch through
+    // the card behind as well.
+    var t = size * 0.30;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.moveTo(cx - t * 0.5, cy - t * 0.62);
+    ctx.lineTo(cx + t * 0.72, cy);
+    ctx.lineTo(cx - t * 0.5, cy + t * 0.62);
+    ctx.closePath();
+    ctx.fill("evenodd");
+    ctx.restore();
+  }
+
+  function drawArt(ctx, x, y, size, radius, hasArt, panel) {
+    if (hasArt) {
+      coverArt(ctx, x, y, size, radius);
+      return;
+    }
+    ctx.fillStyle = "#121212";
+    roundRect(ctx, x, y, size, size, radius);
+    ctx.fill();
+    ctx.strokeStyle = "rgba(255,255,255,0.13)";
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    emptyArtPanel(ctx, x + (size - panel) / 2, y + (size - panel) / 2, panel);
+  }
+
+  function drawRail(ctx, x, y, w, h, st) {
+    // A resumable frame keeps the position but drops the played dots to the
+    // dim tone: the rail reads as a memory, not a live playhead.
+    var known = (st.hasSession || st.resumable) && st.duration > 0;
+    var frac = known ? Math.min(1, st.position / st.duration) : 0;
+    dotRail(ctx, x, y, w, h, frac,
+            st.hasSession ? WHITE : INACTIVE, INACTIVE, st.playing ? RED : WHITE);
+  }
+
+  function drawTransport(ctx, W, ctlY, ctlSize, ctlGap, glyphInset, playInset, st, colX, colW) {
+    var totalCtl = ctlSize * 3 + ctlGap * 2;
+    var originX = (colX === undefined) ? 0 : colX;
+    var spanW = (colW === undefined) ? W : colW;
+    var ctlX = originX + (spanW - totalCtl) / 2;
+
+    // Skip keys go dark with no session to skip within; play stays lit while
+    // there is anything to play - live or remembered.
+    var skipAlpha = st.hasSession ? 1 : 0.27;
+    var playAlpha = (st.hasSession || st.resumable) ? 1 : 0.27;
+    var glyph = ctlSize - glyphInset;
+
+    ctx.globalAlpha = skipAlpha;
+    icon(ctx, "prev", ctlX + (ctlSize - glyph) / 2, ctlY + (ctlSize - glyph) / 2, glyph, WHITE);
+    icon(ctx, "next", ctlX + ctlSize * 2 + ctlGap * 2 + (ctlSize - glyph) / 2,
+         ctlY + (ctlSize - glyph) / 2, glyph, WHITE);
+    ctx.globalAlpha = 1;
+
+    // Play/pause: the one key with a container.
+    var pcx = ctlX + ctlSize + ctlGap + ctlSize / 2;
+    var pcy = ctlY + ctlSize / 2;
+    ctx.strokeStyle = "rgba(255,255,255,0.40)";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.arc(pcx, pcy, ctlSize / 2 - 0.75, 0, Math.PI * 2);
+    ctx.stroke();
+
+    var pg = ctlSize - playInset;
+    ctx.globalAlpha = playAlpha;
+    icon(ctx, st.playing ? "pause" : "play", pcx - pg / 2, pcy - pg / 2, pg, WHITE);
+    ctx.globalAlpha = 1;
+  }
+
+  /* ===================================================================
+     Dimension annotations
+     =================================================================== */
+  function dimLine(ctx, x1, y1, x2, y2, color) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    var tick = 3;
+    ctx.beginPath();
+    if (y1 === y2) {
+      ctx.moveTo(x1, y1 - tick); ctx.lineTo(x1, y1 + tick);
+      ctx.moveTo(x2, y2 - tick); ctx.lineTo(x2, y2 + tick);
+    } else {
+      ctx.moveTo(x1 - tick, y1); ctx.lineTo(x1 + tick, y1);
+      ctx.moveTo(x2 - tick, y2); ctx.lineTo(x2 + tick, y2);
+    }
+    ctx.stroke();
+  }
+
+  function drawDimensions(ctx, ox, oy, w, h, st, color, textColor) {
+    var lh = 7;
+
+    // Overall width, below
+    var by = oy + h + 20;
+    dimLine(ctx, ox, by, ox + w, by, color);
+    var wLabel = w + "DP / " + "5" + " CELLS";
+    dotText(ctx, wLabel, ox + w / 2 - dotTextWidth(wLabel, lh) / 2, by - 15, lh, textColor);
+
+    // Overall height, right
+    var bx = ox + w + 20;
+    dimLine(ctx, bx, oy, bx, oy + h, color);
+    var hLabel = h + "DP / " + (st.compact ? "2" : "3") + " CELLS";
+    ctx.save();
+    ctx.translate(bx + 13, oy + h / 2 + dotTextWidth(hLabel, lh) / 2);
+    ctx.rotate(-Math.PI / 2);
+    dotText(ctx, hLabel, 0, 0, lh, textColor);
+    ctx.restore();
+
+    // Artwork, above. The two-cell tile gives the art the whole height, so its
+    // callout is the interesting one - annotate both.
+    var pad = st.compact ? 8 : 12;
+    var art = st.compact ? 86 : 94;
+    var artLabel = art + "DP ART";
+    var ay = oy - 18;
+    dimLine(ctx, ox + pad, ay, ox + pad + art, ay, color);
+    dotText(ctx, artLabel, ox + pad + art / 2 - dotTextWidth(artLabel, lh) / 2, ay - 13, lh, textColor);
+
+    if (st.compact) return;
+
+    // Transport key, left
+    var ctlTop = oy + 12 + 94 + 8 + 12 + 6;
+    var lx = ox - 20;
+    dimLine(ctx, lx, ctlTop, lx, ctlTop + 36, color);
+    ctx.save();
+    ctx.translate(lx - 6, ctlTop + 18 + dotTextWidth("36DP KEYS", lh) / 2);
+    ctx.rotate(-Math.PI / 2);
+    dotText(ctx, "36DP KEYS", 0, 0, lh, textColor);
+    ctx.restore();
+  }
+
+  /* ===================================================================
+     State + render loop
+     =================================================================== */
+  var canvas = document.getElementById("stage");
+  var ctx = canvas.getContext("2d");
+
+  var state = {
+    mode: "playing",
+    compact: false,
+    playing: true,
+    hasArt: true,
+    hasSession: true,
+    resumable: false,
+    label: "NOW PLAYING",
+    title: "Halcyon Drift",
+    artist: "Sable Motion",
+    position: 64000,
+    duration: 227000
+  };
+
+  var showDims = true;
+
+  function applyMode(mode) {
+    state.mode = mode;
+    state.compact = (mode === "compact");
+    state.hasArt = (mode !== "noart" && mode !== "noaccess" && mode !== "idle");
+    // "resume" is the cached state: no live session, but real metadata.
+    state.hasSession = (mode !== "noaccess" && mode !== "resume" && mode !== "idle");
+    state.resumable = (mode === "resume");
+    state.playing = (mode === "playing" || mode === "noart" || mode === "compact");
+
+    if (mode === "noaccess") {
+      state.label = "TAP TO CONNECT";
+      state.title = "Notification access needed";
+      state.artist = "Tap the widget to grant it";
+      state.duration = 0;
+      state.position = 0;
+    } else if (mode === "idle") {
+      // The status label stands down here: it would only repeat the title.
+      state.label = "";
+      state.title = "Nothing Playing";
+      state.artist = "";
+      state.duration = 0;
+      state.position = 0;
+    } else {
+      state.label = mode === "resume"
+        ? "TAP TO RESUME"
+        : (state.playing ? "NOW PLAYING" : "PAUSED");
+      state.title = "Halcyon Drift";
+      state.artist = "Sable Motion";
+      state.duration = 227000;
+      if (state.position === 0) state.position = 64000;
+    }
+  }
+
+  var MARGIN = 54;
+
+  function render() {
+    var W = 320;
+    var H = state.compact ? 110 : 180;
+
+    var logicalW = W + MARGIN * 2;
+    var logicalH = H + MARGIN * 2;
+
+    // Magnify so the dot pitch is legible on a desktop display.
+    var avail = Math.min(canvas.parentElement.clientWidth - 40, 760);
+    var mag = Math.max(1.15, Math.min(2.0, avail / logicalW));
+    var dpr = window.devicePixelRatio || 1;
+
+    canvas.width = Math.round(logicalW * mag * dpr);
+    canvas.height = Math.round(logicalH * mag * dpr);
+    canvas.style.width = (logicalW * mag) + "px";
+    canvas.style.height = (logicalH * mag) + "px";
+
+    ctx.setTransform(mag * dpr, 0, 0, mag * dpr, 0, 0);
+    ctx.clearRect(0, 0, logicalW, logicalH);
+
+    var cs = getComputedStyle(document.documentElement);
+    var dimColor = cs.getPropertyValue("--dim").trim() || "#A29A9C";
+    var inkColor = cs.getPropertyValue("--ink-3").trim() || "#8A8285";
+
+    if (showDims) {
+      drawDimensions(ctx, MARGIN, MARGIN, W, H, state, dimColor, inkColor);
+    }
+    drawWidget(ctx, MARGIN, MARGIN, state);
+  }
+
+  /* Ticker: mirrors the widget's own rule - only while playing. */
+  var last = performance.now();
+  function frame(now) {
+    if (state.playing && state.duration > 0) {
+      state.position += (now - last);
+      if (state.position > state.duration) state.position = 0;
+      render();
+    }
+    last = now;
+    requestAnimationFrame(frame);
+  }
+
+  var stateButtons = Array.prototype.slice.call(
+    document.querySelectorAll("button[data-state]")
+  );
+
+  stateButtons.forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      stateButtons.forEach(function (b) {
+        b.setAttribute("aria-pressed", String(b === btn));
+      });
+      applyMode(btn.getAttribute("data-state"));
+      render();
+    });
+  });
+
+  var dimBtn = document.getElementById("dimtoggle");
+  dimBtn.addEventListener("click", function () {
+    showDims = !showDims;
+    dimBtn.setAttribute("aria-pressed", String(showDims));
+    render();
+  });
+
+  window.addEventListener("resize", render);
+
+  var mq = window.matchMedia("(prefers-color-scheme: dark)");
+  if (mq.addEventListener) mq.addEventListener("change", render);
+  new MutationObserver(render).observe(document.documentElement, {
+    attributes: true, attributeFilter: ["data-theme"]
+  });
+
+  // Fonts affect measureText for the title/artist; redraw once they land.
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(render);
+  }
+
+  applyMode("playing");
+  render();
+  requestAnimationFrame(frame);
+})();
+</script>

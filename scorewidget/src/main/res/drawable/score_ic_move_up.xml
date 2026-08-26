@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Reorder-up control.
+
+    A drawn chevron rather than the character U+2191, because NType 82 has no
+    arrow glyphs - an arrow set in it renders as a missing-glyph box. Drawing it
+    also stops these buttons depending on the coverage of whichever face the
+    Accent role points at, which is not a property a control should have.
+
+    Stroked rather than filled, at the same 1.5dp weight as its two siblings, so
+    the three read as one set.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="@color/text_secondary">
+    <path
+        android:pathData="M7,14.5 L12,9.5 L17,14.5"
+        android:strokeWidth="1.5"
+        android:strokeColor="#FFFFFFFF"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>

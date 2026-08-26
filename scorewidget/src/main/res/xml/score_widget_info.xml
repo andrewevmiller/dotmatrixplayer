@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    One provider, three layouts.
+
+    minWidth/minHeight are the 2x1 strip - the smallest of the three, and the
+    size a fresh drop onto the home screen gets before the user has resized
+    anything. minResizeWidth/Height match it for the same reason; maxResizeWidth
+    /Height are the 4x2 card, the largest this tile knows how to draw.
+
+    There is no targetCellWidth/Height pinning a single breakpoint, because
+    there are three and the layout is chosen in code - see
+    WidgetRenderer.pickLayout - from android:minWidth/minHeight in the widget's
+    own options, read fresh on every onUpdate and on every
+    onAppWidgetOptionsChanged. The three-tier read is why this module's minSdk
+    is 31: S is where those size callbacks and setViewLayoutWidth/Height arrive,
+    which is what lets one provider serve three shapes without the host tearing
+    the view down and reinflating it on every resize.
+
+    widgetFeatures says configuration_optional, so the tile lands on the home
+    screen the moment it is dropped and starts asking the network before the
+    settings screen has ever been opened - it just has no favourites to show
+    until then, and says so. reconfigurable keeps the settings screen reachable
+    from the widget's own long-press menu, and a tap on the tile opens it too.
+
+    updatePeriodMillis is the floor under the alarm in RefreshScheduler, not the
+    main clock - see that class for why 30 minutes (the platform minimum) is not
+    fast enough on its own for a score that can change from a home screen glance
+    to the next.
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/score_widget_description"
+    android:initialLayout="@layout/widget_score_strip"
+    android:previewImage="@drawable/score_widget_preview"
+    android:configure="com.dotgrid.scorewidget.ConfigActivity"
+
+    android:minWidth="110dp"
+    android:minHeight="40dp"
+
+    android:minResizeWidth="110dp"
+    android:minResizeHeight="40dp"
+    android:maxResizeWidth="250dp"
+    android:maxResizeHeight="110dp"
+
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable|configuration_optional"
+    android:updatePeriodMillis="1800000" />

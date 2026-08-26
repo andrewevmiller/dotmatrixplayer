@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dot Matrix Player</string>
+    <string name="widget_description">Monochrome media controls with album art, scrubbable progress and transport keys.</string>
+
+    <string name="label_now_playing">NOW PLAYING</string>
+    <string name="label_idle">NOTHING PLAYING</string>
+    <string name="label_no_access">TAP TO CONNECT</string>
+    <string name="label_paused">PAUSED</string>
+    <string name="label_resume">TAP TO RESUME</string>
+
+    <string name="idle_title">Nothing Playing</string>
+    <!-- Deliberately empty: the title already says it, and the renderer hides
+         the artist line rather than drawing a second, quieter restatement. -->
+    <string name="idle_artist"></string>
+    <string name="unknown_track">Unknown track</string>
+
+    <string name="no_access_title">Notification access needed</string>
+    <string name="no_access_artist">Tap the widget to grant it</string>
+
+    <string name="time_zero">0:00</string>
+
+    <string name="cd_album_art">Album art</string>
+    <string name="cd_previous">Previous track</string>
+    <string name="cd_next">Next track</string>
+    <string name="cd_play_pause">Play or pause</string>
+    <string name="cd_seek">Seek</string>
+    <string name="cd_resume">Resume last track</string>
+    <string name="cd_next_source">Source %1$d of %2$d. Tap to switch.</string>
+    <string name="cd_move_up">Move up</string>
+    <string name="cd_move_down">Move down</string>
+
+    <string name="setup_headline">Dot Matrix Player</string>
+    <string name="setup_body">This widget reads whichever media session is currently active and sends transport commands back to it. Android requires notification access for that — it is the only permission the app asks for, and nothing leaves the device.</string>
+    <string name="setup_grant">GRANT NOTIFICATION ACCESS</string>
+    <string name="setup_granted">ACCESS GRANTED</string>
+    <string name="setup_add_widget">Long-press the home screen \u2192 Widgets \u2192 Dot Matrix Player \u2192 drag the 5 \u00d7 3 tile.</string>
+    <string name="setup_status_on">CONNECTED</string>
+    <string name="setup_status_off">NOT CONNECTED</string>
+    <string name="setup_settings_missing">This device has no notification access screen. Grant it from Settings &gt; Notifications manually.</string>
+
+    <string name="setup_idle_pref_title">Preferred app when idle</string>
+    <string name="setup_idle_pref_body">When nothing is playing and more than one app has something recent to show, the widget remembers this one.</string>
+    <string name="setup_idle_pref_none">Most recent</string>
+    <string name="setup_idle_pref_dialog_title">Preferred app</string>
+    <string name="setup_idle_pref_empty">No media apps found on this device yet.</string>
+
+    <string name="setup_order_title">Carousel order</string>
+    <string name="setup_order_body">The order the widget pages through when several apps have something playing at once. Tap the source mark on the widget to move through it.</string>
+    <string name="setup_order_reset">RESET</string>
+    <!-- The other tiles in this package. One installed app, one launcher
+         icon, so this screen is the way to their settings screens. -->
+    <string name="setup_other_widgets_title">Other widgets</string>
+    <string name="setup_other_widgets_body">This app also carries the data, score and health tiles. Their settings live on their own screens.</string>
+    <string name="setup_open_data">MOBILE DATA TILE</string>
+    <string name="setup_open_score">LIVE SCORES TILE</string>
+    <string name="setup_open_health">HEALTH TILE</string>
+
+    <string name="setup_order_empty">Nothing here yet. Apps appear once they have played something, so this list stays to the ones that actually turn up in the widget.</string>
+</resources>

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The settings menu.
+
+    Unlike the widget, this is an ordinary activity in an unrestricted context,
+    so android:fontFamily resolves normally and the type can be set in XML.
+    That is the whole difference between this file and the three widget_score_*
+    layouts, and it is why the Nothing faces appear here as attributes and there
+    as bitmaps.
+
+    The headline is the one NDot label in this module. Nothing's guideline
+    scopes NDot to product names and the logotype - "Dot55 should not be used as
+    a normal font" - and "Dot Matrix Score" is this app's product name, so NDot
+    is correct for it in the same way it would be for "phone (2a)". It is set
+    inline here rather than through a style, so there is exactly one place in
+    the module where that face can be applied.
+
+    Everything below it takes one of the two role styles in values/styles.xml -
+    Body for copy and labels, Accent for controls and status. Those two are the
+    XML half of Typography.kt; see docs/BRAND_LANGUAGE.md for the roles.
+
+    fitsSystemWindows, because from Android 15 an app targeting SDK 35 or above
+    gets an edge-to-edge window whether it asked for one or not - and this one
+    did not. Without it the headline is drawn underneath the status bar and
+    collides with the clock. This is the pre-AndroidX way of taking the insets
+    as padding, which is the right one here: the module has no AndroidX to reach
+    for.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:scrollbars="none">
+
+    <!--
+        focusableInTouchMode so the root takes the initial focus. Without it the
+        search field is the first focusable view in the tree, wins focus on
+        open, and brings the keyboard up over the preview - which is the one
+        thing on this screen worth seeing first.
+    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingTop="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="40dp">
+
+        <!-- NDot: this is the product name. Zero tracking, per the guideline. -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ndot57_aligned"
+            android:letterSpacing="0"
+            android:text="@string/score_config_headline"
+            android:textAllCaps="true"
+            android:textColor="@color/text_primary"
+            android:textSize="24sp" />
+
+        <!-- The live tile, built from the same code path the launcher uses. -->
+        <FrameLayout
+            android:id="@+id/preview_host"
+            android:layout_width="250dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="26dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/status_dot"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:contentDescription="@null"
+                android:src="@drawable/score_status_dot_off" />
+
+            <TextView
+                android:id="@+id/status_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                style="@style/ScoreAccent"
+                android:letterSpacing="0.14"
+                android:text="@string/config_status_never"
+                android:textColor="@color/text_secondary"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            style="@style/ScoreBody"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/score_config_body"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp" />
+
+        <!-- ============ YOUR TEAMS ============ -->
+        <TextView
+            style="@style/ScoreSectionLabel"
+            android:text="@string/config_section_teams" />
+
+        <TextView
+            style="@style/ScoreSectionHint"
+            android:text="@string/config_section_teams_hint" />
+
+        <!--
+            The priority queue, as a plain vertical container filled from code.
+
+            A ListView would be the reflex, but this is a list of at most a
+            handful of rows that never scrolls independently - it sits inside
+            the page's own ScrollView - and nesting a scrolling list inside a
+            scrolling parent is the standard way to make both behave badly.
+        -->
+        <LinearLayout
+            android:id="@+id/favorites_host"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/favorites_empty"
+            style="@style/ScoreSectionHint"
+            android:text="@string/config_empty_teams" />
+
+        <!-- ============ ADD A TEAM ============ -->
+        <TextView
+            style="@style/ScoreSectionLabel"
+            android:text="@string/config_section_add" />
+
+        <!-- League chips. Which league the picker below is showing. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/league_nfl"
+                style="@style/ScoreChip"
+                android:layout_marginEnd="5dp"
+                android:text="NFL" />
+
+            <TextView
+                android:id="@+id/league_nba"
+                style="@style/ScoreChip"
+                android:layout_marginEnd="5dp"
+                android:text="NBA" />
+
+            <TextView
+                android:id="@+id/league_mlb"
+                style="@style/ScoreChip"
+                android:layout_marginEnd="5dp"
+                android:text="MLB" />
+
+            <TextView
+                android:id="@+id/league_nhl"
+                style="@style/ScoreChip"
+                android:layout_marginEnd="5dp"
+                android:text="NHL" />
+
+            <TextView
+                android:id="@+id/league_ncaaf"
+                style="@style/ScoreChip"
+                android:text="NCAA" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/team_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:autofillHints=""
+            android:background="@drawable/score_config_field_bg"
+            style="@style/ScoreBody"
+            android:hint="@string/config_search_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:maxLines="1"
+            android:paddingStart="18dp"
+            android:paddingTop="13dp"
+            android:paddingEnd="18dp"
+            android:paddingBottom="13dp"
+            android:textColor="@color/text_primary"
+            android:textColorHint="@color/text_tertiary"
+            android:textSize="13sp" />
+
+        <LinearLayout
+            android:id="@+id/team_picker_host"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical" />
+
+        <!-- ============ BEHAVIOUR ============ -->
+        <TextView
+            style="@style/ScoreSectionLabel"
+            android:text="@string/config_section_behaviour" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/RowLabel"
+                android:text="@string/config_offseason" />
+
+            <TextView
+                android:id="@+id/toggle_offseason"
+                style="@style/ScoreChip"
+                android:layout_width="wrap_content"
+                android:layout_weight="0"
+                android:minWidth="74dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/ScoreSectionHint"
+            android:layout_marginTop="6dp"
+            android:text="@string/config_offseason_hint" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/RowLabel"
+                android:text="@string/config_rivalries" />
+
+            <TextView
+                android:id="@+id/toggle_rivalries"
+                style="@style/ScoreChip"
+                android:layout_width="wrap_content"
+                android:layout_weight="0"
+                android:minWidth="74dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/ScoreSectionHint"
+            android:layout_marginTop="6dp"
+            android:text="@string/config_rivalries_hint" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/RowLabel"
+                android:text="@string/config_win_probability" />
+
+            <TextView
+                android:id="@+id/toggle_win_probability"
+                style="@style/ScoreChip"
+                android:layout_width="wrap_content"
+                android:layout_weight="0"
+                android:minWidth="74dp"
+                android:paddingStart="18dp"
+                android:paddingEnd="18dp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/ScoreSectionHint"
+            android:layout_marginTop="6dp"
+            android:text="@string/config_win_probability_hint" />
+
+        <!-- ============ ALERTS ============ -->
+        <TextView
+            style="@style/ScoreSectionLabel"
+            android:text="@string/config_section_alerts" />
+
+        <TextView
+            style="@style/ScoreSectionHint"
+            android:text="@string/config_section_alerts_hint" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/alert_start"
+                style="@style/ScoreChip"
+                android:layout_marginEnd="6dp"
+                android:text="@string/config_alert_start" />
+
+            <TextView
+                android:id="@+id/alert_close"
+                style="@style/ScoreChip"
+                android:layout_marginEnd="6dp"
+                android:text="@string/config_alert_close" />
+
+            <TextView
+                android:id="@+id/alert_final"
+                style="@style/ScoreChip"
+                android:text="@string/config_alert_final" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/alert_denied"
+            style="@style/ScoreSectionHint"
+            android:text="@string/config_notifications_denied"
+            android:visibility="gone" />
+
+        <!-- ============ SIGNAL COLOUR ============ -->
+        <TextView
+            style="@style/ScoreSectionLabel"
+            android:text="@string/config_section_accent" />
+
+        <TextView
+            style="@style/ScoreSectionHint"
+            android:text="@string/config_section_accent_hint" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/accent_red"
+                style="@style/ScoreChip"
+                android:layout_marginEnd="6dp"
+                android:text="@string/config_accent_red" />
+
+            <TextView
+                android:id="@+id/accent_amber"
+                style="@style/ScoreChip"
+                android:layout_marginEnd="6dp"
+                android:text="@string/config_accent_amber" />
+
+            <TextView
+                android:id="@+id/accent_white"
+                style="@style/ScoreChip"
+                android:text="@string/config_accent_white" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

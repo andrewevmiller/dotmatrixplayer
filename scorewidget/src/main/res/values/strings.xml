@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The label the merged app shows for this screen: on the widget picker's
+         reconfigure entry, and in Settings > Apps when the screen is open.
+         Prefixed because :app owns the unqualified app_name now. -->
+    <string name="score_config_title">Dot Matrix Score</string>
+    <string name="score_app_name">Dot Matrix Score</string>
+    <string name="score_widget_description">Live scores for your teams, drawn as a Glyph Matrix.</string>
+
+    <!-- ============ tile states ============ -->
+    <!-- Every string the tile draws is authored here rather than assembled
+         from the feed, so the type scale can be measured against it. The one
+         exception is a team abbreviation, which is the feed's. -->
+    <string name="state_no_teams">PICK YOUR TEAMS</string>
+    <string name="state_no_teams_hint">TAP TO SET UP</string>
+    <string name="state_offseason">OFFSEASON</string>
+    <string name="state_offseason_hint">NOTHING ON</string>
+    <string name="state_no_games">NO GAMES TODAY</string>
+
+    <!-- Countdown to a start, when it is inside the 24-hour window. -->
+    <string name="countdown_hours">IN %1$dH %2$02dM</string>
+    <string name="countdown_minutes">IN %1$dM</string>
+    <string name="countdown_soon">STARTING</string>
+
+    <string name="score_separator">–</string>
+
+    <!-- ============ settings menu ============ -->
+    <string name="score_config_headline">Dot Matrix Score</string>
+    <string name="score_config_body">Pick the teams you follow. The tile shows whichever of their games is closest to happening — live first, then about to start, then just finished.</string>
+
+    <string name="config_section_teams">YOUR TEAMS</string>
+    <string name="config_section_teams_hint">The team at the top wins the tile when two of your games are on at once.</string>
+    <string name="config_section_add">ADD A TEAM</string>
+    <string name="config_search_hint">Search teams</string>
+
+    <string name="config_section_behaviour">BEHAVIOUR</string>
+    <string name="config_offseason">HIDE OFFSEASON</string>
+    <string name="config_offseason_hint">Skip favourites whose league is not playing. Saves the tile asking for a scoreboard that has nothing on it.</string>
+    <string name="config_rivalries">TRACK RIVALS</string>
+    <string name="config_rivalries_hint">When none of your teams are playing, show a division rival instead of an empty tile.</string>
+    <string name="config_win_probability">WIN PROBABILITY</string>
+    <string name="config_win_probability_hint">A rail under the score on the 4×2 size, showing which way the game is leaning.</string>
+
+    <string name="config_section_alerts">ALERTS</string>
+    <string name="config_section_alerts_hint">Notifications for the games on this tile.</string>
+    <string name="config_alert_start">START</string>
+    <string name="config_alert_close">CLOSE FINISH</string>
+    <string name="config_alert_final">FINAL</string>
+
+    <string name="config_section_accent">SIGNAL COLOUR</string>
+    <string name="config_section_accent_hint">Used for the live marker and the red zone. Everything else on the tile stays monochrome.</string>
+    <string name="config_accent_red">RED</string>
+    <string name="config_accent_amber">YELLOW</string>
+    <string name="config_accent_white">WHITE</string>
+
+    <string name="config_remove">REMOVE</string>
+    <string name="config_empty_teams">No teams yet.</string>
+    <string name="config_status_updated">UPDATED %1$s</string>
+    <string name="config_status_never">NOT FETCHED YET</string>
+    <string name="config_notifications_denied">Notifications are off for this app in system settings.</string>
+
+    <!-- ============ content descriptions ============ -->
+    <string name="cd_score">Score</string>
+    <string name="cd_away_team">Away team</string>
+    <string name="cd_home_team">Home team</string>
+    <string name="cd_clock">Game clock</string>
+    <string name="cd_live">Live</string>
+    <string name="cd_possession">Possession</string>
+    <string name="cd_bases">Runners on base</string>
+    <string name="cd_broadcast">Broadcast network</string>
+    <string name="cd_win_probability">Win probability</string>
+    <string name="cd_field_position">Field position</string>
+    <string name="cd_top_performer">Top performer</string>
+    <string name="cd_next_game">Next game</string>
+    <string name="cd_move_up">Move up</string>
+    <string name="cd_move_down">Move down</string>
+</resources>

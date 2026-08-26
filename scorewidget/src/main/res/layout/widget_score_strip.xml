@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The 2x1 strip: 110 x 40dp on a standard launcher grid.
+
+    Forty dp of height, less 6dp of padding top and bottom, is 28dp of content -
+    which is one row and nothing else. Everything the matrix says about the two
+    teams has to fit in a 20dp square, and the score has to sit between them
+    without a label of its own.
+
+    So there is no clock line under the score and no team abbreviation beside
+    the mark: the marks *are* the abbreviations at this size, which is the one
+    place where resampling a team's letters onto the grid stops being a
+    stylistic choice and becomes the reason the layout works at all.
+
+    Every label is an ImageView. That is not a style choice: AppWidgetHostView
+    inflates through a CONTEXT_RESTRICTED context and TextView skips
+    android:fontFamily when the context is restricted, so a TextView here would
+    silently come out in the system face. See TextRenderer, and the
+    verifyWidgetHasNoTextViews check wired into preBuild.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/score_widget_bg"
+    android:baselineAligned="false"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="@dimen/strip_padding_h"
+    android:paddingTop="@dimen/strip_padding_v"
+    android:paddingEnd="@dimen/strip_padding_h"
+    android:paddingBottom="@dimen/strip_padding_v">
+
+    <!--
+        fitCenter on every matrix, never fitXY. The bitmap is square and a
+        uniform scale keeps its dots round, so a tile a few pixels off the size
+        we rendered for degrades into a slightly smaller matrix rather than into
+        a field of ellipses. The sibling data tile makes the same call about
+        its dial.
+    -->
+    <ImageView
+        android:id="@+id/away_glyph"
+        android:layout_width="@dimen/strip_glyph"
+        android:layout_height="@dimen/strip_glyph"
+        android:contentDescription="@string/cd_away_team"
+        android:scaleType="fitCenter" />
+
+    <!--
+        The scoreline is one bitmap, not three views: the two scores and the
+        separator are set at different sizes on a shared baseline, and
+        RemoteViews cannot align baselines across ImageViews. It also lets both
+        scores be measured into one column width, so the separator stops
+        sliding when a score goes from 9 to 10.
+    -->
+    <ImageView
+        android:id="@+id/scoreline"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_score"
+        android:scaleType="fitCenter" />
+
+    <ImageView
+        android:id="@+id/home_glyph"
+        android:layout_width="@dimen/strip_glyph"
+        android:layout_height="@dimen/strip_glyph"
+        android:contentDescription="@string/cd_home_team"
+        android:scaleType="fitCenter" />
+
+    <!--
+        The live marker, hard against the right edge with no margin of its own.
+
+        Set in even a little it lands in the gap between the home matrix and the
+        card's rounded corner, where it reads as a dot that fell off the matrix
+        rather than as an indicator. The sibling data tile puts its over-limit
+        dot in exactly the same place for exactly the same reason.
+    -->
+    <ImageView
+        android:id="@+id/live_dot"
+        android:layout_width="@dimen/score_live_dot"
+        android:layout_height="@dimen/score_live_dot"
+        android:layout_gravity="top"
+        android:contentDescription="@string/cd_live"
+        android:src="@drawable/score_live_dot"
+        android:visibility="gone" />
+</LinearLayout>

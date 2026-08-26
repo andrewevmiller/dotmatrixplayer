@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nothing OS reads as a monochrome system with one signal colour.
+         Everything is pure black / pure white; colour is reserved for state.
+         Hex values are Nothing's own, from nothing_brand_guidelines.pdf, not
+         invented - see docs/BRAND_LANGUAGE.md. -->
+    <color name="nt_black">#FF000000</color>
+    <color name="nt_white">#FFFFFFFF</color>
+
+    <!-- Widget surface. Near-black rather than pure black so the card still
+         reads as an object against a black wallpaper. Matches the two
+         sibling tiles so all three sit together on one home screen. -->
+    <color name="widget_surface">#FF1B1B1B</color>
+
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#99FFFFFF</color>
+    <color name="text_tertiary">#5CFFFFFF</color>
+
+    <color name="matrix_active">#FFFFFFFF</color>
+    <color name="matrix_rail">#2EFFFFFF</color>
+
+    <!-- N-Red, #C8102E - the brand's own primary red, not a generic Material
+         one. The one signal colour on this tile: a game that is live. -->
+    <color name="nt_red">#FFC8102E</color>
+
+    <!-- N-Yellow, #FFC700 - one of the three the user can pick for the signal
+         colour, a step below the red "this is live" signal. Only ever one of
+         the three is on the tile at a time. -->
+    <color name="nt_amber">#FFFFC700</color>
+
+    <color name="config_bg">#FF000000</color>
+    <color name="config_card">#FF0E0E0E</color>
+    <color name="config_field">#FF161616</color>
+    <color name="chip_on">#FFFFFFFF</color>
+    <color name="chip_off">#14FFFFFF</color>
+    <color name="hairline">#1FFFFFFF</color>
+</resources>

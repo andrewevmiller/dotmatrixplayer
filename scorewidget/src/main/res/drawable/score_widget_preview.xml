@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The picker thumbnail: the real card, with a schematic of two matrix
+     marks and a scoreline on it. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/score_widget_bg" />
+    <item android:drawable="@drawable/score_preview_dots" />
+</layer-list>

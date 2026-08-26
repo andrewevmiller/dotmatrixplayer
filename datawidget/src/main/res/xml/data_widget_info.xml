@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    A 2 x 2 tile. On a standard launcher grid that is 110 x 110dp: 70dp per cell
+    less the 30dp of gutter the grid takes back.
+
+    widgetFeatures says configuration_optional, so the tile lands on the home
+    screen the moment it is dropped and starts showing the defaults instead of
+    opening a form first. reconfigurable then keeps ConfigActivity reachable
+    from the widget's own long-press menu, and tapping the tile opens it too.
+
+    updatePeriodMillis is the floor under the alarm in RefreshScheduler, not the
+    main clock. It survives a reboot and a host restart on its own, where an
+    alarm has to be re-armed, so it covers the window between the device coming
+    back and BootReceiver running. 30 minutes is the platform minimum; anything
+    smaller is silently rounded up to it.
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:description="@string/data_widget_description"
+    android:initialLayout="@layout/widget_data"
+    android:previewImage="@drawable/data_widget_preview"
+    android:configure="com.dotgrid.datawidget.ConfigActivity"
+
+    android:minWidth="110dp"
+    android:minHeight="110dp"
+
+    android:targetCellWidth="2"
+    android:targetCellHeight="2"
+
+    android:minResizeWidth="110dp"
+    android:minResizeHeight="110dp"
+    android:maxResizeWidth="250dp"
+    android:maxResizeHeight="250dp"
+
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable|configuration_optional"
+    android:updatePeriodMillis="1800000" />

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nothing OS reads as a monochrome system with one signal colour.
+         Everything is pure black / pure white; red is reserved for state. -->
+    <color name="nt_black">#FF000000</color>
+    <color name="nt_white">#FFFFFFFF</color>
+
+    <!-- Widget surface. Near-black rather than pure black so the card still
+         reads as an object against a black wallpaper. -->
+    <color name="widget_surface">#FF1B1B1B</color>
+    <color name="widget_stroke">#1FFFFFFF</color>
+
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#99FFFFFF</color>
+    <color name="text_tertiary">#5CFFFFFF</color>
+
+    <!-- The source-app mark. Brighter than the tertiary text it sits beside:
+         it is only 20dp across, and a small shape needs more contrast than a
+         line of type to stay legible. Still short of the white used for the
+         title, so it identifies without competing. -->
+    <color name="app_glyph">#E0FFFFFF</color>
+
+    <color name="track_active">#FFFFFFFF</color>
+    <color name="track_inactive">#33FFFFFF</color>
+
+    <!-- The one accent. Used only for "this is live".
+         N-Red from Nothing's brand guidelines: HEX #C8102E. -->
+    <color name="nt_red">#FFC8102E</color>
+
+    <color name="art_placeholder">#FF141414</color>
+
+    <color name="setup_bg">#FF000000</color>
+    <color name="setup_card">#FF0E0E0E</color>
+</resources>

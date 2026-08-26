@@ -1,0 +1,20 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- Play glyph rendered as a dot grid, the way Nothing draws its marks. -->
+    <group android:translateX="34" android:translateY="34">
+        <path android:fillColor="#FFFFFFFF" android:pathData="M2,2 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M2,12 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M2,22 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M2,32 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M2,42 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M12,7 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M12,17 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M12,27 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M12,37 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M22,12 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M22,22 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+        <path android:fillColor="#FFFFFFFF" android:pathData="M22,32 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+        <path android:fillColor="#FFC8102E" android:pathData="M32,22 m-2.6,0 a2.6,2.6 0 1 0 5.2,0 a2.6,2.6 0 1 0 -5.2,0" />
+    </group>
+</vector>

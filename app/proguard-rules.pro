@@ -1,0 +1,2 @@
+-keep class com.dotgrid.mediawidget.MediaWidgetProvider { *; }
+-keep class com.dotgrid.mediawidget.NotificationHookService { *; }

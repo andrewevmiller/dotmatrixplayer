@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 2x1 strip: 110 x 40dp. Two 70dp cells wide, less the 30dp of gutter
+         the grid takes back; one 70dp cell tall, less the same gutter down
+         to a single row. -->
+    <dimen name="strip_padding_h">10dp</dimen>
+    <dimen name="strip_padding_v">6dp</dimen>
+    <dimen name="strip_glyph">22dp</dimen>
+
+    <!-- 4x1 banner: 250 x 40dp. Same single row, four cells wide. -->
+    <dimen name="banner_padding_h">12dp</dimen>
+    <dimen name="banner_padding_v">6dp</dimen>
+    <dimen name="banner_glyph">26dp</dimen>
+    <dimen name="banner_abbrev_gap">6dp</dimen>
+    <dimen name="banner_status_gap">10dp</dimen>
+    <!-- Fixed rather than wrap_content, so a clock ticking down does not
+         shuffle the score sideways once a second. Wide enough for
+         "12:04 2ND" at the banner's own type scale. -->
+    <dimen name="banner_status_width">72dp</dimen>
+
+    <!-- 4x2 card: 250 x 110dp. Four cells wide, two tall. -->
+    <dimen name="card_padding">12dp</dimen>
+    <dimen name="card_glyph">34dp</dimen>
+    <dimen name="card_bases">26dp</dimen>
+    <dimen name="card_rail_height">6dp</dimen>
+
+    <dimen name="possession_dot">5dp</dimen>
+    <dimen name="score_live_dot">6dp</dimen>
+</resources>

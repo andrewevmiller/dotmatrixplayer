@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The tile is deliberately dark in both themes: Nothing's home-screen
+         surface is always the black card. Only the configuration screen
+         follows the system theme, and it is dark either way. -->
+    <color name="widget_surface">#FF1B1B1B</color>
+</resources>

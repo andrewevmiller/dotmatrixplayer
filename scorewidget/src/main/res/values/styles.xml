@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Type for the settings menu.
+
+    Unlike the tile, this is an ordinary activity in an unrestricted context, so
+    android:fontFamily resolves and the faces can be named in XML. It cannot
+    read Typography.kt, so the role mapping is restated here - the two base
+    styles below are the XML half of that file, and the pair of them is what
+    changes when a face changes.
+
+    Roles, from docs/BRAND_LANGUAGE.md:
+
+      Body   - body copy, section hints, row labels, team names, the search
+               field. Geist.
+      Accent - section labels, chips, steppers, the status line. NType 82.
+      NDot   - the headline in activity_score_config.xml, and nothing else, because
+               that is the product name. Set inline there rather than as a
+               style, so there is exactly one place it can be applied.
+
+    Keep these two in step with Typography.BODY and Typography.ACCENT - they are
+    the same decision, stated twice because XML cannot read a Kotlin constant.
+-->
+<resources>
+
+    <!-- ============ the two base roles ============ -->
+
+    <!--
+        Geist is a variable font with a wght axis; no weight is named here
+        because its default instance is 400, which is the one weight this app
+        uses. Never set textStyle="bold" on it - that synthesises a fake bold
+        instead of moving the axis. See the note in Typography.kt.
+    -->
+    <style name="ScoreBody">
+        <item name="android:fontFamily">@font/geist</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="ScoreAccent">
+        <item name="android:fontFamily">@font/ntype82</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <!-- ============ accent: labels and controls ============ -->
+
+    <style name="ScoreSectionLabel" parent="Accent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <!-- NType takes tracking by size, unlike NDot, which takes none at all.
+             At 11sp the guideline's spacing chart is generous, and small caps
+             need it to stay legible. -->
+        <item name="android:letterSpacing">0.16</item>
+        <item name="android:textColor">@color/text_tertiary</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="ScoreChip" parent="Accent">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/score_chip_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:letterSpacing">0.08</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:textColor">@color/chip_text</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <!-- ============ body: copy and labels ============ -->
+
+    <style name="ScoreSectionHint" parent="Body">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:lineSpacingExtra">3dp</item>
+        <item name="android:textColor">@color/text_tertiary</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <!--
+        The label beside a toggle. Body rather than accent: the chip next to it
+        is the control, and this is the sentence naming it.
+    -->
+    <style name="RowLabel" parent="Body">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:letterSpacing">0.06</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+</resources>

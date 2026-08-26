@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Type for the setup screen.
+
+    Two base roles, matching Typography.kt - which XML cannot read, so the
+    decision is stated twice and the two have to be kept in step. See
+    docs/BRAND_LANGUAGE.md.
+
+      Body   - body copy. Geist.
+      Accent - the status line and the two buttons. NType 82.
+
+    NDot is neither, and appears once: the headline in activity_setup.xml,
+    because "Dot Matrix Player" is this app's product name. It is set inline
+    there rather than as a style so there is exactly one place it can be
+    applied, and at zero tracking, because the guideline fixes NDot's VA at >0<
+    - it is a fixed matrix advance, not a proportional face.
+-->
+<resources>
+
+    <!--
+        Geist is a variable font with a wght axis; no weight is named because
+        its default instance is 400, which is the only one this app uses. Never
+        set textStyle="bold" on it - that synthesises a fake bold rather than
+        moving the axis. See Typography.kt.
+    -->
+    <style name="Body">
+        <item name="android:fontFamily">@font/geist</item>
+    </style>
+
+    <style name="Accent">
+        <item name="android:fontFamily">@font/ntype82</item>
+    </style>
+
+</resources>

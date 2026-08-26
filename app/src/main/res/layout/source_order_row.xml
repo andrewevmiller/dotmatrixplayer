@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    One media app in the carousel order list, inflated once per app by
+    SetupActivity. Position number, app name, and the two keys that move it.
+
+    This is an Activity layout, not a widget one, so TextView is fine here -
+    the restricted-context font problem only applies to RemoteViews.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
+    <!-- The carousel's own position, so the list reads as an order rather
+         than as a set. Tabular by construction: single digits, right-aligned. -->
+    <TextView
+        android:id="@+id/row_position"
+        android:layout_width="22dp"
+        android:layout_height="wrap_content"
+        style="@style/Body"
+        android:gravity="end"
+        android:textColor="@color/text_tertiary"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/row_glyph"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="12dp"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/row_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        style="@style/Body"
+        android:maxLines="1"
+        android:textColor="@color/text_primary"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/row_up"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/control_ghost"
+        android:contentDescription="@string/cd_move_up"
+        android:padding="10dp"
+        android:src="@drawable/ic_move_up" />
+
+    <ImageView
+        android:id="@+id/row_down"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/control_ghost"
+        android:contentDescription="@string/cd_move_down"
+        android:padding="10dp"
+        android:src="@drawable/ic_move_down" />
+</LinearLayout>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The library no longer ships an APK, so this is not an app name any
+         more - it is the label on the config activity, which the widget picker
+         and app info show. Kept as its own string so :app owns data_app_name. -->
+    <string name="data_config_title">Dot Matrix Data</string>
+    <string name="data_widget_description">Monthly mobile data on a dot-matrix dial, with your own rollover date and over-limit indicator.</string>
+
+    <!-- Widget readout -->
+    <string name="limit_format">LIMIT %1$s GB</string>
+    <string name="no_limit">NO LIMIT</string>
+    <string name="days_left_format">%1$dD LEFT</string>
+    <string name="rolls_today">ROLLS TODAY</string>
+    <string name="value_unknown">--</string>
+    <string name="no_access_line">NO ACCESS</string>
+    <string name="no_access_hint">TAP TO GRANT</string>
+
+    <string name="cd_meter">Data usage meter</string>
+    <string name="cd_alert">Over limit</string>
+    <string name="cd_widget">Mobile data used this cycle</string>
+
+    <!-- Configuration screen -->
+    <string name="data_config_headline">Dot Matrix Data</string>
+    <string name="data_config_body">This tile reads the mobile data your phone has counted since your plan last rolled over. Android puts that number behind usage access — it is the only permission the app asks for, and nothing leaves the device.</string>
+
+    <string name="config_grant">GRANT USAGE ACCESS</string>
+    <string name="config_granted">ACCESS GRANTED</string>
+    <string name="config_status_on">CONNECTED</string>
+    <string name="config_status_off">NOT CONNECTED</string>
+    <string name="config_settings_missing">This device has no usage access screen. Grant it from Settings &gt; Apps &gt; Special app access manually.</string>
+
+    <string name="config_section_cycle">ROLLOVER</string>
+    <string name="config_cycle_hint">Day of the month your allowance resets. Months without that date roll over on their last day.</string>
+    <string name="config_next_reset_format">NEXT: %1$s</string>
+
+    <string name="config_section_limit">ALLOWANCE</string>
+    <string name="config_limit_suffix">GB</string>
+    <string name="config_limit_hint">Set 0 for no limit — the dial goes inert and the tile just counts.</string>
+
+    <string name="config_section_alert">OVER-LIMIT INDICATOR</string>
+    <string name="config_alert_hint">What the tile does once usage crosses the threshold.</string>
+    <string name="config_style_dot">CORNER DOT</string>
+    <string name="config_style_ring">DIAL</string>
+    <string name="config_style_value">NUMBER</string>
+    <string name="config_style_card">BORDER</string>
+
+    <string name="config_section_threshold">TRIPS AT</string>
+    <string name="config_threshold_format">%1$d%%</string>
+    <string name="config_threshold_hint">Share of the allowance that turns the indicator on. Below 100 warns early; above 100 gives you some overdraft.</string>
+
+    <string name="config_section_color">COLOUR</string>
+    <string name="config_color_red">RED</string>
+    <string name="config_color_amber">YELLOW</string>
+    <string name="config_color_white">WHITE</string>
+
+    <string name="config_done">DONE</string>
+    <string name="config_add_widget">Long-press the home screen \u2192 Widgets \u2192 Dot Matrix Data \u2192 drag the 2 \u00d7 2 tile.</string>
+
+    <string name="cd_decrease">Decrease</string>
+    <string name="cd_increase">Increase</string>
+
+    <!-- The stepper keys. An ASCII hyphen, not a true minus: in Ndot 57
+         Aligned the plus is a 3 x 3 dot glyph and the hyphen is exactly its
+         crossbar, where U+2212 is five dots wide and reads as an ellipsis. -->
+    <string name="stepper_minus">-</string>
+    <string name="stepper_plus">+</string>
+    <string name="limit_hint_zero">0</string>
+</resources>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        The one permission this module has that its siblings do not.
+
+        :app and :datawidget both answer their question from the device. A
+        scoreboard cannot: the score is somewhere else by definition. Everything
+        that leaves is a GET to one host, with no body and no identifier - see
+        EspnClient - and everything that comes back is thrown away after the
+        repaint except the last snapshot, which is cached so a tile that opens
+        with no signal shows the last score it knew rather than a dash.
+    -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Alarms do not survive a reboot, so the refresh has to be re-armed. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!--
+        POST_NOTIFICATIONS is deliberately absent.
+
+        The widget carries alert toggles, and the honest reading of that is that
+        it should hold the permission. But the toggles set which events are
+        wanted, all three are off by default, and nothing is posted until the
+        user turns the first one on - so asking at install time would be asking
+        for something the app may never use. ConfigActivity requests it at the
+        moment a toggle is first switched on, which is the only moment the
+        request has a reason the user can see. See GameAlerts, which re-checks
+        the grant on every post because it can be revoked afterwards.
+    -->
+
+    <!--
+        A library manifest, merged into :app.
+
+        No <application> attributes here on purpose. icon, label, theme,
+        allowBackup and the two backup-rule resources are app identity, and
+        :app owns them - restating them in a library either loses the merge or
+        needs a tools:replace that would silently override the app. What is
+        left is the components, which is all a library has to contribute.
+
+        The activity below therefore names its own theme, which it used to
+        inherit from the <application> tag.
+    -->
+    <application>
+
+        <activity
+            android:name="com.dotgrid.scorewidget.ConfigActivity"
+            android:exported="true"
+            android:label="@string/score_config_title"
+            android:theme="@style/Theme.DotMatrixScore"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <!-- No MAIN/LAUNCHER filter any more. The combined app has one
+                 launcher entry - :app SetupActivity - which links here; four
+                 icons in the app drawer for one installed app is not what a
+                 single package should look like. Still reached from a tap on
+                 the tile and from the widget's own reconfigure entry. -->
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="com.dotgrid.scorewidget.ScoreWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/score_widget_info" />
+        </receiver>
+
+        <!--
+            Exported because the system is the sender: BOOT_COMPLETED and
+            MY_PACKAGE_REPLACED are both delivered from outside the app. Neither
+            action can be forged by another app - the system holds them.
+        -->
+        <receiver
+            android:name="com.dotgrid.scorewidget.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+</manifest>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Type for the configuration screen.
+
+    Two base roles, matching Typography.kt - which this file cannot read, so the
+    decision is stated twice and the two have to be kept in step. See
+    docs/BRAND_LANGUAGE.md.
+
+      Body   - body copy, hints, and the figures the user is editing (the
+               rollover day, the allowance, the threshold). Geist.
+      Accent - section labels, chips, steppers, the status line and the two
+               buttons. NType 82.
+
+    NDot is neither of these and appears once, on the headline in
+    activity_data_config.xml, because "Dot Matrix Data" is this app's product name.
+    It is set inline there rather than as a style so there is exactly one place
+    it can be applied, and at zero tracking, because the guideline fixes NDot's
+    VA at >0< - it is a fixed matrix advance, not a proportional face.
+
+    NType and Geist both take tracking that varies with size, per the
+    guideline's own spacing chart, which is why the caps below keep theirs.
+-->
+<resources>
+
+    <!-- ============ the two base roles ============ -->
+
+    <!--
+        Geist is a variable font with a wght axis; no weight is named because
+        its default instance is 400, which is the only one this app uses. Never
+        set textStyle="bold" on it - that synthesises a fake bold rather than
+        moving the axis. See Typography.kt.
+    -->
+    <style name="Body">
+        <item name="android:fontFamily">@font/geist</item>
+    </style>
+
+    <style name="Accent">
+        <item name="android:fontFamily">@font/ntype82</item>
+    </style>
+
+    <!-- ============ accent: labels and controls ============ -->
+
+    <style name="SectionLabel" parent="Accent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:letterSpacing">0.18</item>
+        <item name="android:textColor">@color/text_tertiary</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="Chip" parent="Accent">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/chip_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:textColor">@color/chip_text</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <!-- The +/- buttons. A control, so accent - and plain ASCII, so no
+         coverage question about the two characters they carry. -->
+    <style name="Stepper" parent="Accent">
+        <item name="android:layout_width">46dp</item>
+        <item name="android:layout_height">46dp</item>
+        <item name="android:background">@drawable/config_field_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <!-- ============ body: copy ============ -->
+
+    <style name="SectionHint" parent="Body">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:textColor">@color/text_tertiary</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+</resources>

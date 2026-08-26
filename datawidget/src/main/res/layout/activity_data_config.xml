@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The configuration screen.
+
+    Unlike the widget, this is an ordinary activity in an unrestricted context,
+    so android:fontFamily resolves normally and the type can be set in XML.
+    That is the whole difference between this file and widget_data.xml, and it
+    is why the Nothing faces appear here as attributes and there as bitmaps.
+-->
+<!--
+    fitsSystemWindows, because from Android 15 an app targeting SDK 35 or above
+    gets an edge-to-edge window whether it asked for one or not - and this one
+    did not. Without it the headline is drawn underneath the status bar and
+    collides with the clock.
+
+    This is the pre-AndroidX way of asking for the insets as padding, which is
+    the right one here: the module has no AndroidX to reach for, and
+    WindowInsets.Type is API 30 against a minSdk of 29.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:scrollbars="none">
+
+    <!--
+        focusableInTouchMode so the root takes the initial focus. Without it the
+        allowance field is the first focusable view in the tree, wins focus on
+        open, and brings the keyboard up over the preview - which is the one
+        thing on this screen worth seeing first.
+    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingTop="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="40dp">
+
+        <!--
+            NDot is scoped to product names and the logotype - "should not be
+            used as a normal font" - and this headline is this app's product
+            name, same as "Dot Matrix Player" is for the sibling widget's setup
+            screen. No letterSpacing: the guideline fixes NDot's advance at
+            zero, since the font is a matrix face, not a proportional one.
+        -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/ndot57_aligned"
+            android:text="@string/data_config_headline"
+            android:textColor="@color/text_primary"
+            android:textSize="26sp" />
+
+        <!-- The live tile, built from the same code path the launcher uses. -->
+        <FrameLayout
+            android:id="@+id/preview_host"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="28dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/status_dot"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:contentDescription="@null"
+                android:src="@drawable/status_dot_off" />
+
+            <TextView
+                android:id="@+id/status_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                style="@style/Accent"
+                android:letterSpacing="0.16"
+                android:text="@string/config_status_off"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/grant_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/config_button_bg"
+            style="@style/Accent"
+            android:gravity="center"
+            android:letterSpacing="0.14"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="@string/config_grant"
+            android:textColor="@color/nt_black"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            style="@style/Body"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/data_config_body"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp" />
+
+        <!-- ============ ROLLOVER ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_cycle" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/config_card_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/cycle_minus"
+                style="@style/Stepper"
+                android:contentDescription="@string/cd_decrease"
+                android:text="@string/stepper_minus" />
+
+            <TextView
+                android:id="@+id/cycle_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/Body"
+                android:gravity="center"
+                android:textColor="@color/text_primary"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/cycle_plus"
+                style="@style/Stepper"
+                android:contentDescription="@string/cd_increase"
+                android:text="@string/stepper_plus" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/cycle_next"
+            style="@style/SectionHint"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_cycle_hint" />
+
+        <!-- ============ ALLOWANCE ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_limit" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/config_card_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <EditText
+                android:id="@+id/limit_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@null"
+                style="@style/Body"
+                android:gravity="center"
+                android:hint="@string/limit_hint_zero"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal"
+                android:maxLength="6"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_tertiary"
+                android:textCursorDrawable="@null"
+                android:textSize="30sp"
+                tools:ignore="LabelFor" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="12dp"
+                style="@style/Body"
+                android:letterSpacing="0.1"
+                android:text="@string/config_limit_suffix"
+                android:textColor="@color/text_secondary"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_limit_hint" />
+
+        <!-- ============ INDICATOR ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_alert" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/style_dot"
+                style="@style/Chip"
+                android:text="@string/config_style_dot" />
+
+            <TextView
+                android:id="@+id/style_ring"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_style_ring" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/style_value"
+                style="@style/Chip"
+                android:text="@string/config_style_value" />
+
+            <TextView
+                android:id="@+id/style_card"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_style_card" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_alert_hint" />
+
+        <!-- ============ THRESHOLD ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_threshold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/config_card_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/threshold_minus"
+                style="@style/Stepper"
+                android:contentDescription="@string/cd_decrease"
+                android:text="@string/stepper_minus" />
+
+            <TextView
+                android:id="@+id/threshold_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                style="@style/Body"
+                android:gravity="center"
+                android:textColor="@color/text_primary"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/threshold_plus"
+                style="@style/Stepper"
+                android:contentDescription="@string/cd_increase"
+                android:text="@string/stepper_plus" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_threshold_hint" />
+
+        <!-- ============ COLOUR ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_color" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/color_red"
+                style="@style/Chip"
+                android:text="@string/config_color_red" />
+
+            <TextView
+                android:id="@+id/color_amber"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_color_amber" />
+
+            <TextView
+                android:id="@+id/color_white"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_color_white" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/done_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/config_button_bg"
+            style="@style/Accent"
+            android:gravity="center"
+            android:letterSpacing="0.14"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="@string/config_done"
+            android:textColor="@color/nt_black"
+            android:textSize="13sp" />
+
+        <TextView
+            style="@style/SectionHint"
+            android:layout_marginTop="20dp"
+            android:text="@string/config_add_widget" />
+    </LinearLayout>
+</ScrollView>

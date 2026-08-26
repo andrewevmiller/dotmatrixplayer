@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    One team in the priority queue.
+
+    The matrix on the left is the same mark the tile draws, at settings-screen
+    size - so the answer to "what will my team look like on the widget" is on
+    the screen where the team is chosen, rather than only after the widget has
+    been placed.
+
+    The two arrows are how the queue is reordered. A drag handle would be the
+    modern reflex and it is the wrong tool here: this list is inside a
+    ScrollView, so a long-press drag has to fight the scroll for the gesture,
+    and the list is three or four rows long. Two buttons are unambiguous and
+    reachable one-handed.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/score_config_card_bg"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="14dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="8dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/row_glyph"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:contentDescription="@null"
+        android:scaleType="fitCenter" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/row_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            style="@style/ScoreBody"
+            android:maxLines="1"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/row_league"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            style="@style/ScoreBody"
+            android:letterSpacing="0.12"
+            android:textColor="@color/text_tertiary"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+    <!--
+        The three controls are drawables, not characters.
+
+        NType 82 has no arrow glyphs at all - U+2191 and U+2193 are simply not
+        in it - so an arrow set in the Accent face renders as a missing-glyph
+        box. Drawing them also means these buttons do not depend on the coverage
+        of whichever face a typographic role happens to point at, which is not a
+        property a control should have.
+    -->
+    <ImageView
+        android:id="@+id/row_up"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:contentDescription="@string/cd_move_up"
+        android:padding="5dp"
+        android:src="@drawable/score_ic_move_up" />
+
+    <ImageView
+        android:id="@+id/row_down"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:contentDescription="@string/cd_move_down"
+        android:padding="5dp"
+        android:src="@drawable/score_ic_move_down" />
+
+    <ImageView
+        android:id="@+id/row_remove"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:contentDescription="@string/config_remove"
+        android:padding="5dp"
+        android:src="@drawable/ic_remove" />
+</LinearLayout>

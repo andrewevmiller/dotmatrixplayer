@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Static preview for launchers that predate previewLayout (API < 31).
+     Drawn 1:1 against the 320 x 180dp cell so proportions match the real thing. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="VectorRaster"
+    android:width="320dp" android:height="180dp"
+    android:viewportWidth="320" android:viewportHeight="180">
+
+    <path android:fillColor="#FF0B0B0B"
+        android:pathData="M26,0 h268 a26,26 0 0 1 26,26 v128 a26,26 0 0 1 -26,26 h-268 a26,26 0 0 1 -26,-26 v-128 a26,26 0 0 1 26,-26 z" />
+
+    <!-- album art -->
+    <path android:fillColor="#FF1A1A1A"
+        android:pathData="M28,28 h84 v84 h-84 z" />
+    <path android:fillColor="#FF3A3A3A"
+        android:pathData="M62,50 l22,-4 v26 a8,8 0 1 1 -4,-6 v-14 l-14,3 v22 a8,8 0 1 1 -4,-6 z" />
+
+    <!-- live dot + label -->
+    <path android:fillColor="#FFC8102E" android:pathData="M126,32 m-3,0 a3,3 0 1 0 6,0 a3,3 0 1 0 -6,0" />
+    <path android:fillColor="#66FFFFFF" android:pathData="M136,30 h60 v4 h-60 z" />
+
+    <!-- title / artist -->
+    <path android:fillColor="#FFFFFFFF" android:pathData="M126,48 h140 v11 h-140 z" />
+    <path android:fillColor="#66FFFFFF" android:pathData="M126,66 h92 v7 h-92 z" />
+
+    <!-- progress: filled run, playhead, remainder -->
+    <path android:fillColor="#FFFFFFFF" android:pathData="M126,88 h74 v3 h-74 z" />
+    <path android:fillColor="#FFC8102E" android:pathData="M199,84 h3 v11 h-3 z" />
+    <path android:fillColor="#33FFFFFF" android:pathData="M204,88 h88 v3 h-88 z" />
+
+    <!-- transport row -->
+    <path android:fillColor="#FFFFFFFF" android:pathData="M74,133 L64,140 L74,147 Z M60,133 h3 v14 h-3 z" />
+    <path android:fillColor="#33FFFFFF"
+        android:pathData="M160,120 m-20,20 a20,20 0 1 0 40,0 a20,20 0 1 0 -40,0 z M160,124 m-16,16 a16,16 0 1 0 32,0 a16,16 0 1 0 -32,0 z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M155,133 h4 v14 h-4 z M162,133 h4 v14 h-4 z" />
+    <path android:fillColor="#FFFFFFFF" android:pathData="M246,133 L256,140 L246,147 Z M258,133 h3 v14 h-3 z" />
+</vector>

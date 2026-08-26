@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The widget is deliberately dark in both themes: Nothing's media
+         surface is always the black card. Only the setup screen follows
+         the system theme. -->
+    <color name="widget_surface">#FF1B1B1B</color>
+</resources>

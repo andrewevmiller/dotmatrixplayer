@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Sixteen invisible tap targets, laid edge to edge over the progress bar.
+
+    A RemoteViews tree receives no touch events of its own, so there is no way
+    to read an x-coordinate off a drag. Scrubbing is therefore quantised: each
+    region carries the fraction of the track it sits over, and tapping it seeks
+    there. Sixteen steps over a ~210dp bar is a ~13dp target - comfortably
+    tappable, and fine enough that a four-minute song scrubs in 15s increments.
+
+    FrameLayout rather than the plain View these obviously want to be: RemoteViews
+    will only inflate classes annotated @RemoteView, and android.view.View is not
+    one of them. Inflating one throws "Class not allowed to be inflated" and the
+    launcher shows "Can't load widget" for the whole tile. An empty FrameLayout is
+    the lightest allowed stand-in - it draws nothing and holds no children.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/seek_strip"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <FrameLayout
+        android:id="@+id/seek_00"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_01"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_02"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_03"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_04"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_05"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_06"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_07"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_08"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_09"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_10"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_11"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_12"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_13"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_14"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+
+    <FrameLayout
+        android:id="@+id/seek_15"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:contentDescription="@string/cd_seek" />
+</LinearLayout>

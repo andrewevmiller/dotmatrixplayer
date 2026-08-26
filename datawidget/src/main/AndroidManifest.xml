@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+        PACKAGE_USAGE_STATS is signature-level, so this entry grants nothing on
+        its own - it is what puts the app in Settings > Special app access >
+        Usage access, where the user flips the appop that does. Declaring it is
+        the documented way to ask; lint flags it anyway because most apps that
+        name a signature permission are mistaken.
+    -->
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!-- Alarms do not survive a reboot, so the refresh has to be re-armed. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!--
+        No INTERNET, and no READ_PHONE_STATE. The stats query passes a null
+        subscriberId, which from Android Q means "every subscriber on this
+        device" and needs no phone-state permission - and is the only value a
+        non-carrier app can pass anyway, since getSubscriberId() went behind
+        carrier privileges in the same release.
+    -->
+
+    <!--
+        A library manifest, merged into :app.
+
+        No <application> attributes here on purpose. icon, label, theme,
+        allowBackup and the two backup-rule resources are app identity, and
+        :app owns them - restating them in a library either loses the merge or
+        needs a tools:replace that would silently override the app. What is
+        left is the components, which is all a library has to contribute.
+
+        The activity below therefore names its own theme, which it used to
+        inherit from the <application> tag.
+    -->
+    <application>
+
+        <activity
+            android:name="com.dotgrid.datawidget.ConfigActivity"
+            android:exported="true"
+            android:label="@string/data_config_title"
+            android:theme="@style/Theme.DotMatrixData"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <!-- No MAIN/LAUNCHER filter any more. The combined app has one
+                 launcher entry - :app SetupActivity - which links here; four
+                 icons in the app drawer for one installed app is not what a
+                 single package should look like. Still reached from a tap on
+                 the tile and from the widget's own reconfigure entry. -->
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name="com.dotgrid.datawidget.DataWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/data_widget_info" />
+        </receiver>
+
+        <!--
+            Exported because the system is the sender: BOOT_COMPLETED and
+            MY_PACKAGE_REPLACED are both delivered from outside the app. Neither
+            action can be forged by another app - the system holds them.
+        -->
+        <receiver
+            android:name="com.dotgrid.datawidget.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+</manifest>

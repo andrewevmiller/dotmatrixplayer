@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        5 x 3 tile: the grid minimum is 320 x 180dp. 12dp padding leaves a
+        296 x 156dp content area, spent as 94 (artwork) + 20 (scrub row, 12 + 8
+        margin) + 42 (transport, 36 + 6 margin).
+    -->
+    <dimen name="widget_padding">12dp</dimen>
+    <dimen name="art_size">94dp</dimen>
+    <dimen name="art_gap">12dp</dimen>
+    <dimen name="control_size">36dp</dimen>
+    <dimen name="progress_height">12dp</dimen>
+
+    <!--
+        5 x 2 / 4 x 2 tile: 110dp tall, so 8dp padding leaves 94dp. Artwork takes
+        86 of it down the left; the column beside it needs 87dp for title,
+        artist, scrub and transport.
+    -->
+    <dimen name="art_size_compact">86dp</dimen>
+    <dimen name="control_size_compact">30dp</dimen>
+    <dimen name="progress_height_compact">10dp</dimen>
+</resources>

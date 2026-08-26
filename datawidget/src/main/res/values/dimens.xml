@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        2 x 2 tile. The launcher grid gives 70dp per cell less 30dp of gutter,
+        so two cells are 110 x 110dp. 10dp of padding leaves a 90dp square,
+        which is the whole budget: the arc is drawn into it and the three lines
+        of readout sit inside the arc.
+    -->
+    <dimen name="data_widget_padding">10dp</dimen>
+
+    <!-- The corner dot, when the over-limit indicator is set to show one. -->
+    <dimen name="alert_dot">7dp</dimen>
+</resources>

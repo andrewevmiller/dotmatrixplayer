@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <!-- The app's own name, so NDot is correct here per Nothing's
+             guidelines: Dot55/57 is scoped to product names and the
+             logotype, everything else in this screen is NType82. Set in
+             caps because Ndot 57 Aligned's lowercase sits on a fixed
+             advance that reads as mis-spaced.
+             No letterSpacing: the guideline fixes NDot's advance at
+             "VA is set to >0<" and forbids manual tracking on it. -->
+        <TextView
+            android:id="@+id/headline_dots"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/ndot57_aligned"
+            android:text="@string/setup_headline"
+            android:textAllCaps="true"
+            android:textColor="@color/text_primary"
+            android:textSize="22sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:lineSpacingExtra="5sp"
+            style="@style/Body"
+            android:text="@string/setup_body"
+            android:textColor="@color/text_secondary"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:background="@drawable/setup_card_bg"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="18dp">
+
+            <ImageView
+                android:id="@+id/status_dot"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:contentDescription="@null"
+                android:src="@drawable/live_dot" />
+
+            <!-- Status copy, not a product name - NType82 is the guideline's
+                 general-purpose face; NDot is reserved for the headline above. -->
+            <TextView
+                android:id="@+id/status_dots"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                style="@style/Accent"
+                android:text="@string/setup_status_off"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/grant_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/setup_button_bg"
+            android:gravity="center"
+            style="@style/Accent"
+            android:letterSpacing="0.1"
+            android:paddingTop="17dp"
+            android:paddingBottom="17dp"
+            android:text="@string/setup_grant"
+            android:textColor="@color/nt_black"
+            android:textSize="13sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:lineSpacingExtra="4sp"
+            style="@style/Accent"
+            android:text="@string/setup_add_widget"
+            android:textColor="@color/text_tertiary"
+            android:textSize="13sp" />
+
+        <!-- Which app's session wins the idle fallback when more than one has
+             something recent to show. Tappable card, same treatment as the
+             connection status card above. -->
+        <LinearLayout
+            android:id="@+id/idle_pref_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/setup_card_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Accent"
+                android:text="@string/setup_idle_pref_title"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/idle_pref_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                style="@style/Body"
+                android:text="@string/setup_idle_pref_none"
+                android:textColor="@color/text_secondary"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="3sp"
+                style="@style/Body"
+                android:text="@string/setup_idle_pref_body"
+                android:textColor="@color/text_tertiary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Carousel order. Populated at runtime from the media apps on the
+             device; each row carries its own move keys. Framework views only,
+             so no RecyclerView and no drag handle - the up/down keys are the
+             whole interaction. -->
+        <LinearLayout
+            android:id="@+id/source_order_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/setup_card_bg"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    style="@style/Accent"
+                    android:text="@string/setup_order_title"
+                    android:textColor="@color/text_primary"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/source_order_reset"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Accent"
+                    android:letterSpacing="0.08"
+                    android:paddingStart="12dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="0dp"
+                    android:paddingBottom="6dp"
+                    android:text="@string/setup_order_reset"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="11sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:lineSpacingExtra="3sp"
+                style="@style/Body"
+                android:text="@string/setup_order_body"
+                android:textColor="@color/text_tertiary"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/source_order_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical" />
+
+            <TextView
+                android:id="@+id/source_order_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                style="@style/Accent"
+                android:text="@string/setup_order_empty"
+                android:textColor="@color/text_tertiary"
+                android:textSize="12sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <!-- The rest of the package. One installed app carries four tiles, and
+             only this screen is in the launcher, so it is the way to the other
+             three settings screens. Rows are wired in SetupActivity. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/setup_card_bg"
+            android:orientation="vertical"
+            android:padding="18dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/Accent"
+                android:text="@string/setup_other_widgets_title"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:lineSpacingExtra="3sp"
+                style="@style/Body"
+                android:text="@string/setup_other_widgets_body"
+                android:textColor="@color/text_tertiary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/open_data_config"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/setup_button_bg"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                style="@style/Accent"
+                android:letterSpacing="0.1"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="@string/setup_open_data"
+                android:textColor="@color/nt_black"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/open_score_config"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/setup_button_bg"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                style="@style/Accent"
+                android:letterSpacing="0.1"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="@string/setup_open_score"
+                android:textColor="@color/nt_black"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/open_health_config"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/setup_button_bg"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                style="@style/Accent"
+                android:letterSpacing="0.1"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:text="@string/setup_open_health"
+                android:textColor="@color/nt_black"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- A live render of the widget, so the setup screen shows the thing
+             being set up rather than describing it. -->
+        <FrameLayout
+            android:id="@+id/preview_host"
+            android:layout_width="320dp"
+            android:layout_height="180dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="32dp" />
+    </LinearLayout>
+</ScrollView>

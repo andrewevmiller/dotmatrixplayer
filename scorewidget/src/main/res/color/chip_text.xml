@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A selected chip is a white pill, so its label has to invert to stay on it. -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_selected="true" android:color="@color/nt_black" />
+    <item android:color="@color/text_secondary" />
+</selector>

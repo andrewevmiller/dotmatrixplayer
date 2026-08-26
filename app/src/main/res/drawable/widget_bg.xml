@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Fill only, no stroke.
+
+    The outer card hairline was removed from every tile in this family
+    deliberately - the near-black fill against the corner radius does the
+    "this is a card" work on its own, and the sibling data and score tiles
+    carry no outline either. Do not reinstate it from the card-hairline
+    paragraph in docs/BRAND_LANGUAGE.md; that paragraph is stale.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/widget_surface" />
+    <corners android:radius="26dp" />
+</shape>
