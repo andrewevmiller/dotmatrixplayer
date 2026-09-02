@@ -279,15 +279,15 @@ object WidgetRenderer {
 
         // ---- the two small lines ----------------------------------------
         val lineA = when {
-            !snapshot.sdkAvailable -> context.getString(R.string.no_sdk_line)
-            !reading.granted -> context.getString(R.string.no_access_line)
+            !snapshot.sdkAvailable -> context.getString(R.string.healthwidget_no_sdk_line)
+            !reading.granted -> context.getString(R.string.healthwidget_no_access_line)
             else -> Metrics.goalLine(context, metric, snapshot.prefs)
                 ?: Metrics.label(context, metric)
         }
 
         val lineB = when {
-            !snapshot.sdkAvailable -> context.getString(R.string.no_sdk_hint)
-            !reading.granted -> context.getString(R.string.no_access_hint)
+            !snapshot.sdkAvailable -> context.getString(R.string.healthwidget_no_sdk_hint)
+            !reading.granted -> context.getString(R.string.healthwidget_no_access_hint)
             else -> secondLine(context, snapshot, metric)
         }
 
@@ -349,11 +349,11 @@ object WidgetRenderer {
             val reading = snapshot.reading(other)
             val label = Metrics.label(context, other)
             if (!reading.granted) {
-                return context.getString(R.string.pair_format, label,
-                    context.getString(R.string.no_access_line))
+                return context.getString(R.string.healthwidget_pair_format, label,
+                    context.getString(R.string.healthwidget_no_access_line))
             }
             val (value, _) = Metrics.format(context, other, reading)
-            return context.getString(R.string.pair_format, label, value)
+            return context.getString(R.string.healthwidget_pair_format, label, value)
         }
         return stamp(snapshot.readAt)
     }
@@ -423,14 +423,14 @@ object WidgetRenderer {
         views.setImageViewBitmap(
             R.id.header_title,
             TextRenderer.render(
-                context, context.getString(R.string.widget_title), Typography.ACCENT,
+                context, context.getString(R.string.healthwidget_widget_title), Typography.ACCENT,
                 sp(HEADER_SP), white, LINE_TRACKING
             )
         )
 
         val stampText = when {
-            !snapshot.sdkAvailable -> context.getString(R.string.no_sdk_hint)
-            snapshot.noAccess -> context.getString(R.string.no_access_hint)
+            !snapshot.sdkAvailable -> context.getString(R.string.healthwidget_no_sdk_hint)
+            snapshot.noAccess -> context.getString(R.string.healthwidget_no_access_hint)
             else -> stamp(snapshot.readAt)
         }
         // A sync time is a clock, and the fallback text is a status line - both
@@ -523,8 +523,8 @@ object WidgetRenderer {
                     TextRenderer.render(
                         context,
                         context.getString(
-                            if (snapshot.sdkAvailable) R.string.no_access_line
-                            else R.string.no_sdk_line
+                            if (snapshot.sdkAvailable) R.string.healthwidget_no_access_line
+                            else R.string.healthwidget_no_sdk_line
                         ),
                         Typography.ACCENT,
                         sp(ROW_LABEL_SP), snapshot.accentColor, LINE_TRACKING,

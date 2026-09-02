@@ -27,7 +27,7 @@
         android:id="@+id/meter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/cd_meter"
+        android:contentDescription="@string/datawidget_cd_meter"
         android:scaleType="fitCenter" />
 
     <!--
@@ -47,7 +47,7 @@
             android:id="@+id/usage_readout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/cd_widget" />
+            android:contentDescription="@string/datawidget_cd_widget" />
 
         <ImageView
             android:id="@+id/limit_line"
@@ -80,7 +80,7 @@
         android:layout_width="@dimen/alert_dot"
         android:layout_height="@dimen/alert_dot"
         android:layout_gravity="top|end"
-        android:contentDescription="@string/cd_alert"
+        android:contentDescription="@string/datawidget_cd_alert"
         android:src="@drawable/alert_dot"
         android:visibility="gone" />
 

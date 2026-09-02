@@ -4,6 +4,7 @@ plugins {
 
 android {
     namespace = "com.dotgrid.scorewidget"
+    resourcePrefix = "scorewidget_"
     compileSdk = 36
 
     defaultConfig {

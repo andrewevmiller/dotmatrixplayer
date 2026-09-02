@@ -105,7 +105,7 @@ class ConfigActivity : ComponentActivity() {
         // immediately from then on, which looks identical to a button that does
         // nothing. Say so, and point at the screen that still works.
         if (granted.isEmpty()) {
-            Toast.makeText(this, R.string.config_permissions_denied, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.healthwidget_config_permissions_denied, Toast.LENGTH_LONG).show()
         }
         reload()
     }
@@ -293,7 +293,7 @@ class ConfigActivity : ComponentActivity() {
                     // Allowed anyway - the tile falls back to this screen - but
                     // said out loud, because a tap target that silently does
                     // something else is worse than one that warned you.
-                    Toast.makeText(this, R.string.config_tap_missing, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, R.string.healthwidget_config_tap_missing, Toast.LENGTH_SHORT).show()
                 }
                 prefs = prefs.copy(tapTarget = target)
                 persist()
@@ -359,10 +359,10 @@ class ConfigActivity : ComponentActivity() {
 
         statusLabel.setText(
             when {
-                !sdkAvailable -> R.string.config_status_missing
-                held == 0 -> R.string.config_status_off
-                held < wanted.size || !backgroundHeld -> R.string.config_status_partial
-                else -> R.string.config_status_on
+                !sdkAvailable -> R.string.healthwidget_config_status_missing
+                held == 0 -> R.string.healthwidget_config_status_off
+                held < wanted.size || !backgroundHeld -> R.string.healthwidget_config_status_partial
+                else -> R.string.healthwidget_config_status_on
             }
         )
         // The dot is the one place on this screen that is not monochrome, so it
@@ -375,9 +375,9 @@ class ConfigActivity : ComponentActivity() {
 
         grantButton.setText(
             when {
-                !sdkAvailable -> R.string.config_install
-                held == wanted.size && backgroundHeld -> R.string.config_granted
-                else -> R.string.health_config_grant
+                !sdkAvailable -> R.string.healthwidget_config_install
+                held == wanted.size && backgroundHeld -> R.string.healthwidget_config_granted
+                else -> R.string.healthwidget_health_config_grant
             }
         )
         val nothingLeftToAsk = sdkAvailable && held == wanted.size && backgroundHeld
@@ -426,7 +426,7 @@ class ConfigActivity : ComponentActivity() {
         colorChips.forEach { (choice, chip) -> paintColorChip(chip, choice) }
 
         stepsGoalValue.text = if (prefs.stepsGoal <= 0) {
-            getString(R.string.value_unknown)
+            getString(R.string.healthwidget_value_unknown)
         } else {
             // Locale.US for the figures: they are set in Geist (StepperValue
             // is Body - it's the figure being edited, not a control), and a
@@ -435,11 +435,11 @@ class ConfigActivity : ComponentActivity() {
             String.format(Locale.US, "%,d", prefs.stepsGoal)
         }
         sleepGoalValue.text = if (prefs.sleepGoalMinutes <= 0) {
-            getString(R.string.value_unknown)
+            getString(R.string.healthwidget_value_unknown)
         } else {
             String.format(
                 Locale.US,
-                getString(R.string.config_sleep_goal_format),
+                getString(R.string.healthwidget_config_sleep_goal_format),
                 prefs.sleepGoalMinutes / 60,
                 prefs.sleepGoalMinutes % 60
             )
@@ -565,7 +565,7 @@ class ConfigActivity : ComponentActivity() {
         ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         runCatching { startActivity(web) }.onFailure {
             if (it is ActivityNotFoundException) {
-                Toast.makeText(this, R.string.config_store_missing, Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.healthwidget_config_store_missing, Toast.LENGTH_LONG).show()
             } else {
                 throw it
             }
@@ -590,10 +590,10 @@ class ConfigActivity : ComponentActivity() {
     private fun showWidgetMenu(anchor: android.view.View) {
         val popup = PopupMenu(this, anchor)
         val entries = listOf(
-            Triple(getString(R.string.menu_media_player), "com.dotgrid.mediawidget.SetupActivity", 0),
-            Triple(getString(R.string.menu_data_widget), "com.dotgrid.datawidget.ConfigActivity", 1),
-            Triple(getString(R.string.menu_score_widget), "com.dotgrid.scorewidget.ConfigActivity", 2),
-            Triple(getString(R.string.health_config_title), null, 3)
+            Triple(getString(R.string.healthwidget_menu_media_player), "com.dotgrid.mediawidget.SetupActivity", 0),
+            Triple(getString(R.string.healthwidget_menu_data_widget), "com.dotgrid.datawidget.ConfigActivity", 1),
+            Triple(getString(R.string.healthwidget_menu_score_widget), "com.dotgrid.scorewidget.ConfigActivity", 2),
+            Triple(getString(R.string.healthwidget_health_config_title), null, 3)
         )
         entries.forEach { (label, className, id) ->
             if (className == null || resolveConfigIntent(className) != null) {
@@ -617,7 +617,7 @@ class ConfigActivity : ComponentActivity() {
         try {
             startActivity(Intent().setComponent(ComponentName(packageName, className)))
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(this, R.string.menu_settings_missing, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.healthwidget_menu_settings_missing, Toast.LENGTH_LONG).show()
         }
     }
 

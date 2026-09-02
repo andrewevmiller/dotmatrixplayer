@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/ndot57_aligned"
-                android:text="@string/health_config_headline"
+                android:text="@string/healthwidget_health_config_headline"
                 android:textAllCaps="true"
                 android:textColor="@color/text_primary"
                 android:textSize="24sp" />
@@ -71,7 +71,7 @@
                 android:layout_marginStart="8dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:contentDescription="@string/menu_content_description"
+                android:contentDescription="@string/healthwidget_menu_content_description"
                 android:focusable="true"
                 android:padding="8dp"
                 android:src="@drawable/ic_menu" />
@@ -121,7 +121,7 @@
                 android:layout_marginStart="8dp"
                 android:fontFamily="@font/ntype82"
                 android:letterSpacing="0.16"
-                android:text="@string/config_status_off"
+                android:text="@string/healthwidget_config_status_off"
                 android:textColor="@color/text_secondary"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -134,14 +134,14 @@
             android:layout_marginTop="18dp"
             android:fontFamily="@font/geist"
             android:lineSpacingExtra="4dp"
-            android:text="@string/health_config_body"
+            android:text="@string/healthwidget_health_config_body"
             android:textColor="@color/text_secondary"
             android:textSize="13sp" />
 
         <!-- ============ PERMISSIONS ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_permissions" />
+            android:text="@string/healthwidget_config_section_permissions" />
 
         <TextView
             android:id="@+id/grant_button"
@@ -163,19 +163,19 @@
             <TextView
                 android:id="@+id/metric_steps"
                 style="@style/Chip"
-                android:text="@string/metric_steps" />
+                android:text="@string/healthwidget_metric_steps" />
 
             <TextView
                 android:id="@+id/metric_sleep"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/metric_sleep" />
+                android:text="@string/healthwidget_metric_sleep" />
 
             <TextView
                 android:id="@+id/metric_heart"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/metric_heart" />
+                android:text="@string/healthwidget_metric_heart" />
         </LinearLayout>
 
         <LinearLayout style="@style/ChipRow">
@@ -183,30 +183,30 @@
             <TextView
                 android:id="@+id/metric_oxygen"
                 style="@style/Chip"
-                android:text="@string/metric_oxygen" />
+                android:text="@string/healthwidget_metric_oxygen" />
 
             <TextView
                 android:id="@+id/metric_breath"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/metric_breath" />
+                android:text="@string/healthwidget_metric_breath" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_permissions_hint" />
+            android:text="@string/healthwidget_config_permissions_hint" />
 
         <LinearLayout style="@style/ChipRow">
 
             <TextView
                 android:id="@+id/chip_background"
                 style="@style/Chip"
-                android:text="@string/config_background" />
+                android:text="@string/healthwidget_config_background" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_background_hint" />
+            android:text="@string/healthwidget_config_background_hint" />
 
         <TextView
             android:id="@+id/manage_button"
@@ -219,27 +219,27 @@
             android:letterSpacing="0.14"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="@string/config_manage"
+            android:text="@string/healthwidget_config_manage"
             android:textColor="@color/text_primary"
             android:textSize="13sp" />
 
         <!-- ============ SLEEP READING ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_sleep" />
+            android:text="@string/healthwidget_config_section_sleep" />
 
         <LinearLayout style="@style/ChipRow">
 
             <TextView
                 android:id="@+id/sleep_asleep"
                 style="@style/Chip"
-                android:text="@string/config_sleep_asleep" />
+                android:text="@string/healthwidget_config_sleep_asleep" />
 
             <TextView
                 android:id="@+id/sleep_in_bed"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_sleep_in_bed" />
+                android:text="@string/healthwidget_config_sleep_in_bed" />
         </LinearLayout>
 
         <LinearLayout style="@style/ChipRow">
@@ -247,83 +247,83 @@
             <TextView
                 android:id="@+id/sleep_restful"
                 style="@style/Chip"
-                android:text="@string/config_sleep_restful" />
+                android:text="@string/healthwidget_config_sleep_restful" />
 
             <TextView
                 android:id="@+id/sleep_deep"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_sleep_deep" />
+                android:text="@string/healthwidget_config_sleep_deep" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_sleep_mode_hint" />
+            android:text="@string/healthwidget_config_sleep_mode_hint" />
 
         <!-- ============ SLEEP WINDOW ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_sleep_window" />
+            android:text="@string/healthwidget_config_section_sleep_window" />
 
         <LinearLayout style="@style/ChipRow">
 
             <TextView
                 android:id="@+id/window_night"
                 style="@style/Chip"
-                android:text="@string/config_window_night" />
+                android:text="@string/healthwidget_config_window_night" />
 
             <TextView
                 android:id="@+id/window_24h"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_window_24h" />
+                android:text="@string/healthwidget_config_window_24h" />
 
             <TextView
                 android:id="@+id/window_today"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_window_today" />
+                android:text="@string/healthwidget_config_window_today" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_window_hint" />
+            android:text="@string/healthwidget_config_window_hint" />
 
         <!-- ============ UNSTAGED SESSIONS ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_unstaged" />
+            android:text="@string/healthwidget_config_section_unstaged" />
 
         <LinearLayout style="@style/ChipRow">
 
             <TextView
                 android:id="@+id/unstaged_count"
                 style="@style/Chip"
-                android:text="@string/config_unstaged_count" />
+                android:text="@string/healthwidget_config_unstaged_count" />
 
             <TextView
                 android:id="@+id/unstaged_ignore"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_unstaged_ignore" />
+                android:text="@string/healthwidget_config_unstaged_ignore" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_unstaged_hint" />
+            android:text="@string/healthwidget_config_unstaged_hint" />
 
         <!-- ============ STEP GOAL ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_steps_goal" />
+            android:text="@string/healthwidget_config_section_steps_goal" />
 
         <LinearLayout style="@style/StepperRow">
 
             <TextView
                 android:id="@+id/steps_goal_minus"
                 style="@style/Stepper"
-                android:contentDescription="@string/cd_decrease"
-                android:text="@string/stepper_minus" />
+                android:contentDescription="@string/healthwidget_cd_decrease"
+                android:text="@string/healthwidget_stepper_minus" />
 
             <TextView
                 android:id="@+id/steps_goal_value"
@@ -332,26 +332,26 @@
             <TextView
                 android:id="@+id/steps_goal_plus"
                 style="@style/Stepper"
-                android:contentDescription="@string/cd_increase"
-                android:text="@string/stepper_plus" />
+                android:contentDescription="@string/healthwidget_cd_increase"
+                android:text="@string/healthwidget_stepper_plus" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_steps_goal_hint" />
+            android:text="@string/healthwidget_config_steps_goal_hint" />
 
         <!-- ============ SLEEP GOAL ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_sleep_goal" />
+            android:text="@string/healthwidget_config_section_sleep_goal" />
 
         <LinearLayout style="@style/StepperRow">
 
             <TextView
                 android:id="@+id/sleep_goal_minus"
                 style="@style/Stepper"
-                android:contentDescription="@string/cd_decrease"
-                android:text="@string/stepper_minus" />
+                android:contentDescription="@string/healthwidget_cd_decrease"
+                android:text="@string/healthwidget_stepper_minus" />
 
             <TextView
                 android:id="@+id/sleep_goal_value"
@@ -361,37 +361,37 @@
             <TextView
                 android:id="@+id/sleep_goal_plus"
                 style="@style/Stepper"
-                android:contentDescription="@string/cd_increase"
-                android:text="@string/stepper_plus" />
+                android:contentDescription="@string/healthwidget_cd_increase"
+                android:text="@string/healthwidget_stepper_plus" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_sleep_goal_hint" />
+            android:text="@string/healthwidget_config_sleep_goal_hint" />
 
         <!-- ============ DIAL SHOWS ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_primary" />
+            android:text="@string/healthwidget_config_section_primary" />
 
         <LinearLayout style="@style/ChipRow">
 
             <TextView
                 android:id="@+id/primary_steps"
                 style="@style/Chip"
-                android:text="@string/metric_steps" />
+                android:text="@string/healthwidget_metric_steps" />
 
             <TextView
                 android:id="@+id/primary_sleep"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/metric_sleep" />
+                android:text="@string/healthwidget_metric_sleep" />
 
             <TextView
                 android:id="@+id/primary_heart"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/metric_heart" />
+                android:text="@string/healthwidget_metric_heart" />
         </LinearLayout>
 
         <LinearLayout style="@style/ChipRow">
@@ -399,36 +399,36 @@
             <TextView
                 android:id="@+id/primary_oxygen"
                 style="@style/Chip"
-                android:text="@string/metric_oxygen" />
+                android:text="@string/healthwidget_metric_oxygen" />
 
             <TextView
                 android:id="@+id/primary_breath"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/metric_breath" />
+                android:text="@string/healthwidget_metric_breath" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_primary_hint" />
+            android:text="@string/healthwidget_config_primary_hint" />
 
         <!-- ============ GOAL INDICATOR ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/health_config_section_accent" />
+            android:text="@string/healthwidget_health_config_section_accent" />
 
         <LinearLayout style="@style/ChipRow">
 
             <TextView
                 android:id="@+id/style_dot"
                 style="@style/Chip"
-                android:text="@string/config_style_dot" />
+                android:text="@string/healthwidget_config_style_dot" />
 
             <TextView
                 android:id="@+id/style_ring"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_style_ring" />
+                android:text="@string/healthwidget_config_style_ring" />
         </LinearLayout>
 
         <LinearLayout style="@style/ChipRow">
@@ -436,72 +436,72 @@
             <TextView
                 android:id="@+id/style_value"
                 style="@style/Chip"
-                android:text="@string/config_style_value" />
+                android:text="@string/healthwidget_config_style_value" />
 
             <TextView
                 android:id="@+id/style_card"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_style_card" />
+                android:text="@string/healthwidget_config_style_card" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_accent_hint" />
+            android:text="@string/healthwidget_config_accent_hint" />
 
         <!-- ============ COLOUR ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_color" />
+            android:text="@string/healthwidget_config_section_color" />
 
         <LinearLayout style="@style/ChipRow">
 
             <TextView
                 android:id="@+id/color_red"
                 style="@style/Chip"
-                android:text="@string/config_color_red" />
+                android:text="@string/healthwidget_config_color_red" />
 
             <TextView
                 android:id="@+id/color_amber"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/health_config_color_amber" />
+                android:text="@string/healthwidget_health_config_color_amber" />
 
             <TextView
                 android:id="@+id/color_white"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_color_white" />
+                android:text="@string/healthwidget_config_color_white" />
         </LinearLayout>
 
         <!-- ============ TAP OPENS ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_tap" />
+            android:text="@string/healthwidget_config_section_tap" />
 
         <LinearLayout style="@style/ChipRow">
 
             <TextView
                 android:id="@+id/tap_settings"
                 style="@style/Chip"
-                android:text="@string/config_tap_settings" />
+                android:text="@string/healthwidget_config_tap_settings" />
 
             <TextView
                 android:id="@+id/tap_health"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_tap_health" />
+                android:text="@string/healthwidget_config_tap_health" />
 
             <TextView
                 android:id="@+id/tap_fitbit"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_tap_fitbit" />
+                android:text="@string/healthwidget_config_tap_fitbit" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_tap_hint" />
+            android:text="@string/healthwidget_config_tap_hint" />
 
         <TextView
             android:id="@+id/done_button"
@@ -514,13 +514,13 @@
             android:letterSpacing="0.14"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="@string/config_done"
+            android:text="@string/healthwidget_config_done"
             android:textColor="@color/button_text"
             android:textSize="13sp" />
 
         <TextView
             style="@style/SectionHint"
             android:layout_marginTop="20dp"
-            android:text="@string/health_config_add_widget" />
+            android:text="@string/healthwidget_health_config_add_widget" />
     </LinearLayout>
 </ScrollView>

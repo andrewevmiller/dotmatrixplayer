@@ -350,12 +350,12 @@ class ConfigActivity : Activity() {
     private fun renderStatus() {
         val fetchedAt = GameRepository.fetchedAt(this)
         if (fetchedAt <= 0L) {
-            statusLabel.text = getString(R.string.config_status_never)
+            statusLabel.text = getString(R.string.scorewidget_config_status_never)
             statusDot.setImageResource(R.drawable.score_status_dot_off)
             return
         }
         val time = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(fetchedAt))
-        statusLabel.text = getString(R.string.config_status_updated, time)
+        statusLabel.text = getString(R.string.scorewidget_config_status_updated, time)
         statusDot.setImageResource(R.drawable.score_status_dot_on)
     }
 
@@ -482,10 +482,10 @@ class ConfigActivity : Activity() {
     private fun showWidgetMenu(anchor: View) {
         val popup = PopupMenu(this, anchor)
         val entries = listOf(
-            Triple(getString(R.string.menu_media_player), "com.dotgrid.mediawidget.SetupActivity", 0),
-            Triple(getString(R.string.menu_data_widget), "com.dotgrid.datawidget.ConfigActivity", 1),
-            Triple(getString(R.string.score_config_title), null, 2),
-            Triple(getString(R.string.menu_health_widget), "com.dotgrid.healthwidget.ConfigActivity", 3)
+            Triple(getString(R.string.scorewidget_menu_media_player), "com.dotgrid.mediawidget.SetupActivity", 0),
+            Triple(getString(R.string.scorewidget_menu_data_widget), "com.dotgrid.datawidget.ConfigActivity", 1),
+            Triple(getString(R.string.scorewidget_score_config_title), null, 2),
+            Triple(getString(R.string.scorewidget_menu_health_widget), "com.dotgrid.healthwidget.ConfigActivity", 3)
         )
         entries.forEach { (label, className, id) ->
             if (className == null || resolveConfigIntent(className) != null) {
@@ -509,7 +509,7 @@ class ConfigActivity : Activity() {
         try {
             startActivity(Intent().setComponent(ComponentName(packageName, className)))
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(this, R.string.menu_settings_missing, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.scorewidget_menu_settings_missing, Toast.LENGTH_LONG).show()
         }
     }
 

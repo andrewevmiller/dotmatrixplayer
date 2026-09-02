@@ -27,7 +27,7 @@
         android:id="@+id/away_glyph"
         android:layout_width="@dimen/banner_glyph"
         android:layout_height="@dimen/banner_glyph"
-        android:contentDescription="@string/cd_away_team"
+        android:contentDescription="@string/scorewidget_cd_away_team"
         android:scaleType="fitCenter" />
 
     <ImageView
@@ -49,7 +49,7 @@
         android:layout_width="@dimen/possession_dot"
         android:layout_height="@dimen/possession_dot"
         android:layout_marginStart="4dp"
-        android:contentDescription="@string/cd_possession"
+        android:contentDescription="@string/scorewidget_cd_possession"
         android:src="@drawable/possession_dot"
         android:visibility="gone" />
 
@@ -58,7 +58,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:contentDescription="@string/cd_score"
+        android:contentDescription="@string/scorewidget_cd_score"
         android:scaleType="fitCenter" />
 
     <ImageView
@@ -66,7 +66,7 @@
         android:layout_width="@dimen/possession_dot"
         android:layout_height="@dimen/possession_dot"
         android:layout_marginEnd="4dp"
-        android:contentDescription="@string/cd_possession"
+        android:contentDescription="@string/scorewidget_cd_possession"
         android:src="@drawable/possession_dot"
         android:visibility="gone" />
 
@@ -81,7 +81,7 @@
         android:id="@+id/home_glyph"
         android:layout_width="@dimen/banner_glyph"
         android:layout_height="@dimen/banner_glyph"
-        android:contentDescription="@string/cd_home_team"
+        android:contentDescription="@string/scorewidget_cd_home_team"
         android:scaleType="fitCenter" />
 
     <!--
@@ -103,7 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:contentDescription="@string/cd_clock" />
+            android:contentDescription="@string/scorewidget_cd_clock" />
 
         <ImageView
             android:id="@+id/context_line"
@@ -134,7 +134,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginStart="6dp"
-        android:contentDescription="@string/cd_next_game"
+        android:contentDescription="@string/scorewidget_cd_next_game"
         android:paddingStart="4dp"
         android:paddingEnd="2dp"
         android:scaleType="center"

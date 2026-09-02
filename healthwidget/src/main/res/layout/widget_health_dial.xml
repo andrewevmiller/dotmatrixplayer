@@ -29,7 +29,7 @@
         android:id="@+id/dial"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:contentDescription="@string/cd_dial"
+        android:contentDescription="@string/healthwidget_cd_dial"
         android:scaleType="fitCenter" />
 
     <!--
@@ -49,7 +49,7 @@
             android:id="@+id/readout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/health_cd_widget" />
+            android:contentDescription="@string/healthwidget_health_cd_widget" />
 
         <ImageView
             android:id="@+id/line_a"
@@ -81,7 +81,7 @@
         android:layout_width="@dimen/alert_dot"
         android:layout_height="@dimen/alert_dot"
         android:layout_gravity="top|end"
-        android:contentDescription="@string/cd_goal_met"
+        android:contentDescription="@string/healthwidget_cd_goal_met"
         android:src="@drawable/accent_dot"
         android:visibility="gone" />
 
@@ -119,6 +119,6 @@
         android:layout_height="18dp"
         android:layout_gravity="top|start"
         android:padding="3dp"
-        android:contentDescription="@string/cd_refresh_now"
+        android:contentDescription="@string/healthwidget_cd_refresh_now"
         android:src="@drawable/ic_refresh" />
 </FrameLayout>

@@ -64,7 +64,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/ndot57_aligned"
                 android:letterSpacing="0"
-                android:text="@string/score_config_headline"
+                android:text="@string/scorewidget_score_config_headline"
                 android:textAllCaps="true"
                 android:textColor="@color/text_primary"
                 android:textSize="24sp" />
@@ -78,7 +78,7 @@
                 android:layout_marginStart="8dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:contentDescription="@string/menu_content_description"
+                android:contentDescription="@string/scorewidget_menu_content_description"
                 android:focusable="true"
                 android:padding="8dp"
                 android:src="@drawable/ic_menu" />
@@ -114,7 +114,7 @@
                 android:layout_marginStart="8dp"
                 style="@style/ScoreAccent"
                 android:letterSpacing="0.14"
-                android:text="@string/config_status_never"
+                android:text="@string/scorewidget_config_status_never"
                 android:textColor="@color/text_secondary"
                 android:textSize="11sp" />
         </LinearLayout>
@@ -125,18 +125,18 @@
             android:layout_marginTop="18dp"
             style="@style/ScoreBody"
             android:lineSpacingExtra="4dp"
-            android:text="@string/score_config_body"
+            android:text="@string/scorewidget_score_config_body"
             android:textColor="@color/text_secondary"
             android:textSize="13sp" />
 
         <!-- ============ YOUR TEAMS ============ -->
         <TextView
             style="@style/ScoreSectionLabel"
-            android:text="@string/config_section_teams" />
+            android:text="@string/scorewidget_config_section_teams" />
 
         <TextView
             style="@style/ScoreSectionHint"
-            android:text="@string/config_section_teams_hint" />
+            android:text="@string/scorewidget_config_section_teams_hint" />
 
         <!--
             The priority queue, as a plain vertical container filled from code.
@@ -156,12 +156,12 @@
         <TextView
             android:id="@+id/favorites_empty"
             style="@style/ScoreSectionHint"
-            android:text="@string/config_empty_teams" />
+            android:text="@string/scorewidget_config_empty_teams" />
 
         <!-- ============ ADD A TEAM ============ -->
         <TextView
             style="@style/ScoreSectionLabel"
-            android:text="@string/config_section_add" />
+            android:text="@string/scorewidget_config_section_add" />
 
         <!-- League chips. Which league the picker below is showing. -->
         <LinearLayout
@@ -208,7 +208,7 @@
             android:autofillHints=""
             android:background="@drawable/score_config_field_bg"
             style="@style/ScoreBody"
-            android:hint="@string/config_search_hint"
+            android:hint="@string/scorewidget_config_search_hint"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:maxLines="1"
@@ -230,7 +230,7 @@
         <!-- ============ BEHAVIOUR ============ -->
         <TextView
             style="@style/ScoreSectionLabel"
-            android:text="@string/config_section_behaviour" />
+            android:text="@string/scorewidget_config_section_behaviour" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -241,7 +241,7 @@
 
             <TextView
                 style="@style/RowLabel"
-                android:text="@string/config_offseason" />
+                android:text="@string/scorewidget_config_offseason" />
 
             <TextView
                 android:id="@+id/toggle_offseason"
@@ -256,7 +256,7 @@
         <TextView
             style="@style/ScoreSectionHint"
             android:layout_marginTop="6dp"
-            android:text="@string/config_offseason_hint" />
+            android:text="@string/scorewidget_config_offseason_hint" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -267,7 +267,7 @@
 
             <TextView
                 style="@style/RowLabel"
-                android:text="@string/config_rivalries" />
+                android:text="@string/scorewidget_config_rivalries" />
 
             <TextView
                 android:id="@+id/toggle_rivalries"
@@ -282,7 +282,7 @@
         <TextView
             style="@style/ScoreSectionHint"
             android:layout_marginTop="6dp"
-            android:text="@string/config_rivalries_hint" />
+            android:text="@string/scorewidget_config_rivalries_hint" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -293,7 +293,7 @@
 
             <TextView
                 style="@style/RowLabel"
-                android:text="@string/config_win_probability" />
+                android:text="@string/scorewidget_config_win_probability" />
 
             <TextView
                 android:id="@+id/toggle_win_probability"
@@ -308,16 +308,16 @@
         <TextView
             style="@style/ScoreSectionHint"
             android:layout_marginTop="6dp"
-            android:text="@string/config_win_probability_hint" />
+            android:text="@string/scorewidget_config_win_probability_hint" />
 
         <!-- ============ ALERTS ============ -->
         <TextView
             style="@style/ScoreSectionLabel"
-            android:text="@string/config_section_alerts" />
+            android:text="@string/scorewidget_config_section_alerts" />
 
         <TextView
             style="@style/ScoreSectionHint"
-            android:text="@string/config_section_alerts_hint" />
+            android:text="@string/scorewidget_config_section_alerts_hint" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -329,34 +329,34 @@
                 android:id="@+id/alert_start"
                 style="@style/ScoreChip"
                 android:layout_marginEnd="6dp"
-                android:text="@string/config_alert_start" />
+                android:text="@string/scorewidget_config_alert_start" />
 
             <TextView
                 android:id="@+id/alert_close"
                 style="@style/ScoreChip"
                 android:layout_marginEnd="6dp"
-                android:text="@string/config_alert_close" />
+                android:text="@string/scorewidget_config_alert_close" />
 
             <TextView
                 android:id="@+id/alert_final"
                 style="@style/ScoreChip"
-                android:text="@string/config_alert_final" />
+                android:text="@string/scorewidget_config_alert_final" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/alert_denied"
             style="@style/ScoreSectionHint"
-            android:text="@string/config_notifications_denied"
+            android:text="@string/scorewidget_config_notifications_denied"
             android:visibility="gone" />
 
         <!-- ============ SIGNAL COLOUR ============ -->
         <TextView
             style="@style/ScoreSectionLabel"
-            android:text="@string/config_section_accent" />
+            android:text="@string/scorewidget_config_section_accent" />
 
         <TextView
             style="@style/ScoreSectionHint"
-            android:text="@string/config_section_accent_hint" />
+            android:text="@string/scorewidget_config_section_accent_hint" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -368,18 +368,18 @@
                 android:id="@+id/accent_red"
                 style="@style/ScoreChip"
                 android:layout_marginEnd="6dp"
-                android:text="@string/config_accent_red" />
+                android:text="@string/scorewidget_config_accent_red" />
 
             <TextView
                 android:id="@+id/accent_amber"
                 style="@style/ScoreChip"
                 android:layout_marginEnd="6dp"
-                android:text="@string/config_accent_amber" />
+                android:text="@string/scorewidget_config_accent_amber" />
 
             <TextView
                 android:id="@+id/accent_white"
                 style="@style/ScoreChip"
-                android:text="@string/config_accent_white" />
+                android:text="@string/scorewidget_config_accent_white" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

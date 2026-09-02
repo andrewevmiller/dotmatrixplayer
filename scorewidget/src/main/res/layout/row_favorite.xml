@@ -73,7 +73,7 @@
         android:id="@+id/row_up"
         android:layout_width="34dp"
         android:layout_height="34dp"
-        android:contentDescription="@string/cd_move_up"
+        android:contentDescription="@string/scorewidget_cd_move_up"
         android:padding="5dp"
         android:src="@drawable/score_ic_move_up" />
 
@@ -81,7 +81,7 @@
         android:id="@+id/row_down"
         android:layout_width="34dp"
         android:layout_height="34dp"
-        android:contentDescription="@string/cd_move_down"
+        android:contentDescription="@string/scorewidget_cd_move_down"
         android:padding="5dp"
         android:src="@drawable/score_ic_move_down" />
 
@@ -89,7 +89,7 @@
         android:id="@+id/row_remove"
         android:layout_width="34dp"
         android:layout_height="34dp"
-        android:contentDescription="@string/config_remove"
+        android:contentDescription="@string/scorewidget_config_remove"
         android:padding="5dp"
         android:src="@drawable/ic_remove" />
 </LinearLayout>

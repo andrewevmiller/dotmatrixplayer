@@ -245,7 +245,7 @@ object WidgetRenderer {
                 sizePx = sp(scoreSp),
                 awayColor = awayColor,
                 homeColor = homeColor,
-                separator = context.getString(R.string.score_separator),
+                separator = context.getString(R.string.scorewidget_score_separator),
                 separatorSizePx = sp(scoreSp) * 0.55f,
                 separatorColor = tertiary,
                 gapPx = sp(scoreSp) * 0.18f
@@ -377,7 +377,7 @@ object WidgetRenderer {
         if (game.isScheduled) {
             val start = game.startsAt ?: return ""
             val remaining = start - System.currentTimeMillis()
-            if (remaining <= 0) return context.getString(R.string.countdown_soon)
+            if (remaining <= 0) return context.getString(R.string.scorewidget_countdown_soon)
             if (remaining > TeamFilter.UPCOMING_WINDOW_MS) {
                 // Beyond a day out, a countdown in hours is noise - the game is
                 // tomorrow and the feed's own short status says which day.
@@ -387,9 +387,9 @@ object WidgetRenderer {
             val hours = totalMinutes / 60
             val minutes = totalMinutes % 60
             return if (hours > 0) {
-                context.getString(R.string.countdown_hours, hours, minutes)
+                context.getString(R.string.scorewidget_countdown_hours, hours, minutes)
             } else {
-                context.getString(R.string.countdown_minutes, max(1, minutes))
+                context.getString(R.string.scorewidget_countdown_minutes, max(1, minutes))
             }
         }
         return game.clockLine()
@@ -670,13 +670,13 @@ object WidgetRenderer {
         val allDark = hasFavorites && leagues.isNotEmpty() && leagues.none { it.inSeason() }
 
         val headline = when {
-            !hasFavorites -> context.getString(R.string.state_no_teams)
-            allDark -> context.getString(R.string.state_offseason)
-            else -> context.getString(R.string.state_no_games)
+            !hasFavorites -> context.getString(R.string.scorewidget_state_no_teams)
+            allDark -> context.getString(R.string.scorewidget_state_offseason)
+            else -> context.getString(R.string.scorewidget_state_no_games)
         }
         val hint = when {
-            !hasFavorites -> context.getString(R.string.state_no_teams_hint)
-            allDark -> context.getString(R.string.state_offseason_hint)
+            !hasFavorites -> context.getString(R.string.scorewidget_state_no_teams_hint)
+            allDark -> context.getString(R.string.scorewidget_state_offseason_hint)
             else -> ""
         }
 

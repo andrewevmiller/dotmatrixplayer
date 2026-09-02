@@ -74,7 +74,7 @@
             android:id="@+id/broadcast_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/cd_broadcast"
+            android:contentDescription="@string/scorewidget_cd_broadcast"
             android:paddingStart="8dp" />
 
         <ImageView
@@ -82,7 +82,7 @@
             android:layout_width="@dimen/score_live_dot"
             android:layout_height="@dimen/score_live_dot"
             android:layout_marginStart="7dp"
-            android:contentDescription="@string/cd_live"
+            android:contentDescription="@string/scorewidget_cd_live"
             android:src="@drawable/score_live_dot"
             android:visibility="gone" />
     </LinearLayout>
@@ -100,7 +100,7 @@
             android:id="@+id/away_glyph"
             android:layout_width="@dimen/card_glyph"
             android:layout_height="@dimen/card_glyph"
-            android:contentDescription="@string/cd_away_team"
+            android:contentDescription="@string/scorewidget_cd_away_team"
             android:scaleType="fitCenter" />
 
         <LinearLayout
@@ -122,7 +122,7 @@
                 android:layout_width="@dimen/possession_dot"
                 android:layout_height="@dimen/possession_dot"
                 android:layout_marginTop="3dp"
-                android:contentDescription="@string/cd_possession"
+                android:contentDescription="@string/scorewidget_cd_possession"
                 android:src="@drawable/possession_dot"
                 android:visibility="gone" />
         </LinearLayout>
@@ -131,7 +131,7 @@
             android:id="@+id/scoreline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/cd_score" />
+            android:contentDescription="@string/scorewidget_cd_score" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -152,7 +152,7 @@
                 android:layout_width="@dimen/possession_dot"
                 android:layout_height="@dimen/possession_dot"
                 android:layout_marginTop="3dp"
-                android:contentDescription="@string/cd_possession"
+                android:contentDescription="@string/scorewidget_cd_possession"
                 android:src="@drawable/possession_dot"
                 android:visibility="gone" />
         </LinearLayout>
@@ -161,7 +161,7 @@
             android:id="@+id/home_glyph"
             android:layout_width="@dimen/card_glyph"
             android:layout_height="@dimen/card_glyph"
-            android:contentDescription="@string/cd_home_team"
+            android:contentDescription="@string/scorewidget_cd_home_team"
             android:scaleType="fitCenter" />
     </LinearLayout>
 
@@ -177,7 +177,7 @@
             android:id="@+id/clock_line"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/cd_clock" />
+            android:contentDescription="@string/scorewidget_cd_clock" />
 
         <!--
             The diamond and the down-and-distance occupy the same slot, because
@@ -190,7 +190,7 @@
             android:layout_width="@dimen/card_bases"
             android:layout_height="@dimen/card_bases"
             android:layout_marginStart="8dp"
-            android:contentDescription="@string/cd_bases"
+            android:contentDescription="@string/scorewidget_cd_bases"
             android:scaleType="fitCenter"
             android:visibility="gone" />
 
@@ -215,7 +215,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/card_rail_height"
         android:layout_marginTop="5dp"
-        android:contentDescription="@string/cd_field_position"
+        android:contentDescription="@string/scorewidget_cd_field_position"
         android:scaleType="fitXY"
         android:visibility="gone" />
 
@@ -239,7 +239,7 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/card_rail_height"
             android:layout_weight="1"
-            android:contentDescription="@string/cd_win_probability"
+            android:contentDescription="@string/scorewidget_cd_win_probability"
             android:scaleType="fitXY"
             android:visibility="gone" />
 
@@ -247,7 +247,7 @@
             android:id="@+id/performer_line"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/cd_top_performer"
+            android:contentDescription="@string/scorewidget_cd_top_performer"
             android:visibility="gone" />
 
         <!--
@@ -260,7 +260,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:contentDescription="@string/cd_next_game"
+            android:contentDescription="@string/scorewidget_cd_next_game"
             android:paddingStart="6dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"

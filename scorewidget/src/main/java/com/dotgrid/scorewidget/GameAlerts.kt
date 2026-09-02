@@ -202,7 +202,7 @@ object GameAlerts {
         manager.createNotificationChannel(
             NotificationChannel(
                 CHANNEL_ID,
-                context.getString(R.string.config_section_alerts),
+                context.getString(R.string.scorewidget_config_section_alerts),
                 // DEFAULT, not HIGH: these are worth a sound, not a heads-up
                 // card over whatever the user is doing. A score is never
                 // urgent.

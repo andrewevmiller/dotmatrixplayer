@@ -240,13 +240,13 @@ class ConfigActivity : Activity() {
         val granted = MobileData.hasUsageAccess(this)
 
         statusLabel.setText(
-            if (granted) R.string.config_status_on else R.string.config_status_off
+            if (granted) R.string.datawidget_config_status_on else R.string.datawidget_config_status_off
         )
         statusDot.setImageResource(
             if (granted) R.drawable.data_status_dot_on else R.drawable.status_dot_off
         )
         grantButton.setText(
-            if (granted) R.string.config_granted else R.string.config_grant
+            if (granted) R.string.datawidget_config_granted else R.string.datawidget_config_grant
         )
         grantButton.isEnabled = !granted
         grantButton.alpha = if (granted) 0.45f else 1f
@@ -265,12 +265,12 @@ class ConfigActivity : Activity() {
          */
         cycleValue.text = String.format(Locale.US, "%d", cycleDay)
         cycleNext.text = getString(
-            R.string.config_next_reset_format,
+            R.string.datawidget_config_next_reset_format,
             monthDayFormat().format(Date(cycle.endMillis)).uppercase(Locale.getDefault())
         )
         thresholdValue.text = String.format(
             Locale.US,
-            getString(R.string.config_threshold_format),
+            getString(R.string.datawidget_config_threshold_format),
             alertPercent
         )
 
@@ -349,7 +349,7 @@ class ConfigActivity : Activity() {
         try {
             startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(this, R.string.config_settings_missing, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.datawidget_config_settings_missing, Toast.LENGTH_LONG).show()
         }
     }
 
@@ -378,10 +378,10 @@ class ConfigActivity : Activity() {
     private fun showWidgetMenu(anchor: android.view.View) {
         val popup = PopupMenu(this, anchor)
         val entries = listOf(
-            Triple(getString(R.string.menu_media_player), "com.dotgrid.mediawidget.SetupActivity", 0),
-            Triple(getString(R.string.data_config_title), null, 1),
-            Triple(getString(R.string.menu_score_widget), "com.dotgrid.scorewidget.ConfigActivity", 2),
-            Triple(getString(R.string.menu_health_widget), "com.dotgrid.healthwidget.ConfigActivity", 3)
+            Triple(getString(R.string.datawidget_menu_media_player), "com.dotgrid.mediawidget.SetupActivity", 0),
+            Triple(getString(R.string.datawidget_data_config_title), null, 1),
+            Triple(getString(R.string.datawidget_menu_score_widget), "com.dotgrid.scorewidget.ConfigActivity", 2),
+            Triple(getString(R.string.datawidget_menu_health_widget), "com.dotgrid.healthwidget.ConfigActivity", 3)
         )
         entries.forEach { (label, className, id) ->
             if (className == null || resolveConfigIntent(className) != null) {
@@ -405,7 +405,7 @@ class ConfigActivity : Activity() {
         try {
             startActivity(Intent().setComponent(android.content.ComponentName(packageName, className)))
         } catch (e: ActivityNotFoundException) {
-            Toast.makeText(this, R.string.menu_settings_missing, Toast.LENGTH_LONG).show()
+            Toast.makeText(this, R.string.datawidget_menu_settings_missing, Toast.LENGTH_LONG).show()
         }
     }
 }

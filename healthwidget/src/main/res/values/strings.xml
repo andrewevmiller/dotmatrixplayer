@@ -3,138 +3,138 @@
     <!-- The library no longer ships an APK, so this is not an app name any
          more - it is the label on the config activity, which the widget picker
          and app info show. Kept as its own string so :app owns app_name. -->
-    <string name="health_config_title">Nothing Health</string>
-    <string name="health_widget_description">Steps, sleep and vitals from Health Connect, on a dot-matrix tile that resizes from a dial to a list.</string>
+    <string name="healthwidget_health_config_title">Health</string>
+    <string name="healthwidget_health_widget_description">Steps, sleep and vitals from Health Connect, on a dot-matrix tile that resizes from a dial to a list.</string>
 
     <!-- Cross-widget menu. This module cannot depend on :app or the sibling
          widget modules (see ConfigActivity#showWidgetMenu), so the media
          player's own name is duplicated here rather than referenced. -->
-    <string name="menu_media_player">Dot Matrix Player</string>
-    <string name="menu_data_widget">Dot Matrix Data</string>
-    <string name="menu_score_widget">Dot Matrix Score</string>
-    <string name="menu_content_description">Other widgets</string>
-    <string name="menu_settings_missing">That widget\'s settings screen is not part of this build.</string>
+    <string name="healthwidget_menu_media_player">Media Player</string>
+    <string name="healthwidget_menu_data_widget">Data Usage</string>
+    <string name="healthwidget_menu_score_widget">Live Scores</string>
+    <string name="healthwidget_menu_content_description">Other widgets</string>
+    <string name="healthwidget_menu_settings_missing">That widget\'s settings screen is not part of this build.</string>
 
     <!-- ============ THE TILE ============ -->
-    <string name="widget_title">HEALTH</string>
+    <string name="healthwidget_widget_title">HEALTH</string>
 
-    <string name="metric_steps">STEPS</string>
-    <string name="metric_sleep">SLEEP</string>
-    <string name="metric_heart">HEART</string>
-    <string name="metric_oxygen">OXYGEN</string>
-    <string name="metric_breath">BREATH</string>
+    <string name="healthwidget_metric_steps">STEPS</string>
+    <string name="healthwidget_metric_sleep">SLEEP</string>
+    <string name="healthwidget_metric_heart">HEART</string>
+    <string name="healthwidget_metric_oxygen">OXYGEN</string>
+    <string name="healthwidget_metric_breath">BREATH</string>
 
     <!-- Units. Sleep carries its own inside the figure ("7H 12M"), so it has none. -->
-    <string name="unit_steps">STEPS</string>
-    <string name="unit_heart">BPM</string>
-    <string name="unit_oxygen">%</string>
-    <string name="unit_breath">/MIN</string>
+    <string name="healthwidget_unit_steps">STEPS</string>
+    <string name="healthwidget_unit_heart">BPM</string>
+    <string name="healthwidget_unit_oxygen">%</string>
+    <string name="healthwidget_unit_breath">/MIN</string>
 
-    <string name="goal_format">GOAL %1$s</string>
-    <string name="pair_format">%1$s %2$s</string>
-    <string name="value_unknown">--</string>
+    <string name="healthwidget_goal_format">GOAL %1$s</string>
+    <string name="healthwidget_pair_format">%1$s %2$s</string>
+    <string name="healthwidget_value_unknown">--</string>
 
-    <string name="no_access_line">NO ACCESS</string>
-    <string name="no_access_hint">TAP TO GRANT</string>
-    <string name="no_sdk_line">NO HEALTH</string>
-    <string name="no_sdk_hint">TAP FOR HELP</string>
+    <string name="healthwidget_no_access_line">NO ACCESS</string>
+    <string name="healthwidget_no_access_hint">TAP TO GRANT</string>
+    <string name="healthwidget_no_sdk_line">NO HEALTH</string>
+    <string name="healthwidget_no_sdk_hint">TAP FOR HELP</string>
 
-    <string name="cd_dial">Progress dial</string>
-    <string name="health_cd_widget">Health summary</string>
-    <string name="cd_goal_met">Goal met</string>
-    <string name="cd_last_updated">Last updated</string>
-    <string name="cd_refresh_now">Refresh now</string>
+    <string name="healthwidget_cd_dial">Progress dial</string>
+    <string name="healthwidget_health_cd_widget">Health summary</string>
+    <string name="healthwidget_cd_goal_met">Goal met</string>
+    <string name="healthwidget_cd_last_updated">Last updated</string>
+    <string name="healthwidget_cd_refresh_now">Refresh now</string>
 
     <!-- ============ THE SETTINGS SCREEN ============ -->
-    <string name="health_config_headline">Nothing Health</string>
-    <string name="health_config_body">This tile reads today\'s activity from Health Connect — the store the Health Connect app on your phone keeps, and the one Fitbit, Samsung Health and Google Fit write into. Nothing leaves the device.</string>
+    <string name="healthwidget_health_config_headline">Nothing Health</string>
+    <string name="healthwidget_health_config_body">This tile reads today\'s activity from Health Connect — the store the Health Connect app on your phone keeps, and the one Fitbit, Samsung Health and Google Fit write into. Nothing leaves the device.</string>
 
-    <string name="config_status_on">CONNECTED</string>
-    <string name="config_status_off">NOT CONNECTED</string>
-    <string name="config_status_partial">PARTLY CONNECTED</string>
-    <string name="config_status_missing">HEALTH CONNECT MISSING</string>
+    <string name="healthwidget_config_status_on">CONNECTED</string>
+    <string name="healthwidget_config_status_off">NOT CONNECTED</string>
+    <string name="healthwidget_config_status_partial">PARTLY CONNECTED</string>
+    <string name="healthwidget_config_status_missing">HEALTH CONNECT MISSING</string>
 
     <!-- Permissions -->
-    <string name="config_section_permissions">PERMISSIONS</string>
-    <string name="config_granted">ACCESS GRANTED</string>
-    <string name="config_install">INSTALL HEALTH CONNECT</string>
-    <string name="config_manage">MANAGE IN HEALTH CONNECT</string>
-    <string name="config_permissions_hint">Ticked metrics are the ones the tile asks for and shows. Health Connect grants each one separately, so a metric can be on here and still be waiting for its permission — the row says NO ACCESS until it has one.</string>
-    <string name="config_background">READ IN BACKGROUND</string>
-    <string name="config_background_hint">Without this, Health Connect only answers while the app is in the foreground, and the tile falls back to the last figures it managed to read. Granting it is what keeps the tile current on the home screen.</string>
-    <string name="config_permissions_denied">Health Connect has stopped showing the permission dialog for this app. Open it with the button below and grant access there.</string>
-    <string name="config_store_missing">No app on this device can open that Play Store listing. Install Health Connect from the Play Store manually.</string>
+    <string name="healthwidget_config_section_permissions">PERMISSIONS</string>
+    <string name="healthwidget_config_granted">ACCESS GRANTED</string>
+    <string name="healthwidget_config_install">INSTALL HEALTH CONNECT</string>
+    <string name="healthwidget_config_manage">MANAGE IN HEALTH CONNECT</string>
+    <string name="healthwidget_config_permissions_hint">Ticked metrics are the ones the tile asks for and shows. Health Connect grants each one separately, so a metric can be on here and still be waiting for its permission — the row says NO ACCESS until it has one.</string>
+    <string name="healthwidget_config_background">READ IN BACKGROUND</string>
+    <string name="healthwidget_config_background_hint">Without this, Health Connect only answers while the app is in the foreground, and the tile falls back to the last figures it managed to read. Granting it is what keeps the tile current on the home screen.</string>
+    <string name="healthwidget_config_permissions_denied">Health Connect has stopped showing the permission dialog for this app. Open it with the button below and grant access there.</string>
+    <string name="healthwidget_config_store_missing">No app on this device can open that Play Store listing. Install Health Connect from the Play Store manually.</string>
 
     <!-- Prefixed: :datawidget's config_grant reads "GRANT USAGE ACCESS", a
          different value under the same name. -->
-    <string name="health_config_grant">GRANT ACCESS</string>
+    <string name="healthwidget_health_config_grant">GRANT ACCESS</string>
 
     <!-- Sleep -->
-    <string name="config_section_sleep">SLEEP READING</string>
-    <string name="config_sleep_asleep">ASLEEP</string>
-    <string name="config_sleep_in_bed">IN BED</string>
-    <string name="config_sleep_restful">RESTFUL</string>
-    <string name="config_sleep_deep">DEEP</string>
-    <string name="config_sleep_mode_hint">ASLEEP adds light, deep, REM and plain-sleeping time and leaves out the minutes you were awake — the figure most trackers call your sleep duration. IN BED is the whole session, end to end. RESTFUL is deep plus REM. DEEP is deep alone.</string>
+    <string name="healthwidget_config_section_sleep">SLEEP READING</string>
+    <string name="healthwidget_config_sleep_asleep">ASLEEP</string>
+    <string name="healthwidget_config_sleep_in_bed">IN BED</string>
+    <string name="healthwidget_config_sleep_restful">RESTFUL</string>
+    <string name="healthwidget_config_sleep_deep">DEEP</string>
+    <string name="healthwidget_config_sleep_mode_hint">ASLEEP adds light, deep, REM and plain-sleeping time and leaves out the minutes you were awake — the figure most trackers call your sleep duration. IN BED is the whole session, end to end. RESTFUL is deep plus REM. DEEP is deep alone.</string>
 
-    <string name="config_section_sleep_window">SLEEP WINDOW</string>
-    <string name="config_window_night">NIGHT</string>
-    <string name="config_window_24h">24H</string>
-    <string name="config_window_today">TODAY</string>
-    <string name="config_window_hint">NIGHT is noon yesterday to noon today, so a morning glance still shows last night and an afternoon nap does not land in it. 24H is a rolling day back from now. TODAY is midnight onwards — the same window the step count uses.</string>
+    <string name="healthwidget_config_section_sleep_window">SLEEP WINDOW</string>
+    <string name="healthwidget_config_window_night">NIGHT</string>
+    <string name="healthwidget_config_window_24h">24H</string>
+    <string name="healthwidget_config_window_today">TODAY</string>
+    <string name="healthwidget_config_window_hint">NIGHT is noon yesterday to noon today, so a morning glance still shows last night and an afternoon nap does not land in it. 24H is a rolling day back from now. TODAY is midnight onwards — the same window the step count uses.</string>
 
-    <string name="config_section_unstaged">SESSIONS WITHOUT STAGES</string>
-    <string name="config_unstaged_count">COUNT</string>
-    <string name="config_unstaged_ignore">IGNORE</string>
-    <string name="config_unstaged_hint">Some apps write a sleep session with no stage breakdown at all. COUNT takes the whole session as asleep, which is usually what your tracker\'s own app shows; IGNORE leaves it out, so the figure only ever comes from staged data. RESTFUL and DEEP always ignore them — there is nothing in an unstaged session to call deep.</string>
+    <string name="healthwidget_config_section_unstaged">SESSIONS WITHOUT STAGES</string>
+    <string name="healthwidget_config_unstaged_count">COUNT</string>
+    <string name="healthwidget_config_unstaged_ignore">IGNORE</string>
+    <string name="healthwidget_config_unstaged_hint">Some apps write a sleep session with no stage breakdown at all. COUNT takes the whole session as asleep, which is usually what your tracker\'s own app shows; IGNORE leaves it out, so the figure only ever comes from staged data. RESTFUL and DEEP always ignore them — there is nothing in an unstaged session to call deep.</string>
 
     <!-- Goals -->
-    <string name="config_section_steps_goal">STEP GOAL</string>
-    <string name="config_steps_goal_hint">What the dial and the step rail fill against. 0 turns the goal off and both go inert.</string>
+    <string name="healthwidget_config_section_steps_goal">STEP GOAL</string>
+    <string name="healthwidget_config_steps_goal_hint">What the dial and the step rail fill against. 0 turns the goal off and both go inert.</string>
 
-    <string name="config_section_sleep_goal">SLEEP GOAL</string>
-    <string name="config_sleep_goal_format">%1$dH %2$02dM</string>
-    <string name="config_sleep_goal_hint">Set in fifteen-minute steps. 0 turns the goal off.</string>
+    <string name="healthwidget_config_section_sleep_goal">SLEEP GOAL</string>
+    <string name="healthwidget_config_sleep_goal_format">%1$dH %2$02dM</string>
+    <string name="healthwidget_config_sleep_goal_hint">Set in fifteen-minute steps. 0 turns the goal off.</string>
 
     <!-- Tile -->
-    <string name="config_section_primary">DIAL SHOWS</string>
-    <string name="config_primary_hint">Which metric the small square tile puts in its dial. The wide tile lists them all and ignores this.</string>
+    <string name="healthwidget_config_section_primary">DIAL SHOWS</string>
+    <string name="healthwidget_config_primary_hint">Which metric the small square tile puts in its dial. The wide tile lists them all and ignores this.</string>
 
     <!-- Prefixed: :scorewidget's config_section_accent reads "SIGNAL COLOUR",
          a different value under the same name. -->
-    <string name="health_config_section_accent">GOAL INDICATOR</string>
-    <string name="config_accent_hint">What the tile does once the dial\'s metric reaches its goal.</string>
-    <string name="config_style_dot">CORNER DOT</string>
-    <string name="config_style_ring">DIAL</string>
-    <string name="config_style_value">NUMBER</string>
-    <string name="config_style_card">BORDER</string>
+    <string name="healthwidget_health_config_section_accent">GOAL INDICATOR</string>
+    <string name="healthwidget_config_accent_hint">What the tile does once the dial\'s metric reaches its goal.</string>
+    <string name="healthwidget_config_style_dot">CORNER DOT</string>
+    <string name="healthwidget_config_style_ring">DIAL</string>
+    <string name="healthwidget_config_style_value">NUMBER</string>
+    <string name="healthwidget_config_style_card">BORDER</string>
 
-    <string name="config_section_color">COLOUR</string>
-    <string name="config_color_red">RED</string>
+    <string name="healthwidget_config_section_color">COLOUR</string>
+    <string name="healthwidget_config_color_red">RED</string>
     <!-- Prefixed: :datawidget's config_color_amber reads "YELLOW", a
          different value under the same name. -->
-    <string name="health_config_color_amber">AMBER</string>
-    <string name="config_color_white">WHITE</string>
+    <string name="healthwidget_health_config_color_amber">AMBER</string>
+    <string name="healthwidget_config_color_white">WHITE</string>
 
-    <string name="config_section_tap">TAP OPENS</string>
-    <string name="config_tap_settings">SETTINGS</string>
-    <string name="config_tap_health">HEALTH CONNECT</string>
-    <string name="config_tap_fitbit">FITBIT</string>
-    <string name="config_tap_hint">Where a tap on the tile goes. If the chosen app is not installed, the tap lands back here.</string>
-    <string name="config_tap_missing">That app is not installed on this device.</string>
+    <string name="healthwidget_config_section_tap">TAP OPENS</string>
+    <string name="healthwidget_config_tap_settings">SETTINGS</string>
+    <string name="healthwidget_config_tap_health">HEALTH CONNECT</string>
+    <string name="healthwidget_config_tap_fitbit">FITBIT</string>
+    <string name="healthwidget_config_tap_hint">Where a tap on the tile goes. If the chosen app is not installed, the tap lands back here.</string>
+    <string name="healthwidget_config_tap_missing">That app is not installed on this device.</string>
 
-    <string name="config_done">DONE</string>
+    <string name="healthwidget_config_done">DONE</string>
     <!-- Prefixed: :datawidget's config_add_widget names its own widget, a
          different value under the same name. -->
-    <string name="health_config_add_widget">Long-press the home screen → Widgets → Nothing Health → drag the tile. It resizes from 2 × 2 up to 5 × 4; below four cells wide it is the dial, above it is the list.</string>
+    <string name="healthwidget_health_config_add_widget">Long-press the home screen → Widgets → Nothing Health → drag the tile. It resizes from 2 × 2 up to 5 × 4; below four cells wide it is the dial, above it is the list.</string>
 
-    <string name="cd_decrease">Decrease</string>
-    <string name="cd_increase">Increase</string>
+    <string name="healthwidget_cd_decrease">Decrease</string>
+    <string name="healthwidget_cd_increase">Increase</string>
 
     <!-- The stepper keys, set in NType82 like every other control (see the
          Stepper style). An ASCII hyphen rather than U+2212: both are in the
          face, and the hyphen is the one that matches the plus's bar weight at
          20sp. The old Ndot-specific reason for it no longer applies. -->
-    <string name="stepper_minus">-</string>
-    <string name="stepper_plus">+</string>
+    <string name="healthwidget_stepper_minus">-</string>
+    <string name="healthwidget_stepper_plus">+</string>
 </resources>

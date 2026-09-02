@@ -71,7 +71,7 @@
         <activity
             android:name="com.dotgrid.healthwidget.ConfigActivity"
             android:exported="true"
-            android:label="@string/health_config_title"
+            android:label="@string/healthwidget_health_config_title"
             android:theme="@style/Theme.NothingHealth"
             android:windowSoftInputMode="stateHidden|adjustResize">
 

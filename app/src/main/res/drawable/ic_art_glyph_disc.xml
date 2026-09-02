@@ -20,7 +20,7 @@
     <path android:fillColor="#FF1a1a1a"
         android:pathData="M36,22 A14,14 0 1,0 36,50 A14,14 0 1,0 36,22 Z" />
 
-    <!-- Small center spindle hole -->
+    <!-- Small center spindle hole (white) -->
     <path android:fillColor="#FFFFFFFF"
         android:pathData="M36,34 A2,2 0 1,0 36,38 A2,2 0 1,0 36,34 Z" />
 </vector>

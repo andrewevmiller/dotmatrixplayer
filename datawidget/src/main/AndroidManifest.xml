@@ -41,7 +41,7 @@
         <activity
             android:name="com.dotgrid.datawidget.ConfigActivity"
             android:exported="true"
-            android:label="@string/data_config_title"
+            android:label="@string/datawidget_data_config_title"
             android:theme="@style/Theme.DotMatrixData"
             android:windowSoftInputMode="stateHidden|adjustResize">
 

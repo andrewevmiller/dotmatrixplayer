@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="7dp"
-                android:contentDescription="@string/health_cd_widget" />
+                android:contentDescription="@string/healthwidget_health_cd_widget" />
 
             <!-- FrameLayout, not Space: Space is not on the RemoteViews allowlist. -->
             <FrameLayout
@@ -71,7 +71,7 @@
                 android:layout_height="16dp"
                 android:layout_marginStart="6dp"
                 android:padding="2dp"
-                android:contentDescription="@string/cd_refresh_now"
+                android:contentDescription="@string/healthwidget_cd_refresh_now"
                 android:src="@drawable/ic_refresh" />
 
             <ImageView
@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:contentDescription="@string/cd_last_updated" />
+                android:contentDescription="@string/healthwidget_cd_last_updated" />
         </LinearLayout>
 
         <LinearLayout

@@ -42,7 +42,7 @@
         android:id="@+id/away_glyph"
         android:layout_width="@dimen/strip_glyph"
         android:layout_height="@dimen/strip_glyph"
-        android:contentDescription="@string/cd_away_team"
+        android:contentDescription="@string/scorewidget_cd_away_team"
         android:scaleType="fitCenter" />
 
     <!--
@@ -57,14 +57,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:contentDescription="@string/cd_score"
+        android:contentDescription="@string/scorewidget_cd_score"
         android:scaleType="fitCenter" />
 
     <ImageView
         android:id="@+id/home_glyph"
         android:layout_width="@dimen/strip_glyph"
         android:layout_height="@dimen/strip_glyph"
-        android:contentDescription="@string/cd_home_team"
+        android:contentDescription="@string/scorewidget_cd_home_team"
         android:scaleType="fitCenter" />
 
     <!--
@@ -80,7 +80,7 @@
         android:layout_width="@dimen/score_live_dot"
         android:layout_height="@dimen/score_live_dot"
         android:layout_gravity="top"
-        android:contentDescription="@string/cd_live"
+        android:contentDescription="@string/scorewidget_cd_live"
         android:src="@drawable/score_live_dot"
         android:visibility="gone" />
 </LinearLayout>

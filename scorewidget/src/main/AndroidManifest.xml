@@ -47,7 +47,7 @@
         <activity
             android:name="com.dotgrid.scorewidget.ConfigActivity"
             android:exported="true"
-            android:label="@string/score_config_title"
+            android:label="@string/scorewidget_score_config_title"
             android:theme="@style/Theme.DotMatrixScore"
             android:windowSoftInputMode="stateHidden|adjustResize">
 

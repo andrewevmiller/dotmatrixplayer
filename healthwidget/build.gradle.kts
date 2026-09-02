@@ -4,6 +4,7 @@ plugins {
 
 android {
     namespace = "com.dotgrid.healthwidget"
+    resourcePrefix = "healthwidget_"
     compileSdk = 36
 
     defaultConfig {

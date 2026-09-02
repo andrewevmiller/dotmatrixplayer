@@ -150,7 +150,7 @@ object WidgetRenderer {
         val value: String
         val unit: String
         if (bytes == null) {
-            value = context.getString(R.string.value_unknown)
+            value = context.getString(R.string.datawidget_value_unknown)
             unit = ""
         } else {
             val formatted = UsageSnapshot.format(bytes)
@@ -205,18 +205,18 @@ object WidgetRenderer {
 
         // ---- the two small lines ----------------------------------------
         val limitLine = when {
-            !snapshot.hasAccess -> context.getString(R.string.no_access_line)
-            !snapshot.hasLimit -> context.getString(R.string.no_limit)
+            !snapshot.hasAccess -> context.getString(R.string.datawidget_no_access_line)
+            !snapshot.hasLimit -> context.getString(R.string.datawidget_no_limit)
             else -> context.getString(
-                R.string.limit_format,
+                R.string.datawidget_limit_format,
                 UsageSnapshot.formatLimit(snapshot.limitMb)
             )
         }
 
         val cycleLine = when {
-            !snapshot.hasAccess -> context.getString(R.string.no_access_hint)
-            snapshot.daysLeft <= 0 -> context.getString(R.string.rolls_today)
-            else -> context.getString(R.string.days_left_format, snapshot.daysLeft)
+            !snapshot.hasAccess -> context.getString(R.string.datawidget_no_access_hint)
+            snapshot.daysLeft <= 0 -> context.getString(R.string.datawidget_rolls_today)
+            else -> context.getString(R.string.datawidget_days_left_format, snapshot.daysLeft)
         }
 
         /*

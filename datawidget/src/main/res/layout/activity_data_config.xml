@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/ndot57_aligned"
-                android:text="@string/data_config_headline"
+                android:text="@string/datawidget_data_config_headline"
                 android:textColor="@color/text_primary"
                 android:textSize="26sp" />
 
@@ -74,7 +74,7 @@
                 android:layout_marginStart="8dp"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
                 android:clickable="true"
-                android:contentDescription="@string/menu_content_description"
+                android:contentDescription="@string/datawidget_menu_content_description"
                 android:focusable="true"
                 android:padding="8dp"
                 android:src="@drawable/ic_menu" />
@@ -110,7 +110,7 @@
                 android:layout_marginStart="8dp"
                 style="@style/Accent"
                 android:letterSpacing="0.16"
-                android:text="@string/config_status_off"
+                android:text="@string/datawidget_config_status_off"
                 android:textColor="@color/text_secondary"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -126,7 +126,7 @@
             android:letterSpacing="0.14"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="@string/config_grant"
+            android:text="@string/datawidget_config_grant"
             android:textColor="@color/button_text"
             android:textSize="13sp" />
 
@@ -136,14 +136,14 @@
             android:layout_marginTop="18dp"
             style="@style/Body"
             android:lineSpacingExtra="4dp"
-            android:text="@string/data_config_body"
+            android:text="@string/datawidget_data_config_body"
             android:textColor="@color/text_secondary"
             android:textSize="13sp" />
 
         <!-- ============ ROLLOVER ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_cycle" />
+            android:text="@string/datawidget_config_section_cycle" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -157,8 +157,8 @@
             <TextView
                 android:id="@+id/cycle_minus"
                 style="@style/Stepper"
-                android:contentDescription="@string/cd_decrease"
-                android:text="@string/stepper_minus" />
+                android:contentDescription="@string/datawidget_cd_decrease"
+                android:text="@string/datawidget_stepper_minus" />
 
             <TextView
                 android:id="@+id/cycle_value"
@@ -173,8 +173,8 @@
             <TextView
                 android:id="@+id/cycle_plus"
                 style="@style/Stepper"
-                android:contentDescription="@string/cd_increase"
-                android:text="@string/stepper_plus" />
+                android:contentDescription="@string/datawidget_cd_increase"
+                android:text="@string/datawidget_stepper_plus" />
         </LinearLayout>
 
         <TextView
@@ -184,12 +184,12 @@
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_cycle_hint" />
+            android:text="@string/datawidget_config_cycle_hint" />
 
         <!-- ============ ALLOWANCE ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_limit" />
+            android:text="@string/datawidget_config_section_limit" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -208,7 +208,7 @@
                 android:background="@null"
                 style="@style/Body"
                 android:gravity="center"
-                android:hint="@string/limit_hint_zero"
+                android:hint="@string/datawidget_limit_hint_zero"
                 android:importantForAutofill="no"
                 android:inputType="numberDecimal"
                 android:maxLength="6"
@@ -224,19 +224,19 @@
                 android:layout_marginEnd="12dp"
                 style="@style/Body"
                 android:letterSpacing="0.1"
-                android:text="@string/config_limit_suffix"
+                android:text="@string/datawidget_config_limit_suffix"
                 android:textColor="@color/text_secondary"
                 android:textSize="14sp" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_limit_hint" />
+            android:text="@string/datawidget_config_limit_hint" />
 
         <!-- ============ INDICATOR ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_alert" />
+            android:text="@string/datawidget_config_section_alert" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -247,13 +247,13 @@
             <TextView
                 android:id="@+id/style_dot"
                 style="@style/Chip"
-                android:text="@string/config_style_dot" />
+                android:text="@string/datawidget_config_style_dot" />
 
             <TextView
                 android:id="@+id/style_ring"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_style_ring" />
+                android:text="@string/datawidget_config_style_ring" />
         </LinearLayout>
 
         <LinearLayout
@@ -265,23 +265,23 @@
             <TextView
                 android:id="@+id/style_value"
                 style="@style/Chip"
-                android:text="@string/config_style_value" />
+                android:text="@string/datawidget_config_style_value" />
 
             <TextView
                 android:id="@+id/style_card"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_style_card" />
+                android:text="@string/datawidget_config_style_card" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_alert_hint" />
+            android:text="@string/datawidget_config_alert_hint" />
 
         <!-- ============ THRESHOLD ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_threshold" />
+            android:text="@string/datawidget_config_section_threshold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -295,8 +295,8 @@
             <TextView
                 android:id="@+id/threshold_minus"
                 style="@style/Stepper"
-                android:contentDescription="@string/cd_decrease"
-                android:text="@string/stepper_minus" />
+                android:contentDescription="@string/datawidget_cd_decrease"
+                android:text="@string/datawidget_stepper_minus" />
 
             <TextView
                 android:id="@+id/threshold_value"
@@ -311,18 +311,18 @@
             <TextView
                 android:id="@+id/threshold_plus"
                 style="@style/Stepper"
-                android:contentDescription="@string/cd_increase"
-                android:text="@string/stepper_plus" />
+                android:contentDescription="@string/datawidget_cd_increase"
+                android:text="@string/datawidget_stepper_plus" />
         </LinearLayout>
 
         <TextView
             style="@style/SectionHint"
-            android:text="@string/config_threshold_hint" />
+            android:text="@string/datawidget_config_threshold_hint" />
 
         <!-- ============ COLOUR ============ -->
         <TextView
             style="@style/SectionLabel"
-            android:text="@string/config_section_color" />
+            android:text="@string/datawidget_config_section_color" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -333,19 +333,19 @@
             <TextView
                 android:id="@+id/color_red"
                 style="@style/Chip"
-                android:text="@string/config_color_red" />
+                android:text="@string/datawidget_config_color_red" />
 
             <TextView
                 android:id="@+id/color_amber"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_color_amber" />
+                android:text="@string/datawidget_config_color_amber" />
 
             <TextView
                 android:id="@+id/color_white"
                 style="@style/Chip"
                 android:layout_marginStart="8dp"
-                android:text="@string/config_color_white" />
+                android:text="@string/datawidget_config_color_white" />
         </LinearLayout>
 
         <TextView
@@ -359,13 +359,13 @@
             android:letterSpacing="0.14"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="@string/config_done"
+            android:text="@string/datawidget_config_done"
             android:textColor="@color/button_text"
             android:textSize="13sp" />
 
         <TextView
             style="@style/SectionHint"
             android:layout_marginTop="20dp"
-            android:text="@string/config_add_widget" />
+            android:text="@string/datawidget_config_add_widget" />
     </LinearLayout>
 </ScrollView>

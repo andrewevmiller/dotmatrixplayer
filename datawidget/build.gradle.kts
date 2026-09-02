@@ -4,6 +4,7 @@ plugins {
 
 android {
     namespace = "com.dotgrid.datawidget"
+    resourcePrefix = "datawidget_"
     compileSdk = 36
 
     defaultConfig {

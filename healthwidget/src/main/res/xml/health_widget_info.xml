@@ -29,8 +29,8 @@
     smaller is silently rounded up to it.
 -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:label="@string/health_config_title"
-    android:description="@string/health_widget_description"
+    android:label="@string/healthwidget_health_config_title"
+    android:description="@string/healthwidget_health_widget_description"
     android:initialLayout="@layout/widget_health_dial"
     android:previewImage="@drawable/health_widget_preview"
     android:configure="com.dotgrid.healthwidget.ConfigActivity"

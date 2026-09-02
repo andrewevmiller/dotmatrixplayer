@@ -29,11 +29,11 @@ object Metrics {
 
     fun label(context: Context, metric: Int): String = context.getString(
         when (metric) {
-            HealthSettings.METRIC_SLEEP -> R.string.metric_sleep
-            HealthSettings.METRIC_HEART -> R.string.metric_heart
-            HealthSettings.METRIC_OXYGEN -> R.string.metric_oxygen
-            HealthSettings.METRIC_BREATH -> R.string.metric_breath
-            else -> R.string.metric_steps
+            HealthSettings.METRIC_SLEEP -> R.string.healthwidget_metric_sleep
+            HealthSettings.METRIC_HEART -> R.string.healthwidget_metric_heart
+            HealthSettings.METRIC_OXYGEN -> R.string.healthwidget_metric_oxygen
+            HealthSettings.METRIC_BREATH -> R.string.healthwidget_metric_breath
+            else -> R.string.healthwidget_metric_steps
         }
     )
 
@@ -57,7 +57,7 @@ object Metrics {
      */
     fun format(context: Context, metric: Int, reading: Reading): Pair<String, String> {
         val value = reading.value
-            ?: return context.getString(R.string.value_unknown) to ""
+            ?: return context.getString(R.string.healthwidget_value_unknown) to ""
 
         return when (metric) {
             // "7H 12M", or "48M" for a nap - an hours figure reading 0 is a
@@ -74,23 +74,23 @@ object Metrics {
 
             HealthSettings.METRIC_HEART ->
                 String.format(Locale.US, "%d", value.toLong()) to
-                    context.getString(R.string.unit_heart)
+                    context.getString(R.string.healthwidget_unit_heart)
 
             // One decimal. SpO2 moves over about four points of useful range,
             // so a whole number throws away most of what there is to see.
             HealthSettings.METRIC_OXYGEN ->
                 String.format(Locale.US, "%.1f", value) to
-                    context.getString(R.string.unit_oxygen)
+                    context.getString(R.string.healthwidget_unit_oxygen)
 
             HealthSettings.METRIC_BREATH ->
                 String.format(Locale.US, "%.1f", value) to
-                    context.getString(R.string.unit_breath)
+                    context.getString(R.string.healthwidget_unit_breath)
 
             // Grouped: five digits of steps unbroken is a figure you have to
             // count rather than read.
             else ->
                 String.format(Locale.US, "%,d", value.toLong()) to
-                    context.getString(R.string.unit_steps)
+                    context.getString(R.string.healthwidget_unit_steps)
         }
     }
 
@@ -151,7 +151,7 @@ object Metrics {
                 .takeIf { it > 0 }
                 ?.let {
                     context.getString(
-                        R.string.goal_format,
+                        R.string.healthwidget_goal_format,
                         String.format(Locale.US, "%dH %02dM", it / 60, it % 60)
                     )
                 }
@@ -159,7 +159,7 @@ object Metrics {
             HealthSettings.METRIC_STEPS -> prefs.stepsGoal
                 .takeIf { it > 0 }
                 ?.let {
-                    context.getString(R.string.goal_format, String.format(Locale.US, "%,d", it))
+                    context.getString(R.string.healthwidget_goal_format, String.format(Locale.US, "%,d", it))
                 }
 
             else -> null
