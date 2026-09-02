@@ -58,9 +58,21 @@ object MediaHub {
      *
      * [preferPackage] lets a command that was queued against a specific app
      * still reach that app if a second session started in the meantime.
+     *
+     * Removed apps (see [SourceOrder]) are dropped before any of the picking
+     * below runs, not just kept out of [SessionCarousel]'s ring - otherwise
+     * one could still win this selection on its own (the only session
+     * playing, say) and appear as "now playing" despite being taken out of
+     * the carousel, which would make removal look broken. This also means a
+     * command already routed to an app that gets removed mid-flight falls
+     * through to normal selection instead of reaching it, and an app set as
+     * the idle preference stops winning that fallback the moment it is
+     * removed - both read as "this app is gone from the widget," which is
+     * removal's whole point.
      */
     fun activeController(context: Context, preferPackage: String? = null): MediaController? {
         val controllers = activeControllers(context)
+            .filterNot { SourceOrder.isHidden(context, it.packageName) }
         if (controllers.isEmpty()) return null
 
         if (preferPackage != null) {
