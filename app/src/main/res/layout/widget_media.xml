@@ -137,12 +137,29 @@
 
                     <!-- Dropped below the status baseline on purpose: at this
                          size it reads as a mark on the card rather than as
-                         punctuation on the end of the label. -->
+                         punctuation on the end of the label.
+
+                         marginTop trimmed from 8dp to 4dp: at 8dp, the glyph's
+                         own total extent (marginTop + 20dp height) exactly
+                         equalled source_switcher's wrap_content height with
+                         zero pixels of slack at the padding boundary below
+                         it - fine in isolation, but this row sits inside the
+                         metadata column's tight vertical budget (see ROW 1's
+                         header comment: 94dp on a minimum-height launcher
+                         grid, with only a couple of dp of headroom against
+                         the title+artist stack beneath it). On a launcher
+                         that hits or resizes down to that floor, the column
+                         gets measured at less than it asks for, and this
+                         glyph - the one child in the row carrying real extra
+                         margin - is what visibly loses its bottom edge.
+                         Halving the offset keeps the "dropped below
+                         baseline" read while giving the row 4dp back at the
+                         single tightest point in the layout. -->
                     <ImageView
                         android:id="@+id/app_glyph"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="4dp"
                         android:contentDescription="@null" />
                 </LinearLayout>
             </LinearLayout>

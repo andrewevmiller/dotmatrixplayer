@@ -113,11 +113,19 @@
                     android:contentDescription="@null"
                     android:visibility="gone" />
 
+                <!-- marginTop trimmed the same way and for the same reason as
+                     widget_media.xml's app_glyph: less of the "dropped below
+                     baseline" offset demanded here means less that can run
+                     out of room at the bottom of this row. This tile has
+                     more vertical slack overall (see the file header - it
+                     went to a side-by-side layout specifically for the
+                     room), so this is a smaller, precautionary trim rather
+                     than a confirmed-necessary one. -->
                 <ImageView
                     android:id="@+id/app_glyph"
                     android:layout_width="15dp"
                     android:layout_height="15dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_marginTop="2dp"
                     android:contentDescription="@null" />
             </LinearLayout>
         </LinearLayout>
