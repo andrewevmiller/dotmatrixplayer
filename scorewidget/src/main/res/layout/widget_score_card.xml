@@ -254,6 +254,12 @@
             The carousel control - a dot per card, current one lit, tap to step
             forward. See widget_score_banner.xml for why this is a tap and not
             the swipe the brief asks for.
+
+            paddingStart widened the same way and for the same reason as the
+            media widget's source_switcher: it eats into win_rail's own
+            weighted space (win_rail is layout_weight=1, the only flexible
+            sibling in this row), enlarging the tap target without moving or
+            resizing the dots themselves.
         -->
         <ImageView
             android:id="@+id/pager"
@@ -261,7 +267,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:contentDescription="@string/scorewidget_cd_next_game"
-            android:paddingStart="6dp"
+            android:paddingStart="12dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:visibility="gone" />

@@ -128,6 +128,12 @@
 
         Hidden entirely when there is only one card - a pager with one dot is a
         decoration that invites a tap and does nothing.
+
+        paddingStart widened the same way and for the same reason as the
+        media widget's source_switcher: it eats into scoreline's own weighted
+        space (scoreline is layout_weight=1, the only flexible sibling in
+        this row), enlarging the tap target without moving or resizing the
+        dots themselves.
     -->
     <ImageView
         android:id="@+id/pager"
@@ -135,7 +141,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="6dp"
         android:contentDescription="@string/scorewidget_cd_next_game"
-        android:paddingStart="4dp"
+        android:paddingStart="9dp"
         android:paddingEnd="2dp"
         android:scaleType="center"
         android:visibility="gone" />
