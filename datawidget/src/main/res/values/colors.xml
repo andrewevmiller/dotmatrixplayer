@@ -5,7 +5,7 @@
     <color name="nt_black">#FF000000</color>
     <color name="nt_white">#FFFFFFFF</color>
 
-    <!-- Light tile surface: pure white, not N-Grey (#DCD7D2). Moved off the
+    <!-- Light tile surface: off-white (#F3F0F1), not N-Grey (#DCD7D2). Moved off the
          brand-guideline grey (see docs/BRAND_LANGUAGE.md) to the highlight
          extreme itself for a brighter, higher-contrast tile - text/meter/
          chip foregrounds were raised alongside this (text_secondary,
@@ -15,7 +15,7 @@
          widget_stroke carrying the settings-card/page separation that the
          former tone-difference used to provide (never applied to the tile
          itself, which stays fill-only per widget_bg.xml). -->
-    <color name="widget_surface">#FFFFFFFF</color>
+    <color name="widget_surface">#FFF3F0F1</color>
     <!-- Decorative hairline only (settings-screen cards, never the tile -
          widget_bg.xml stays fill-only). Not a text pairing, so it isn't held
          to a contrast ratio; kept as the same low-alpha black-on-light the
@@ -24,10 +24,10 @@
 
     <color name="text_primary">#FF000000</color>
     <!-- 65% black. Raised from the earlier 60% (#99) now that the tile and
-         settings card are pure white instead of N-Grey - the brighter
+         settings card are off-white instead of N-Grey - the brighter
          surface can carry more foreground weight, so secondary text reads
          crisper while still clearing 4.5:1 with room to spare (well over
-         6:1 against pure white, and still >=4.5:1 against config_field). -->
+         6:1 against off-white, and still >=4.5:1 against config_field). -->
     <color name="text_secondary">#A6000000</color>
     <!-- 80% black, up from 65% (#A6). Same reasoning as text_secondary: the
          lighter white surface (was N-Grey) can take a stronger tertiary
@@ -43,27 +43,36 @@
          below alarm; white keeps the tile strictly monochrome and lets the
          indicator signal by placement alone.
          Values are N-Red and N-Yellow from Nothing's brand guidelines
-         (HEX #C8102E / #FFC700), not arbitrary reds/ambers. -->
-    <color name="nt_red">#FFC8102E</color>
+         (#D71921 for red - the family value, a deliberate departure from the
+         guideline PDF's printed #C8102E - and #FFC700 for N-Yellow), not
+         arbitrary reds/ambers. See docs/BRAND_LANGUAGE.md. -->
+    <color name="nt_red">#FFD71921</color>
     <color name="nt_amber">#FFFFC700</color>
 
-    <!-- Highlight extreme (pure white, per the guideline) - the config
+    <!-- Accent grey. One step down from the card (widget_surface #F3F0F1) so
+         recessed and secondary surfaces read as distinct without introducing
+         a second hue - the light-mode counterpart of dark mode's nt_grey_accent.
+         A surface tone, not a signal colour: nt_red stays the only accent
+         that means anything. See docs/BRAND_LANGUAGE.md. -->
+    <color name="nt_grey_accent">#FFE8E6E7</color>
+
+    <!-- Off-white (#F3F0F1), per the family palette - the config
          screen's page background. config_card now shares this exact value
          (see below) rather than sitting a shade darker: the card/page
          separation is carried entirely by config_card_bg.xml's
          widget_stroke hairline instead of a tone difference. -->
-    <color name="config_bg">#FFFFFFFF</color>
-    <!-- Pure white, same as config_bg. Previously N-Grey (#DCD7D2) so the
+    <color name="config_bg">#FFF3F0F1</color>
+    <!-- Off-white, same as config_bg. Previously N-Grey (#DCD7D2) so the
          card read as its own surface against the white page by tone alone;
-         raised to white for the brighter, higher-contrast look. The card is
+         raised to off-white for the brighter, higher-contrast look. The card is
          still legible as distinct from the page because config_card_bg.xml
          draws a widget_stroke hairline around it - that hairline (settings
          screens only, never the tile) is now the sole separator. -->
-    <color name="config_card">#FFFFFFFF</color>
+    <color name="config_card">#FFF3F0F1</color>
     <!-- A step darker than config_card. Was tuned as a blend between N-Grey
          and the guideline's Window grey (#B1B3B3) to clear 4.5:1 for every
          text colour on it while sitting between two darker greys; now that
-         config_card is pure white it steps down to it more sharply, so the
+         config_card is off-white it steps down to it more sharply, so the
          "recessed input" reading is if anything clearer, and the contrast
          math still holds: text_secondary (raised to 65%, #A6000000) still
          clears ~5.5:1 on this surface. Left unchanged since it still does
@@ -75,8 +84,8 @@
          text unreadable. -->
     <color name="chip_on">#FFFFFFFF</color>
     <!-- Raised from 8% (#14) to 12% (#1F) black now that config_card (its
-         usual background, via chip_bg.xml) is pure white instead of N-Grey -
-         #14 over N-Grey was visibly toned, but #14 over pure white reads as
+         usual background, via chip_bg.xml) is off-white instead of N-Grey -
+         #14 over N-Grey was visibly toned, but #14 over off-white reads as
          nearly invisible. #1F keeps the unselected chip fill legible against
          the brighter card while staying well below chip_on/meter_active. -->
     <color name="chip_off">#1F000000</color>
@@ -92,11 +101,11 @@
          Both greys are sampled off that reference on a device screenshot,
          not chosen: its card reads #1B1B1D and its unlit dots #303032, which
          round to the two values below. The card grey landing on the family's
-         own dark widget_surface (#1B1B1B, see docs/BRAND_LANGUAGE.md) is a
+         own dark widget_surface (#1B1B1D, see docs/BRAND_LANGUAGE.md) is a
          happy accident, but it does mean the pillar now matches the rest of
          the family in dark mode and only diverges in light. -->
-    <color name="pillar_surface">#FF1B1B1B</color>
-    <color name="pillar_dot_inactive">#FF303030</color>
+    <color name="pillar_surface">#FF1B1B1D</color>
+    <color name="pillar_dot_inactive">#FF303032</color>
     <color name="pillar_dot_inactive_alert">#59FFFFFF</color>
 
     <!-- CTA pill button on the config screen. Inverted from the fixed

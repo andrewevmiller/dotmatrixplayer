@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Nothing OS reads as a monochrome system with one signal colour.
+         Everything is pure black / pure white; colour is reserved for state. -->
+    <color name="nt_black">#FF000000</color>
+    <color name="nt_white">#FFFFFFFF</color>
+
+    <!-- Accent grey, dark mode only. One step lighter than the tile
+         (widget_surface #1B1B1D) so recessed and secondary surfaces read as
+         distinct without introducing a second hue - the dark-mode counterpart
+         of light mode's config_field. A surface tone, not a signal colour:
+         nt_red stays the only accent that means anything. See
+         docs/BRAND_LANGUAGE.md. -->
+    <color name="nt_grey_accent">#FF303032</color>
+
     <!-- Both the tile and the settings screen now follow the system theme.
          These are the values the app has always shown - dark mode is a
          zero-regression carry-forward of what was previously the only
          look, not a new design. -->
-    <color name="widget_surface">#FF1B1B1B</color>
+    <color name="widget_surface">#FF1B1B1D</color>
     <color name="widget_stroke">#1FFFFFFF</color>
 
     <color name="text_primary">#FFFFFFFF</color>
@@ -15,6 +28,14 @@
     <color name="meter_inactive">#2EFFFFFF</color>
 
     <color name="glyph">#E0FFFFFF</color>
+
+    <!-- The accents, straight from Nothing's brand guidelines (N-Red /
+         N-Yellow: HEX #C8102E / #FFC700), not invented reds and ambers.
+         Red is the default and the guideline's own signal colour; amber is
+         a step below alarm; white keeps the tile strictly monochrome and
+         lets goal-met signal by weight alone. -->
+    <color name="nt_red">#FFD71921</color>
+    <color name="nt_amber">#FFFFC700</color>
 
     <color name="config_bg">#FF000000</color>
     <color name="config_card">#FF0E0E0E</color>

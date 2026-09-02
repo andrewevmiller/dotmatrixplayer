@@ -7,13 +7,13 @@
     <color name="nt_black">#FF000000</color>
     <color name="nt_white">#FFFFFFFF</color>
 
-    <!-- Light tile surface: pure white, per the guideline's highlight
+    <!-- Light tile surface: off-white (#F3F0F1), per the guideline's highlight
          extreme. Previously N-Grey (#DCD7D2); moved to pure white so the
          tile reads as brightly as the system launcher around it, with
          text/foreground alpha values raised below to compensate for the
          lighter ground. config_card follows the same change for the same
          reason - tile and settings card still share one surface tone. -->
-    <color name="widget_surface">#FFFFFFFF</color>
+    <color name="widget_surface">#FFF3F0F1</color>
 
     <color name="text_primary">#FF000000</color>
     <!-- Raised from 60% (#99) to 65% (#A6) now that the surface is pure
@@ -33,23 +33,30 @@
 
     <!-- N-Red, #C8102E - the brand's own primary red, not a generic Material
          one. The one signal colour on this tile: a game that is live. -->
-    <color name="nt_red">#FFC8102E</color>
+    <color name="nt_red">#FFD71921</color>
 
     <!-- N-Yellow, #FFC700 - one of the three the user can pick for the signal
          colour, a step below the red "this is live" signal. Only ever one of
          the three is on the tile at a time. -->
     <color name="nt_amber">#FFFFC700</color>
 
-    <!-- Highlight extreme (pure white, per the guideline) - the config
+    <!-- Accent grey. One step down from the card (widget_surface #F3F0F1) so
+         recessed and secondary surfaces read as distinct without introducing
+         a second hue - the light-mode counterpart of dark mode's nt_grey_accent.
+         A surface tone, not a signal colour: nt_red stays the only accent
+         that means anything. See docs/BRAND_LANGUAGE.md. -->
+    <color name="nt_grey_accent">#FFE8E6E7</color>
+
+    <!-- Off-white (#F3F0F1), per the family palette - the config
          screen's page background, distinct from the N-Grey card it frames. -->
-    <color name="config_bg">#FFFFFFFF</color>
+    <color name="config_bg">#FFF3F0F1</color>
     <!-- Now identical to config_bg (both pure white) since widget_surface
          moved to white too. The card still reads as distinct from the page
          via the hairline border drawn around settings-screen cards (never
          applied to the tile itself - see widget_bg.xml/docs/BRAND_LANGUAGE.md) -
          config_field's darker recessed fill inside the card is the other
          cue that keeps the card from looking like bare page background. -->
-    <color name="config_card">#FFFFFFFF</color>
+    <color name="config_card">#FFF3F0F1</color>
     <!-- Unchanged (#FFC7C3BE) - re-verified against the new pure-white
          config_card. The step is now MORE visually distinct than before,
          since the card lightened out from under it while the field stayed
