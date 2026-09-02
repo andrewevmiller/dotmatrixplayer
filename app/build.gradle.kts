@@ -6,6 +6,29 @@ android {
     namespace = "com.dotgrid.mediawidget"
     compileSdk = 36
 
+    val keystore = file("release.keystore")
+    val keystoreExists = keystore.exists()
+    val keystorePassword = rootProject.file("local.properties").takeIf { it.exists() }?.let {
+        it.readLines().find { line -> line.startsWith("KEYSTORE_PASSWORD=") }?.substringAfter("=")
+    } ?: ""
+    val keyPasswordValue = rootProject.file("local.properties").takeIf { it.exists() }?.let {
+        it.readLines().find { line -> line.startsWith("KEY_PASSWORD=") }?.substringAfter("=")
+    } ?: ""
+    val keyAliasValue = rootProject.file("local.properties").takeIf { it.exists() }?.let {
+        it.readLines().find { line -> line.startsWith("KEY_ALIAS=") }?.substringAfter("=")
+    } ?: "dotmatrix"
+
+    signingConfigs {
+        if (keystoreExists && keystorePassword.isNotEmpty()) {
+            create("release") {
+                storeFile = keystore
+                storePassword = keystorePassword
+                keyAlias = keyAliasValue
+                keyPassword = keyPasswordValue
+            }
+        }
+    }
+
     defaultConfig {
         applicationId = "com.dotgrid.mediawidget"
         /*
@@ -35,6 +58,9 @@ android {
 
     buildTypes {
         release {
+            if (keystoreExists) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -116,3 +142,46 @@ val verifyWidgetHasNoTextViews = tasks.register("verifyWidgetHasNoTextViews") {
 }
 
 tasks.named("preBuild") { dependsOn(verifyWidgetHasNoTextViews) }
+
+tasks.register("generateKeystore") {
+    group = "build"
+    description = "Generate release keystore for signing"
+
+    doLast {
+        val keystoreFile = file("release.keystore")
+        if (keystoreFile.exists()) {
+            println("Keystore already exists at ${keystoreFile.absolutePath}")
+            return@doLast
+        }
+
+        val javaHome = System.getProperty("java.home")
+        val keytoolPath = if (System.getProperty("os.name").lowercase().contains("win")) {
+            "$javaHome/bin/keytool.exe"
+        } else {
+            "$javaHome/bin/keytool"
+        }
+
+        val process = ProcessBuilder(
+            keytoolPath,
+            "-genkey",
+            "-v",
+            "-keystore", keystoreFile.absolutePath,
+            "-keyalg", "RSA",
+            "-keysize", "2048",
+            "-validity", "10000",
+            "-alias", "dotmatrix",
+            "-storepass", "Dick&BA11S",
+            "-keypass", "Dick&BA11S",
+            "-dname", "CN=Andrew Miller,O=NoWorks,C=US"
+        ).redirectOutput(ProcessBuilder.Redirect.INHERIT)
+         .redirectError(ProcessBuilder.Redirect.INHERIT)
+         .start()
+
+        val exitCode = process.waitFor()
+        if (exitCode == 0) {
+            println("✓ Keystore generated successfully at ${keystoreFile.absolutePath}")
+        } else {
+            throw GradleException("Failed to generate keystore (exit code: $exitCode)")
+        }
+    }
+}

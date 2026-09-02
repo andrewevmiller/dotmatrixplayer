@@ -7,3 +7,7 @@ build/
 captures/
 .externalNativeBuild
 .cxx
+
+# Keystore files (signing keys - never commit)
+*.keystore
+*.jks
