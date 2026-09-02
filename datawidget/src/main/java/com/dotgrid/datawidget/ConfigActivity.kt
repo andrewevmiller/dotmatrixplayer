@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.Executors
+import kotlin.math.roundToInt
 
 /**
  * The plan, and how the tile should behave about it.
@@ -39,6 +40,12 @@ import java.util.concurrent.Executors
  */
 class ConfigActivity : Activity() {
 
+    companion object {
+        /** Matches preview_host's width in activity_data_config.xml, and the
+         *  gauge layout's own base tile size. */
+        private const val BASE_PREVIEW_DP = 110f
+    }
+
     private lateinit var previewHost: FrameLayout
     private lateinit var statusLabel: TextView
     private lateinit var statusDot: ImageView
@@ -49,6 +56,7 @@ class ConfigActivity : Activity() {
     private lateinit var thresholdValue: TextView
     private lateinit var styleChips: Map<Int, TextView>
     private lateinit var colorChips: Map<Int, TextView>
+    private lateinit var layoutChips: Map<Int, TextView>
 
     // The working copy. Written straight through to DataSettings on every edit.
     private var cycleDay = 1
@@ -56,6 +64,7 @@ class ConfigActivity : Activity() {
     private var alertStyles = 0
     private var alertPercent = 100
     private var colorChoice = DataSettings.COLOR_RED
+    private var layoutStyle = DataSettings.LAYOUT_GAUGE
 
     /**
      * The last byte count read, held so that editing a chip or the threshold
@@ -119,6 +128,10 @@ class ConfigActivity : Activity() {
             DataSettings.COLOR_AMBER to findViewById<TextView>(R.id.color_amber),
             DataSettings.COLOR_WHITE to findViewById<TextView>(R.id.color_white)
         )
+        layoutChips = mapOf(
+            DataSettings.LAYOUT_GAUGE to findViewById<TextView>(R.id.layout_gauge),
+            DataSettings.LAYOUT_PILLAR to findViewById<TextView>(R.id.layout_pillar)
+        )
 
         load()
         wire()
@@ -142,6 +155,7 @@ class ConfigActivity : Activity() {
         alertStyles = DataSettings.alertStyles(this)
         alertPercent = DataSettings.alertPercent(this)
         colorChoice = DataSettings.alertColorChoice(this)
+        layoutStyle = DataSettings.layoutStyle(this)
 
         // Set once, here. render() deliberately leaves the field alone: writing
         // to it from the watcher it feeds would fight whatever is being typed.
@@ -172,6 +186,14 @@ class ConfigActivity : Activity() {
         colorChips.forEach { (choice, chip) ->
             chip.setOnClickListener {
                 colorChoice = choice
+                persist()
+                render()
+            }
+        }
+
+        layoutChips.forEach { (choice, chip) ->
+            chip.setOnClickListener {
+                layoutStyle = choice
                 persist()
                 render()
             }
@@ -210,7 +232,7 @@ class ConfigActivity : Activity() {
     }
 
     private fun persist() {
-        DataSettings.save(this, cycleDay, limitMb, alertStyles, alertPercent, colorChoice)
+        DataSettings.save(this, cycleDay, limitMb, alertStyles, alertPercent, colorChoice, layoutStyle)
         val context = applicationContext
         worker.execute { WidgetRenderer.refreshAll(context) }
     }
@@ -278,6 +300,19 @@ class ConfigActivity : Activity() {
             chip.isSelected = DataSettings.hasStyle(alertStyles, style)
         }
         colorChips.forEach { (choice, chip) -> paintColorChip(chip, choice) }
+        layoutChips.forEach { (choice, chip) -> chip.isSelected = layoutStyle == choice }
+
+        // The preview host is a fixed square for the gauge; the pillar is
+        // meant to read as a tall 2 x 1 shape, so it gets its own aspect
+        // rather than being squashed into that square.
+        val previewParams = previewHost.layoutParams
+        val density = resources.displayMetrics.density
+        previewParams.height = if (layoutStyle == DataSettings.LAYOUT_PILLAR) {
+            (WidgetRenderer.PILLAR_PREVIEW_HEIGHT_DP * density).roundToInt()
+        } else {
+            (BASE_PREVIEW_DP * density).roundToInt()
+        }
+        previewHost.layoutParams = previewParams
 
         previewHost.removeAllViews()
         val snapshot = UsageSnapshot(
@@ -288,7 +323,8 @@ class ConfigActivity : Activity() {
             hasAccess = granted,
             alertStyles = alertStyles,
             alertPercent = alertPercent,
-            alertColor = DataSettings.colorFor(this, colorChoice)
+            alertColor = DataSettings.colorFor(this, colorChoice),
+            layoutStyle = layoutStyle
         )
         val views = WidgetRenderer.buildPreview(this, snapshot)
         previewHost.addView(views.apply(applicationContext, previewHost))

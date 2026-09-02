@@ -57,6 +57,7 @@ object TeamCatalog {
         "LAA|Los Angeles Angels", "LAD|Los Angeles Dodgers", "MIA|Miami Marlins",
         "MIL|Milwaukee Brewers", "MIN|Minnesota Twins", "NYM|New York Mets",
         "NYY|New York Yankees", "ATH|Athletics", "PHI|Philadelphia Phillies",
+        "CHW|Chicago White Sox",
         "PIT|Pittsburgh Pirates", "SD|San Diego Padres", "SF|San Francisco Giants",
         "SEA|Seattle Mariners", "STL|St. Louis Cardinals", "TB|Tampa Bay Rays",
         "TEX|Texas Rangers", "TOR|Toronto Blue Jays", "WSH|Washington Nationals"
@@ -67,12 +68,12 @@ object TeamCatalog {
         "CGY|Calgary Flames", "CAR|Carolina Hurricanes", "CHI|Chicago Blackhawks",
         "COL|Colorado Avalanche", "CBJ|Columbus Blue Jackets", "DAL|Dallas Stars",
         "DET|Detroit Red Wings", "EDM|Edmonton Oilers", "FLA|Florida Panthers",
-        "LAK|Los Angeles Kings", "MIN|Minnesota Wild", "MTL|Montreal Canadiens",
-        "NSH|Nashville Predators", "NJD|New Jersey Devils", "NYI|New York Islanders",
+        "LA|Los Angeles Kings", "MIN|Minnesota Wild", "MTL|Montreal Canadiens",
+        "NSH|Nashville Predators", "NJ|New Jersey Devils", "NYI|New York Islanders",
         "NYR|New York Rangers", "OTT|Ottawa Senators", "PHI|Philadelphia Flyers",
-        "PIT|Pittsburgh Penguins", "SJS|San Jose Sharks", "SEA|Seattle Kraken",
-        "STL|St. Louis Blues", "TBL|Tampa Bay Lightning", "TOR|Toronto Maple Leafs",
-        "UTA|Utah Mammoth", "VAN|Vancouver Canucks", "VGK|Vegas Golden Knights",
+        "PIT|Pittsburgh Penguins", "SJ|San Jose Sharks", "SEA|Seattle Kraken",
+        "STL|St. Louis Blues", "TB|Tampa Bay Lightning", "TOR|Toronto Maple Leafs",
+        "UTAH|Utah Mammoth", "VAN|Vancouver Canucks", "VGK|Vegas Golden Knights",
         "WSH|Washington Capitals", "WPG|Winnipeg Jets"
     )
 
@@ -87,7 +88,7 @@ object TeamCatalog {
      * screen, which matches against the feed rather than against this list.
      */
     private val NCAAF_ROWS = listOf(
-        "BAMA|Alabama Crimson Tide", "AUB|Auburn Tigers", "CLEM|Clemson Tigers",
+        "ALA|Alabama Crimson Tide", "AUB|Auburn Tigers", "CLEM|Clemson Tigers",
         "FSU|Florida State Seminoles", "FLA|Florida Gators", "UGA|Georgia Bulldogs",
         "IOWA|Iowa Hawkeyes", "LSU|LSU Tigers", "MIA|Miami Hurricanes",
         "MICH|Michigan Wolverines", "MSU|Michigan State Spartans",

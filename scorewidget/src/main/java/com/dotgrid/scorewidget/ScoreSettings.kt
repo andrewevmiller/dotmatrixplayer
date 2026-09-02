@@ -63,6 +63,31 @@ object ScoreSettings {
         context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
     /**
+     * Abbreviations ESPN has renamed since a favourite could have been saved
+     * under the old one.
+     *
+     * A favourite is stored as `league/ABBREV`, and that abbreviation is
+     * matched byte-for-byte against what the live scoreboard sends - see
+     * [Game.involves]. When ESPN changes an abbreviation (a relocation, a
+     * rebrand, or just a live feed disagreeing with what [TeamCatalog] had
+     * hardcoded), a favourite saved under the old spelling silently stops
+     * matching anything: not an empty list, not a crash, just a team whose
+     * games never appear again with nothing on screen to say why. [favorites]
+     * rewrites any stored key still using an old abbreviation before anything
+     * else reads the list, so a favourite saved months ago keeps meaning the
+     * same team it always did.
+     */
+    private val ABBREV_RENAMES = mapOf(
+        "NHL/LAK" to "NHL/LA",
+        "NHL/NJD" to "NHL/NJ",
+        "NHL/SJS" to "NHL/SJ",
+        "NHL/TBL" to "NHL/TB",
+        "NHL/UTA" to "NHL/UTAH",
+        "MLB/CWS" to "MLB/CHW",
+        "NCAAF/BAMA" to "NCAAF/ALA"
+    )
+
+    /**
      * The favourites, **in priority order**. First is the team whose game gets
      * the tile when several are on at once.
      *
@@ -70,11 +95,22 @@ object ScoreSettings {
      * `StringSet` does not preserve order and the order is the entire feature -
      * it is the priority queue the settings menu lets the user drag into shape.
      */
-    fun favorites(context: Context): List<String> =
-        prefs(context).getString(KEY_FAVORITES, "")
+    fun favorites(context: Context): List<String> {
+        val stored = prefs(context).getString(KEY_FAVORITES, "")
             .orEmpty()
             .split("\n")
             .filter { it.isNotBlank() }
+
+        val migrated = stored.map { ABBREV_RENAMES[it] ?: it }.distinct()
+
+        // Only a rename can produce a collision worth writing back - two old
+        // keys landing on one new one, e.g. someone who favourited the Devils
+        // before the rename and again after. Writing back keeps this a
+        // one-time fixup per device rather than a rewrite on every read.
+        if (migrated != stored) setFavorites(context, migrated)
+
+        return migrated
+    }
 
     fun setFavorites(context: Context, keys: List<String>) {
         prefs(context).edit()
@@ -137,9 +173,9 @@ object ScoreSettings {
     /**
      * Which alerts are armed, as a bitmask.
      *
-     * Empty by default. The manifest does not hold POST_NOTIFICATIONS, and the
-     * permission is requested at the moment the first of these is switched on -
-     * so the default has to be a state in which nothing has been promised.
+     * Empty by default. POST_NOTIFICATIONS is not requested until the first of
+     * these is switched on - so the default has to be a state in which
+     * nothing has been promised.
      */
     fun alerts(context: Context): Int = prefs(context).getInt(KEY_ALERTS, 0)
 

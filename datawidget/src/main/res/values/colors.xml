@@ -81,6 +81,17 @@
          the brighter card while staying well below chip_on/meter_active. -->
     <color name="chip_off">#1F000000</color>
 
+    <!-- Pillar layout. Fixed, not split day/night like the rest of the tile -
+         this layout is modelled directly on a dark dot-grid reference photo,
+         and the whole point of it is that specific dark card with white
+         dots, in both themes. pillar_dot_inactive_alert is not day/night
+         either: the tripped background (nt_red) is roughly the same
+         darkness in both themes, so one white-alpha value stays legible on
+         it either way. -->
+    <color name="pillar_surface">#FF262626</color>
+    <color name="pillar_dot_inactive">#FF404040</color>
+    <color name="pillar_dot_inactive_alert">#59FFFFFF</color>
+
     <!-- CTA pill button on the config screen. Inverted from the fixed
          nt_white/nt_black pairing that used to be hardcoded: on the now
          pure-white config_bg, a white pill with black text had no visible

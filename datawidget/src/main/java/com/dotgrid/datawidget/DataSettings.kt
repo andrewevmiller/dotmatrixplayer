@@ -21,6 +21,17 @@ object DataSettings {
     private const val KEY_ALERT_STYLES = "alert_styles"
     private const val KEY_ALERT_PERCENT = "alert_percent"
     private const val KEY_ALERT_COLOR = "alert_color"
+    private const val KEY_LAYOUT_STYLE = "layout_style"
+
+    /** The radial arc of dots this tile has always drawn. */
+    const val LAYOUT_GAUGE = 0
+
+    /** The tall dot-matrix pillar: no readout text, fills bottom to top, and
+     *  turns its whole card the alert colour on trip rather than tinting a
+     *  ring or a border. */
+    const val LAYOUT_PILLAR = 1
+
+    private const val DEFAULT_LAYOUT = LAYOUT_GAUGE
 
     /** A dot in the corner of the tile, in the alert colour. */
     const val STYLE_DOT = 1 shl 0
@@ -85,13 +96,17 @@ object DataSettings {
     fun alertColorChoice(context: Context): Int =
         prefs(context).getInt(KEY_ALERT_COLOR, DEFAULT_COLOR)
 
+    fun layoutStyle(context: Context): Int =
+        prefs(context).getInt(KEY_LAYOUT_STYLE, DEFAULT_LAYOUT)
+
     fun save(
         context: Context,
         cycleDay: Int,
         limitMb: Int,
         alertStyles: Int,
         alertPercent: Int,
-        alertColor: Int
+        alertColor: Int,
+        layoutStyle: Int
     ) {
         prefs(context).edit()
             .putInt(KEY_CYCLE_DAY, cycleDay.coerceIn(1, 31))
@@ -99,6 +114,7 @@ object DataSettings {
             .putInt(KEY_ALERT_STYLES, alertStyles)
             .putInt(KEY_ALERT_PERCENT, alertPercent.coerceIn(MIN_PERCENT, MAX_PERCENT))
             .putInt(KEY_ALERT_COLOR, alertColor)
+            .putInt(KEY_LAYOUT_STYLE, layoutStyle)
             .apply()
     }
 

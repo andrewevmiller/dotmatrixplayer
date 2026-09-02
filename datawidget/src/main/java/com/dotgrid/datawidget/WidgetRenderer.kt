@@ -78,6 +78,10 @@ object WidgetRenderer {
         val heightDp = options?.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 0)
             ?.takeIf { it > 0 } ?: BASE_TILE_DP.toInt()
 
+        if (snapshot.layoutStyle == DataSettings.LAYOUT_PILLAR) {
+            return paintPillar(context, snapshot, widthDp.toFloat(), heightDp.toFloat())
+        }
+
         // The dial is a circle, so the tile's short side is the whole budget.
         return paint(context, snapshot, min(widthDp, heightDp).toFloat())
     }
@@ -89,7 +93,16 @@ object WidgetRenderer {
      * settings screen too, instead of only on a home screen.
      */
     fun buildPreview(context: Context, snapshot: UsageSnapshot): RemoteViews =
-        paint(context, snapshot, BASE_TILE_DP)
+        if (snapshot.layoutStyle == DataSettings.LAYOUT_PILLAR) {
+            paintPillar(context, snapshot, BASE_TILE_DP, PILLAR_PREVIEW_HEIGHT_DP)
+        } else {
+            paint(context, snapshot, BASE_TILE_DP)
+        }
+
+    /** The preview host on the config screen is resized to this for the
+     *  pillar layout, so the live preview shows the true tall proportions
+     *  rather than a pillar squashed into the gauge's square slot. */
+    const val PILLAR_PREVIEW_HEIGHT_DP = 220f
 
     fun refreshAll(context: Context) {
         val manager = AppWidgetManager.getInstance(context) ?: return
@@ -102,6 +115,61 @@ object WidgetRenderer {
         // expensive part and they are all showing the same plan.
         val snapshot = UsageSnapshot.read(context)
         ids.forEach { id -> manager.updateAppWidget(id, build(context, manager, id, snapshot)) }
+    }
+
+    /**
+     * The pillar layout: a rectangular dot grid, no readout text, background
+     * flips to the alert colour on trip rather than tinting a ring or border.
+     *
+     * A separate function rather than a branch inside [paint] because the two
+     * layouts share almost nothing past "read the snapshot, paint a bitmap" -
+     * no type sizing, no readout fitting, a different renderer, a different
+     * shape budget (a rectangle, not a square).
+     */
+    private fun paintPillar(
+        context: Context,
+        snapshot: UsageSnapshot,
+        widthDp: Float,
+        heightDp: Float
+    ): RemoteViews {
+        val views = RemoteViews(context.packageName, R.layout.widget_data)
+        val density = context.resources.displayMetrics.density
+        fun px(dp: Float) = max(1, (dp * density).roundToInt())
+
+        views.setViewVisibility(R.id.dial_root, View.GONE)
+        views.setViewVisibility(R.id.pillar_root, View.VISIBLE)
+
+        val contentWidthPx = px(widthDp - PADDING_DP * 2)
+        val contentHeightPx = px(heightDp - PADDING_DP * 2)
+
+        val tripped = snapshot.overLimit
+        val cardColor = if (tripped) snapshot.alertColor else context.getColor(R.color.pillar_surface)
+        val inactiveColor = if (tripped) {
+            context.getColor(R.color.pillar_dot_inactive_alert)
+        } else {
+            context.getColor(R.color.pillar_dot_inactive)
+        }
+
+        // Always white, trip or not - see docs/data-widget-pillar-layout.md.
+        // Unlike the dial's STYLE_RING, the pillar's filled dots never switch
+        // to the alert colour; the background does that job instead, and a
+        // filled dot that also went red would fight the background for it.
+        val activeColor = context.getColor(R.color.nt_white)
+
+        views.setInt(R.id.pillar_card_bg, "setColorFilter", cardColor)
+        views.setImageViewBitmap(
+            R.id.pillar_grid,
+            PillarRenderer.render(
+                widthPx = contentWidthPx,
+                heightPx = contentHeightPx,
+                fraction = if (snapshot.bytes == null) null else snapshot.fraction,
+                activeColor = activeColor,
+                inactiveColor = inactiveColor
+            )
+        )
+
+        views.setOnClickPendingIntent(R.id.widget_root, configIntent(context))
+        return views
     }
 
     private fun paint(

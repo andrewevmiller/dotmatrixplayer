@@ -63,8 +63,26 @@ object TeamDirectory {
         // collision - it is the one the scoreboard will agree with.
         val merged = LinkedHashMap<String, Team>()
         TeamCatalog.teams(league).forEach { merged[it.key] = it }
+        val cachedKeys = cached.map { it.key }.toSet()
         cached.forEach { merged[it.key] = it }
-        return merged.values.sortedBy { it.name }
+
+        // A second pass, by name rather than by key - the seed and the feed
+        // can each name a team correctly while disagreeing on its
+        // abbreviation (a rename or relocation the seed has not caught up
+        // with yet), and that disagreement is exactly what the key-based
+        // merge above cannot catch: two different keys, the same team,
+        // both surviving into the list. Collapsing by name too closes that
+        // gap - a fetched entry always wins the collision, since its
+        // abbreviation is the one the scoreboard will actually send.
+        val byName = LinkedHashMap<String, Team>()
+        merged.values.forEach { team ->
+            val nameKey = team.name.trim().lowercase()
+            val existing = byName[nameKey]
+            if (existing == null || (team.key in cachedKeys && existing.key !in cachedKeys)) {
+                byName[nameKey] = team
+            }
+        }
+        return byName.values.sortedBy { it.name }
     }
 
     /** Case-insensitive match on abbreviation or name, for the settings search. */

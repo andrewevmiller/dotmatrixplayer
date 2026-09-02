@@ -38,6 +38,11 @@
     <string name="datawidget_config_status_off">NOT CONNECTED</string>
     <string name="datawidget_config_settings_missing">This device has no usage access screen. Grant it from Settings &gt; Apps &gt; Special app access manually.</string>
 
+    <string name="datawidget_config_section_layout">SHAPE</string>
+    <string name="datawidget_config_layout_gauge">GAUGE</string>
+    <string name="datawidget_config_layout_pillar">PILLAR</string>
+    <string name="datawidget_config_layout_hint">The pillar is a tall dot grid for a 2 × 1 placement, with no readout text - resize the tile to match once placed.</string>
+
     <string name="datawidget_config_section_cycle">ROLLOVER</string>
     <string name="datawidget_config_cycle_hint">Day of the month your allowance resets. Months without that date roll over on their last day.</string>
     <string name="datawidget_config_next_reset_format">NEXT: %1$s</string>

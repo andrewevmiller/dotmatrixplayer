@@ -16,7 +16,8 @@ data class UsageSnapshot(
     val hasAccess: Boolean,
     val alertStyles: Int,
     val alertPercent: Int,
-    val alertColor: Int
+    val alertColor: Int,
+    val layoutStyle: Int = DataSettings.LAYOUT_GAUGE
 ) {
 
     val hasLimit: Boolean get() = limitMb > DataSettings.LIMIT_OFF_MB
@@ -70,7 +71,8 @@ data class UsageSnapshot(
                 hasAccess = hasAccess,
                 alertStyles = DataSettings.alertStyles(context),
                 alertPercent = DataSettings.alertPercent(context),
-                alertColor = DataSettings.alertColor(context)
+                alertColor = DataSettings.alertColor(context),
+                layoutStyle = DataSettings.layoutStyle(context)
             )
         }
 

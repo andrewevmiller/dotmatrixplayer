@@ -18,17 +18,21 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <!--
-        POST_NOTIFICATIONS is deliberately absent.
+        POST_NOTIFICATIONS.
 
-        The widget carries alert toggles, and the honest reading of that is that
-        it should hold the permission. But the toggles set which events are
-        wanted, all three are off by default, and nothing is posted until the
-        user turns the first one on - so asking at install time would be asking
-        for something the app may never use. ConfigActivity requests it at the
-        moment a toggle is first switched on, which is the only moment the
-        request has a reason the user can see. See GameAlerts, which re-checks
-        the grant on every post because it can be revoked afterwards.
+        Declaring it here does not mean asking for it at install time - on
+        Android 13+ it is always a runtime-requested permission, declaration
+        or not. What declaration actually controls is whether
+        ConfigActivity's requestPermissions call can succeed at all: an
+        undeclared dangerous permission is auto-denied with no dialog shown,
+        which is why the alert toggles could be switched on and still never
+        post anything without this line. ConfigActivity still waits until the
+        moment a toggle is first switched on to ask, which is the only moment
+        the request has a reason the user can see, and GameAlerts still
+        re-checks the grant on every post because it can be revoked
+        afterwards.
     -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <!--
         A library manifest, merged into :app.

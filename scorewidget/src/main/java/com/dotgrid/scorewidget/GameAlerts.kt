@@ -24,10 +24,8 @@ import android.util.Log
  *
  * ### On the permission
  *
- * The manifest deliberately does not hold `POST_NOTIFICATIONS`. All three
- * toggles are off by default, so an install-time declaration would be asking
- * for something the app may never use. [ConfigActivity] requests it at the
- * moment the first toggle is switched on, which is the only moment the request
+ * The manifest holds `POST_NOTIFICATIONS`, but [ConfigActivity] does not ask
+ * for it until the first toggle is switched on - the only moment the request
  * has a reason the user can see - and [post] checks the grant again anyway,
  * because it can be revoked from system settings at any time afterwards.
  */

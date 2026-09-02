@@ -406,9 +406,10 @@ one of those would otherwise be a request.
 
 ## Notifications
 
-`POST_NOTIFICATIONS` is deliberately **absent from the manifest**. All three
-alert toggles are off by default, so declaring it at install time would be
-asking for something the app may never use. `ConfigActivity` requests it at the
+The manifest holds `POST_NOTIFICATIONS`, but it is not requested at install
+time — on Android 13+ it is a runtime permission regardless of declaration, so
+declaring it does not mean asking for it early. All three alert toggles are
+off by default, and `ConfigActivity` waits to request the permission until the
 moment the first toggle is switched on — the only moment the request has a
 reason the user can see — and `GameAlerts` re-checks the grant on every post,
 because it can be revoked afterwards.
