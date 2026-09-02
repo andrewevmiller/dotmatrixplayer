@@ -141,7 +141,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="6dp"
         android:contentDescription="@string/scorewidget_cd_next_game"
-        android:paddingStart="9dp"
+        android:paddingStart="14dp"
         android:paddingEnd="2dp"
         android:scaleType="center"
         android:visibility="gone" />
