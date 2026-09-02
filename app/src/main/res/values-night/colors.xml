@@ -26,6 +26,11 @@
 
     <color name="app_glyph">#E0FFFFFF</color>
 
+    <!-- Unchanged from what control_ring.xml hardcoded before this was made
+         a token - see values/colors.xml for why light mode needed its own
+         value. -->
+    <color name="control_ring_stroke">#66FFFFFF</color>
+
     <color name="track_active">#FFFFFFFF</color>
     <color name="track_inactive">#33FFFFFF</color>
 

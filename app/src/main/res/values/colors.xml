@@ -41,6 +41,16 @@
          title, so it identifies without competing. -->
     <color name="app_glyph">#E0000000</color>
 
+    <!-- The play/pause key's hairline ring. Same alpha as the dark-mode value
+         (0x66), ink colour inverted - the same "same alpha, flip polarity"
+         move already used for app_glyph and widget_stroke above, since this
+         is a structural outline rather than a text pairing and isn't held to
+         a contrast ratio. Previously hardcoded to a literal #66FFFFFF in
+         control_ring.xml, which the light-mode pass missed: a 40%-alpha white
+         ring on the now off-white widget_surface reads as almost nothing,
+         the same failure mode text_primary/status_dot_on were fixed for. -->
+    <color name="control_ring_stroke">#66000000</color>
+
     <color name="track_active">#FF000000</color>
     <color name="track_inactive">#33000000</color>
 
