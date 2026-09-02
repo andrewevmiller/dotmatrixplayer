@@ -29,6 +29,8 @@
     <string name="cd_next_source">Source %1$d of %2$d. Tap to switch.</string>
     <string name="cd_move_up">Move up</string>
     <string name="cd_move_down">Move down</string>
+    <string name="cd_remove_source">Remove from carousel</string>
+    <string name="cd_restore_source">Restore to carousel</string>
 
     <string name="setup_headline">Dot Matrix Player</string>
     <string name="setup_body">This widget reads whichever media session is currently active and sends transport commands back to it. Android requires notification access for that — it is the only permission the app asks for, and nothing leaves the device.</string>
@@ -53,4 +55,6 @@
     <string name="setup_menu_content_description">Other widgets</string>
 
     <string name="setup_order_empty">Nothing here yet. Apps appear once they have played something, so this list stays to the ones that actually turn up in the widget.</string>
+
+    <string name="setup_order_removed_title">REMOVED</string>
 </resources>
