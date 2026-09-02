@@ -123,26 +123,10 @@
         android:visibility="gone">
 
         <!--
-            The pillar's own card fill, drawn over widget_root's background
-            rather than replacing it - see pillar_bg.xml. Bled out to the
-            padded edge with the same negative margins alert_border above
-            uses, so it reaches the same rounded corners widget_bg draws,
-            whatever colour it is tinted to.
-        -->
-        <ImageView
-            android:id="@+id/pillar_card_bg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="-10dp"
-            android:layout_marginBottom="-10dp"
-            android:layout_marginStart="-10dp"
-            android:layout_marginEnd="-10dp"
-            android:contentDescription="@null"
-            android:scaleType="fitXY"
-            android:src="@drawable/pillar_bg" />
-
-        <!--
-            The dot grid. fitCenter for the same reason as the dial's meter -
+            The whole pillar - stadium card and dot grid in one bitmap, so
+            the card's proportions and rounded ends are set in PillarRenderer
+            rather than by a background drawable the host can clip. fitCenter
+            for the same reason as the dial's meter -
             the bitmap is rendered at exactly this view's content size already,
             so this only guards against rounding, not real scaling.
         -->

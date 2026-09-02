@@ -5,6 +5,7 @@
          and app info show. Kept as its own string so :app owns data_app_name. -->
     <string name="datawidget_data_config_title">Data Usage</string>
     <string name="datawidget_data_widget_description">Monthly mobile data on a dot-matrix dial, with your own rollover date and over-limit indicator.</string>
+    <string name="datawidget_pillar_widget_description">Monthly mobile data as a tall dot-grid pillar, sized to drop straight in at 1 x 2 cells.</string>
 
     <!-- Cross-widget menu. This module cannot depend on :app or the sibling
          widget modules (see ConfigActivity#showWidgetMenu), so the media

@@ -82,14 +82,21 @@
     <color name="chip_off">#1F000000</color>
 
     <!-- Pillar layout. Fixed, not split day/night like the rest of the tile -
-         this layout is modelled directly on a dark dot-grid reference photo,
+         this layout is modelled directly on a dark dot-grid reference widget,
          and the whole point of it is that specific dark card with white
          dots, in both themes. pillar_dot_inactive_alert is not day/night
          either: the tripped background (nt_red) is roughly the same
          darkness in both themes, so one white-alpha value stays legible on
-         it either way. -->
-    <color name="pillar_surface">#FF262626</color>
-    <color name="pillar_dot_inactive">#FF404040</color>
+         it either way.
+
+         Both greys are sampled off that reference on a device screenshot,
+         not chosen: its card reads #1B1B1D and its unlit dots #303032, which
+         round to the two values below. The card grey landing on the family's
+         own dark widget_surface (#1B1B1B, see docs/BRAND_LANGUAGE.md) is a
+         happy accident, but it does mean the pillar now matches the rest of
+         the family in dark mode and only diverges in light. -->
+    <color name="pillar_surface">#FF1B1B1B</color>
+    <color name="pillar_dot_inactive">#FF303030</color>
     <color name="pillar_dot_inactive_alert">#59FFFFFF</color>
 
     <!-- CTA pill button on the config screen. Inverted from the fixed
