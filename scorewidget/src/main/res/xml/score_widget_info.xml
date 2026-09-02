@@ -28,7 +28,7 @@
     to the next.
 -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:label="@string/scorewidget_score_config_title"
+    android:label="Live Scores"
     android:description="@string/scorewidget_score_widget_description"
     android:initialLayout="@layout/widget_score_strip"
     android:previewImage="@drawable/score_widget_preview"

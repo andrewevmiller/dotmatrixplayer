@@ -249,17 +249,17 @@ class SetupActivity : Activity() {
         val entries = listOf(
             Triple(getString(R.string.app_name), null, 0),
             Triple(
-                getString(com.dotgrid.datawidget.R.string.data_config_title),
+                getString(com.dotgrid.datawidget.R.string.datawidget_data_config_title),
                 "com.dotgrid.datawidget.ConfigActivity",
                 1
             ),
             Triple(
-                getString(com.dotgrid.scorewidget.R.string.score_config_title),
+                getString(com.dotgrid.scorewidget.R.string.scorewidget_score_config_title),
                 "com.dotgrid.scorewidget.ConfigActivity",
                 2
             ),
             Triple(
-                getString(com.dotgrid.healthwidget.R.string.health_config_title),
+                getString(com.dotgrid.healthwidget.R.string.healthwidget_health_config_title),
                 "com.dotgrid.healthwidget.ConfigActivity",
                 3
             )

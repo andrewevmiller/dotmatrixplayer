@@ -154,7 +154,7 @@
             android:letterSpacing="0.14"
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
-            android:text="@string/config_grant"
+            android:text="@string/healthwidget_health_config_grant"
             android:textColor="@color/button_text"
             android:textSize="13sp" />
 
