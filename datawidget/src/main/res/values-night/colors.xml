@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Nothing OS reads as a monochrome system with one signal colour.
+         Everything is pure black / pure white; colour is reserved for state. -->
+    <color name="nt_black">#FF000000</color>
+    <color name="nt_white">#FFFFFFFF</color>
+
+    <!-- Accent grey, dark mode only. One step lighter than the tile
+         (widget_surface #1B1B1D) so recessed and secondary surfaces read as
+         distinct without introducing a second hue - the dark-mode counterpart
+         of light mode's config_field. A surface tone, not a signal colour:
+         nt_red stays the only accent that means anything. See
+         docs/BRAND_LANGUAGE.md. -->
+    <color name="nt_grey_accent">#FF303032</color>
+
     <!-- Both the tile and the config screen now follow the system theme.
          These are the values the app has always shown - dark mode is a
          zero-regression carry-forward of what was previously the only
          look, not a new design. -->
-    <color name="widget_surface">#FF1B1B1B</color>
+    <color name="widget_surface">#FF1B1B1D</color>
     <color name="widget_stroke">#1FFFFFFF</color>
 
     <color name="text_primary">#FFFFFFFF</color>
@@ -13,6 +26,23 @@
 
     <color name="meter_active">#FFFFFFFF</color>
     <color name="meter_inactive">#2EFFFFFF</color>
+
+    <!-- The one accent. Used only for "this is live".
+         N-Red as used across this family: #D71921 - a deliberate departure from
+         the guideline PDF's printed #C8102E, see docs/BRAND_LANGUAGE.md. -->
+    <color name="nt_red">#FFD71921</color>
+
+    <!-- The accent for the over-limit indicator. N-Yellow from Nothing's brand
+         guidelines (#FFC700), not a generic Material amber. See docs/BRAND_LANGUAGE.md. -->
+    <color name="nt_amber">#FFFFC700</color>
+
+    <!-- Pillar layout. Fixed, not split day/night like the rest of the tile -
+         this layout is modelled directly on a dark dot-grid reference widget,
+         and the whole point of it is that specific dark card with white
+         dots, in both themes. Sampled off the reference device. -->
+    <color name="pillar_surface">#FF1B1B1D</color>
+    <color name="pillar_dot_inactive">#FF303032</color>
+    <color name="pillar_dot_inactive_alert">#59FFFFFF</color>
 
     <color name="config_bg">#FF000000</color>
     <color name="config_card">#FF0E0E0E</color>

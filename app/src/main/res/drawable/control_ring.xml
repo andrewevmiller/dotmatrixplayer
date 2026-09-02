@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- The play/pause key is the only control that gets a container.
-     A hairline ring, not a filled pill. -->
+     A hairline ring, not a filled pill. Stroke colour is themed - see
+     control_ring_stroke in colors.xml / values-night/colors.xml - not
+     hardcoded, so it stays visible against both a near-black and an
+     off-white widget_surface. -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <solid android:color="#00000000" />
-    <stroke android:width="1.5dp" android:color="#66FFFFFF" />
+    <stroke android:width="1.5dp" android:color="@color/control_ring_stroke" />
 </shape>

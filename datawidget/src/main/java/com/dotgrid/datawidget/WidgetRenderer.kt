@@ -78,7 +78,16 @@ object WidgetRenderer {
         val heightDp = options?.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT, 0)
             ?.takeIf { it > 0 } ?: BASE_TILE_DP.toInt()
 
-        if (snapshot.layoutStyle == DataSettings.LAYOUT_PILLAR) {
+        // A PillarWidgetProvider instance is always the pillar, independent
+        // of the gauge's own SHAPE chip - it was placed from the dedicated
+        // 1 x 2 picker entry precisely to skip that choice. The chip still
+        // governs any DataWidgetProvider instance, which keeps the pillar
+        // reachable by hand-resizing the square tile too.
+        val isPillarProvider = runCatching {
+            appWidgetManager.getAppWidgetInfo(appWidgetId)?.provider?.className
+        }.getOrNull() == PillarWidgetProvider::class.java.name
+
+        if (isPillarProvider || snapshot.layoutStyle == DataSettings.LAYOUT_PILLAR) {
             return paintPillar(context, snapshot, widthDp.toFloat(), heightDp.toFloat())
         }
 
@@ -106,9 +115,10 @@ object WidgetRenderer {
 
     fun refreshAll(context: Context) {
         val manager = AppWidgetManager.getInstance(context) ?: return
-        val ids = manager.getAppWidgetIds(
-            ComponentName(context, DataWidgetProvider::class.java)
-        )
+        // Both providers share one appWidgetId namespace, so update() does
+        // not care which of them placed a given id - only which ids exist.
+        val ids = manager.getAppWidgetIds(ComponentName(context, DataWidgetProvider::class.java)) +
+            manager.getAppWidgetIds(ComponentName(context, PillarWidgetProvider::class.java))
         if (ids.isEmpty()) return
 
         // One read for every tile on the home screen: the query is the
@@ -139,8 +149,24 @@ object WidgetRenderer {
         views.setViewVisibility(R.id.dial_root, View.GONE)
         views.setViewVisibility(R.id.pillar_root, View.VISIBLE)
 
-        val contentWidthPx = px(widthDp - PADDING_DP * 2)
-        val contentHeightPx = px(heightDp - PADDING_DP * 2)
+        // widget_data.xml's own android:background is widget_bg - the 26dp
+        // "rounded box" the gauge card wants. The pillar draws its own
+        // stadium card into the bitmap instead, so left in place widget_bg
+        // would show through the pill's rounded ends as a visible box.
+        // Cleared here, restored nowhere, because a fresh RemoteViews
+        // inflates with widget_bg from the layout XML every time paint() runs
+        // the gauge branch - only this branch ever needs to remove it.
+        views.setInt(R.id.widget_root, "setBackgroundResource", 0)
+
+        // The gauge's 10dp padding is dropped too. The pillar's margins are
+        // proportional, baked into PillarRenderer's own ratios, and a fixed
+        // dp inset on top of them would eat into the card at small sizes and
+        // vanish at large ones. Restored on the gauge branch the same way
+        // the background is: by re-inflating the layout.
+        views.setViewPadding(R.id.widget_root, 0, 0, 0, 0)
+
+        val widthPx = px(widthDp)
+        val heightPx = px(heightDp)
 
         val tripped = snapshot.overLimit
         val cardColor = if (tripped) snapshot.alertColor else context.getColor(R.color.pillar_surface)
@@ -156,13 +182,13 @@ object WidgetRenderer {
         // filled dot that also went red would fight the background for it.
         val activeColor = context.getColor(R.color.nt_white)
 
-        views.setInt(R.id.pillar_card_bg, "setColorFilter", cardColor)
         views.setImageViewBitmap(
             R.id.pillar_grid,
             PillarRenderer.render(
-                widthPx = contentWidthPx,
-                heightPx = contentHeightPx,
+                widthPx = widthPx,
+                heightPx = heightPx,
                 fraction = if (snapshot.bytes == null) null else snapshot.fraction,
+                cardColor = cardColor,
                 activeColor = activeColor,
                 inactiveColor = inactiveColor
             )

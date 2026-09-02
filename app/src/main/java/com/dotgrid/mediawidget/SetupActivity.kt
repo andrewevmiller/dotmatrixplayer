@@ -34,6 +34,8 @@ class SetupActivity : Activity() {
     private lateinit var orderList: LinearLayout
     private lateinit var orderEmpty: TextView
     private lateinit var orderReset: TextView
+    private lateinit var removedSection: View
+    private lateinit var removedList: LinearLayout
     private lateinit var menuButton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +51,8 @@ class SetupActivity : Activity() {
         orderList = findViewById(R.id.source_order_list)
         orderEmpty = findViewById(R.id.source_order_empty)
         orderReset = findViewById(R.id.source_order_reset)
+        removedSection = findViewById(R.id.source_removed_section)
+        removedList = findViewById(R.id.source_removed_list)
         menuButton = findViewById(R.id.menu_button)
 
         /*
@@ -174,7 +178,47 @@ class SetupActivity : Activity() {
             bindMove(up, index, -1, enabled = index > 0, apps = apps)
             bindMove(down, index, +1, enabled = index < apps.size - 1, apps = apps)
 
+            row.findViewById<ImageView>(R.id.row_remove).setOnClickListener {
+                SourceOrder.hide(this, app.packageName)
+                renderOrderList()
+                WidgetRenderer.refreshAll(this)
+            }
+
             orderList.addView(row)
+        }
+
+        renderRemovedList(glyphPx, tint)
+    }
+
+    /** The "Removed" sub-list, restore key per row. Hidden entirely when empty. */
+    private fun renderRemovedList(glyphPx: Int, tint: Int) {
+        val removed = SourceOrder.hiddenForSettings(this)
+        removedList.removeAllViews()
+        removedSection.visibility = if (removed.isEmpty()) View.GONE else View.VISIBLE
+
+        removed.forEach { app ->
+            val row = layoutInflater.inflate(R.layout.source_removed_row, removedList, false)
+
+            val labelView = row.findViewById<TextView>(R.id.row_label)
+            labelView.text = app.label
+            labelView.alpha = if (app.named) 1f else 0.6f
+
+            val glyphView = row.findViewById<ImageView>(R.id.row_glyph)
+            val glyph = AppGlyph.render(this, app.packageName, glyphPx, tint)
+            if (glyph != null) {
+                glyphView.setImageBitmap(glyph)
+                glyphView.visibility = View.VISIBLE
+            } else {
+                glyphView.visibility = View.INVISIBLE
+            }
+
+            row.findViewById<ImageView>(R.id.row_restore).setOnClickListener {
+                SourceOrder.unhide(this, app.packageName)
+                renderOrderList()
+                WidgetRenderer.refreshAll(this)
+            }
+
+            removedList.addView(row)
         }
     }
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- An X: two 2dp-thick bars crossed, same weight as the move-key triangles. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp" android:height="24dp"
+    android:viewportWidth="24" android:viewportHeight="24"
+    android:tint="@color/text_primary">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M6,4.6 L4.6,6 L10.6,12 L4.6,18 L6,19.4 L12,13.4 L18,19.4 L19.4,18 L13.4,12 L19.4,6 L18,4.6 L12,10.6 Z" />
+</vector>

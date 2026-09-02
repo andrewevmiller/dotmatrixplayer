@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    A second provider for the same widget, so the pillar shape is a size the
+    launcher's widget picker can offer directly - 1 x 2 cells, 40 x 110dp on
+    the same 70dp-per-cell/30dp-gutter grid data_widget_info.xml's comment
+    derives its own 110 x 110dp from - rather than only being reachable by
+    dragging the 2 x 2 gauge tile into a taller, narrower shape by hand.
+
+    Points at the same PillarWidgetProvider receiver, which subclasses
+    DataWidgetProvider unchanged - WidgetRenderer.build() tells the two
+    providers' instances apart by which one owns the appWidgetId and always
+    paints a PillarWidgetProvider instance as the pillar, independent of the
+    gauge's own SHAPE chip (see DataSettings.layoutStyle).
+
+    resizeMode is vertical only: widening this tile back toward the gauge's
+    square proportions would fight the fixed 1:2-ish column:row grid the
+    pillar's dot count assumes, so only its height is left adjustable.
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:label="Data Usage (Pillar)"
+    android:description="@string/datawidget_pillar_widget_description"
+    android:initialLayout="@layout/widget_data"
+    android:previewImage="@drawable/data_widget_preview"
+    android:configure="com.dotgrid.datawidget.ConfigActivity"
+
+    android:minWidth="40dp"
+    android:minHeight="110dp"
+
+    android:targetCellWidth="1"
+    android:targetCellHeight="2"
+
+    android:minResizeWidth="40dp"
+    android:minResizeHeight="110dp"
+    android:maxResizeWidth="40dp"
+    android:maxResizeHeight="250dp"
+
+    android:resizeMode="vertical"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable|configuration_optional"
+    android:updatePeriodMillis="1800000" />

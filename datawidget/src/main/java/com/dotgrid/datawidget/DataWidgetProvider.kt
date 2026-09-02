@@ -2,6 +2,7 @@ package com.dotgrid.datawidget
 
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,7 +15,7 @@ import android.os.Bundle
  * rollover date on the configuration screen, and the query is cheap enough that
  * holding on to the answer buys nothing.
  */
-class DataWidgetProvider : AppWidgetProvider() {
+open class DataWidgetProvider : AppWidgetProvider() {
 
     /*
      * Everything below hands its work to [Background]. onUpdate and
@@ -62,8 +63,14 @@ class DataWidgetProvider : AppWidgetProvider() {
     }
 
     override fun onDisabled(context: Context) {
-        // Last tile removed; nothing left to keep fresh.
-        RefreshScheduler.cancel(context)
+        // Fires once the last instance of *this* provider is gone - but
+        // DataWidgetProvider and PillarWidgetProvider are two providers
+        // sharing one refresh schedule, so check the sibling too before
+        // deciding nothing is left to keep fresh.
+        val manager = AppWidgetManager.getInstance(context) ?: return
+        val remaining = manager.getAppWidgetIds(ComponentName(context, DataWidgetProvider::class.java)).size +
+            manager.getAppWidgetIds(ComponentName(context, PillarWidgetProvider::class.java)).size
+        if (remaining == 0) RefreshScheduler.cancel(context)
     }
 
     override fun onReceive(context: Context, intent: Intent) {

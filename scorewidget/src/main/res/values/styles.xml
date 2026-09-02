@@ -42,7 +42,7 @@
 
     <!-- ============ accent: labels and controls ============ -->
 
-    <style name="ScoreSectionLabel" parent="Accent">
+    <style name="ScoreSectionLabel" parent="ScoreAccent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">30dp</item>
@@ -54,7 +54,7 @@
         <item name="android:textSize">11sp</item>
     </style>
 
-    <style name="ScoreChip" parent="Accent">
+    <style name="ScoreChip" parent="ScoreAccent">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>
@@ -69,7 +69,7 @@
 
     <!-- ============ body: copy and labels ============ -->
 
-    <style name="ScoreSectionHint" parent="Body">
+    <style name="ScoreSectionHint" parent="ScoreBody">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">8dp</item>
@@ -82,7 +82,7 @@
         The label beside a toggle. Body rather than accent: the chip next to it
         is the control, and this is the sentence naming it.
     -->
-    <style name="RowLabel" parent="Body">
+    <style name="RowLabel" parent="ScoreBody">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_weight">1</item>

@@ -58,6 +58,13 @@
                 android:layout_weight="1"
                 tools:ignore="UselessLeaf" />
 
+            <ImageView
+                android:id="@+id/header_stamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:contentDescription="@string/healthwidget_cd_last_updated" />
+
             <!--
                 Manual refresh. Sized as a 16dp tap target with 2dp of padding
                 around a 12dp glyph, rather than the glyph's own bounds - a
@@ -69,17 +76,10 @@
                 android:id="@+id/refresh_button"
                 android:layout_width="16dp"
                 android:layout_height="16dp"
-                android:layout_marginStart="6dp"
+                android:layout_marginStart="8dp"
                 android:padding="2dp"
                 android:contentDescription="@string/healthwidget_cd_refresh_now"
                 android:src="@drawable/ic_refresh" />
-
-            <ImageView
-                android:id="@+id/header_stamp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:contentDescription="@string/healthwidget_cd_last_updated" />
         </LinearLayout>
 
         <LinearLayout

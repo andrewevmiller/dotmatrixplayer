@@ -45,6 +45,10 @@ object SessionCarousel {
      */
     fun sessions(context: Context): List<MediaController> = with(MediaHub) {
         val titled = activeControllers(context).filter { it.hasTitle() }
+            // Removed apps stay out of the ring entirely, including the
+            // "remembered" bookkeeping below - a session it no longer holds a
+            // slot for should not keep refreshing its own recency.
+            .filterNot { SourceOrder.isHidden(context, it.packageName) }
         // This is the one place every session the ring can contain passes
         // through, so it is where the settings list learns what exists.
         SourceOrder.remember(context, titled.map { it.packageName })

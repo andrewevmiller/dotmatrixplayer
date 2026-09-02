@@ -231,6 +231,36 @@
                 android:textColor="@color/text_tertiary"
                 android:textSize="12sp"
                 android:visibility="gone" />
+
+            <!-- Apps taken out of the carousel with the row's X key. Its own
+                 sub-list rather than a row state within source_order_list, so
+                 "removed" reads as a different list to be restored from
+                 rather than the bottom of the same ranked one. Hidden
+                 entirely when empty, including its heading, so a user who has
+                 never removed anything never sees the concept. -->
+            <LinearLayout
+                android:id="@+id/source_removed_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/Accent"
+                    android:text="@string/setup_order_removed_title"
+                    android:textColor="@color/text_tertiary"
+                    android:textSize="11sp" />
+
+                <LinearLayout
+                    android:id="@+id/source_removed_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- A live render of the widget, so the setup screen shows the thing

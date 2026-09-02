@@ -5,12 +5,12 @@
     <color name="nt_black">#FF000000</color>
     <color name="nt_white">#FFFFFFFF</color>
 
-    <!-- Light tile surface: pure white, not N-Grey (#DCD7D2). Flattened to
+    <!-- Light tile surface: off-white (#F3F0F1), not N-Grey (#DCD7D2). Flattened to
          match config_bg so the tile reads as clean as the rest of the light
          system chrome; the text/foreground alphas below were raised to
          compensate, since a brighter surface pulls contrast down for every
          translucent-black colour drawn on it. -->
-    <color name="widget_surface">#FFFFFFFF</color>
+    <color name="widget_surface">#FFF3F0F1</color>
     <!-- Decorative hairline only (settings-screen cards, never the tile -
          widget_bg.xml stays fill-only). Not a text pairing, so it isn't held
          to a contrast ratio; kept as the same low-alpha black-on-light the
@@ -46,18 +46,25 @@
          Red is the default and the guideline's own signal colour; amber is
          a step below alarm; white keeps the tile strictly monochrome and
          lets goal-met signal by weight alone. -->
-    <color name="nt_red">#FFC8102E</color>
+    <color name="nt_red">#FFD71921</color>
     <color name="nt_amber">#FFFFC700</color>
 
-    <!-- Highlight extreme (pure white, per the guideline) - the config
+    <!-- Accent grey. One step down from the card (widget_surface #F3F0F1) so
+         recessed and secondary surfaces read as distinct without introducing
+         a second hue - the light-mode counterpart of dark mode's nt_grey_accent.
+         A surface tone, not a signal colour: nt_red stays the only accent
+         that means anything. See docs/BRAND_LANGUAGE.md. -->
+    <color name="nt_grey_accent">#FFE8E6E7</color>
+
+    <!-- Off-white (#F3F0F1), per the family palette - the config
          screen's page background, distinct from the N-Grey card it frames. -->
-    <color name="config_bg">#FFFFFFFF</color>
+    <color name="config_bg">#FFF3F0F1</color>
     <!-- Now identical to config_bg - config_card lost the N-Grey tone that
          used to separate it from the page. health_config_card_bg.xml draws
          widget_stroke as a 1dp outline around this fill, so the card still
          reads as its own shape; that hairline was already there for the
          N-Grey version and does the job on white too. -->
-    <color name="config_card">#FFFFFFFF</color>
+    <color name="config_card">#FFF3F0F1</color>
     <!-- A step darker than config_card, same as before, but the step now
          reads against pure white instead of N-Grey - a bigger jump, so the
          "recessed input" feel is if anything clearer than it was. Left at

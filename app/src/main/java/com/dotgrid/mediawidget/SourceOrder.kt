@@ -22,6 +22,9 @@ object SourceOrder {
     private const val PREFS = "source_order"
     private const val KEY_ORDER = "order"
 
+    /** Packages the user has explicitly taken out of the carousel. */
+    private const val KEY_HIDDEN = "hidden"
+
     /** One key per app, holding when it was last seen holding a session. */
     private const val SEEN_PREFIX = "seen_"
 
@@ -65,6 +68,47 @@ object SourceOrder {
     }
 
     fun hasCustomOrder(context: Context): Boolean = get(context).isNotEmpty()
+
+    /** Packages currently taken out of the carousel. */
+    fun hidden(context: Context): List<String> {
+        val raw = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            .getString(KEY_HIDDEN, null) ?: return emptyList()
+        return raw.split(SEPARATOR).filter { it.isNotBlank() }
+    }
+
+    private fun setHidden(context: Context, packages: List<String>) {
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+            .putString(KEY_HIDDEN, packages.joinToString(SEPARATOR.toString()))
+            .apply()
+    }
+
+    fun isHidden(context: Context, packageName: String): Boolean =
+        hidden(context).contains(packageName)
+
+    /**
+     * Takes an app out of the carousel. It stops appearing in the ring
+     * [SessionCarousel] pages through until [unhide] brings it back.
+     *
+     * Also drops it from the rank order - a hidden app has no order left to
+     * hold, and leaving it in [KEY_ORDER] would mean it silently reclaims its
+     * old position the moment it is unhidden, rather than rejoining at the
+     * unranked tail the way a never-ranked app would.
+     */
+    fun hide(context: Context, packageName: String) {
+        val current = hidden(context)
+        if (packageName in current) return
+        setHidden(context, current + packageName)
+
+        val ranked = get(context)
+        if (packageName in ranked) set(context, ranked - packageName)
+    }
+
+    /** Returns a hidden app to the carousel; it reappears next time it holds a session. */
+    fun unhide(context: Context, packageName: String) {
+        val current = hidden(context)
+        if (packageName !in current) return
+        setHidden(context, current - packageName)
+    }
 
     /**
      * Sorts sessions into the user's order, with unranked apps following in
@@ -167,11 +211,12 @@ object SourceOrder {
      * ring.
      */
     fun listForSettings(context: Context): List<Entry> {
+        val hiddenSet = hidden(context).toSet()
         val ranked = get(context)
-        val recent = seenRecently(context)
+        val recent = seenRecently(context).filterNot { it in hiddenSet }
         val pm = context.packageManager
 
-        val resolved = (ranked + recent).distinct().map { pkg ->
+        val resolved = (ranked + recent).distinct().filterNot { it in hiddenSet }.map { pkg ->
             val label = runCatching {
                 pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)).toString()
             }.getOrNull()?.takeIf { it.isNotBlank() }
@@ -188,5 +233,23 @@ object SourceOrder {
                 { it.label.lowercase() }
             )
         )
+    }
+
+    /**
+     * Apps the user has removed, for the "Removed" list they get restored
+     * from. Resolved straight from [hidden] rather than [seenRecently]: a
+     * hidden app stops being remembered the moment it is hidden (see
+     * [SessionCarousel]), so waiting on recency would make it quietly vanish
+     * from its own restore list before the retention window is even close.
+     */
+    fun hiddenForSettings(context: Context): List<Entry> {
+        val pm = context.packageManager
+        return hidden(context).map { pkg ->
+            val label = runCatching {
+                pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)).toString()
+            }.getOrNull()?.takeIf { it.isNotBlank() }
+
+            Entry(pkg, label ?: pkg, named = label != null)
+        }.sortedBy { it.label.lowercase() }
     }
 }

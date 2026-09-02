@@ -67,6 +67,24 @@
         </receiver>
 
         <!--
+            The pillar as its own picker entry - see PillarWidgetProvider and
+            data_widget_pillar_info.xml. A distinct receiver, because
+            AppWidgetManager keys a provider's size/resize bounds off the
+            receiver's ComponentName, not off anything WidgetRenderer decides
+            at paint time.
+        -->
+        <receiver
+            android:name="com.dotgrid.datawidget.PillarWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/data_widget_pillar_info" />
+        </receiver>
+
+        <!--
             Exported because the system is the sender: BOOT_COMPLETED and
             MY_PACKAGE_REPLACED are both delivered from outside the app. Neither
             action can be forged by another app - the system holds them.

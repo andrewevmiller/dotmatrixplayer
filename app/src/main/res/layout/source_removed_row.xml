@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    One app the user has taken out of the carousel, inflated once per app by
+    SetupActivity. Just the glyph, the name, and the way back in - no position
+    number and no move keys, since a removed app holds no place in the order.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
+    <ImageView
+        android:id="@+id/row_glyph"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="34dp"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/row_label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        style="@style/Body"
+        android:maxLines="1"
+        android:textColor="@color/text_secondary"
+        android:textSize="14sp" />
+
+    <ImageView
+        android:id="@+id/row_restore"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/control_ghost"
+        android:contentDescription="@string/cd_restore_source"
+        android:padding="10dp"
+        android:src="@drawable/ic_restore" />
+</LinearLayout>
