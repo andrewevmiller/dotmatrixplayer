@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  A droplet for blood oxygen. The medical convention is SpO2 set as type,
+  but at 14dp on a tile a two-glyph subscript is a smudge - the shape reads
+  where the abbreviation would not, and the row is labelled OXYGEN anyway.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M12,2.2
+                           C12,2.2 4.8,10.1 4.8,14.6
+                           C4.8,18.58 8.02,21.8 12,21.8
+                           C15.98,21.8 19.2,18.58 19.2,14.6
+                           C19.2,10.1 12,2.2 12,2.2
+                           Z" />
+</vector>

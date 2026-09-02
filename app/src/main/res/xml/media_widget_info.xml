@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    widgetFeatures says configuration_optional, so the tile lands on the home
+    screen the moment it is dropped and starts showing the defaults instead of
+    opening a form first. reconfigurable then keeps SetupActivity reachable
+    from the widget's own long-press menu, the same way the other three
+    widgets reach their own ConfigActivity.
+-->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:label="@string/app_name"
     android:description="@string/widget_description"
     android:initialLayout="@layout/widget_media"
     android:previewImage="@drawable/widget_preview"
+    android:configure="com.dotgrid.mediawidget.SetupActivity"
 
     android:minWidth="320dp"
     android:minHeight="180dp"
@@ -17,4 +26,5 @@
 
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable|configuration_optional"
     android:updatePeriodMillis="0" />

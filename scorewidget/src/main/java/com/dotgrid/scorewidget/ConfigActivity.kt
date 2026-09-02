@@ -3,6 +3,8 @@ package com.dotgrid.scorewidget
 import android.Manifest
 import android.app.Activity
 import android.appwidget.AppWidgetManager
+import android.content.ActivityNotFoundException
+import android.content.ComponentName
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -16,7 +18,9 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -106,6 +110,7 @@ class ConfigActivity : Activity() {
         pickerHost = findViewById(R.id.team_picker_host)
         searchField = findViewById(R.id.team_search)
         alertDenied = findViewById(R.id.alert_denied)
+        findViewById<ImageView>(R.id.menu_button).setOnClickListener { showWidgetMenu(it) }
         toggleOffseason = findViewById(R.id.toggle_offseason)
         toggleRivalries = findViewById(R.id.toggle_rivalries)
         toggleWinProbability = findViewById(R.id.toggle_win_probability)
@@ -459,6 +464,52 @@ class ConfigActivity : Activity() {
         worker.execute {
             WidgetRenderer.refreshAll(this, snapshot)
             RefreshScheduler.arm(this, snapshot)
+        }
+    }
+
+    /**
+     * The way to the other three widgets' settings screens - the same menu
+     * this module's siblings (:app's SetupActivity, :datawidget's and
+     * :healthwidget's own ConfigActivity) each carry in their own header.
+     *
+     * :scorewidget cannot depend on :app or on the sibling widget modules
+     * (see build.gradle.kts - :app already depends on all three, so the
+     * reverse edge would be circular), so the other three activities are
+     * targeted by string component name rather than a class literal, exactly
+     * the way the manifest already merges all four into one package without
+     * any module knowing about the others at compile time.
+     */
+    private fun showWidgetMenu(anchor: View) {
+        val popup = PopupMenu(this, anchor)
+        val entries = listOf(
+            Triple(getString(R.string.menu_media_player), "com.dotgrid.mediawidget.SetupActivity", 0),
+            Triple(getString(R.string.menu_data_widget), "com.dotgrid.datawidget.ConfigActivity", 1),
+            Triple(getString(R.string.score_config_title), null, 2),
+            Triple(getString(R.string.menu_health_widget), "com.dotgrid.healthwidget.ConfigActivity", 3)
+        )
+        entries.forEach { (label, className, id) ->
+            if (className == null || resolveConfigIntent(className) != null) {
+                popup.menu.add(0, id, id, label)
+            }
+        }
+        popup.setOnMenuItemClickListener { item ->
+            val target = entries.firstOrNull { it.third == item.itemId }?.second
+            if (target != null) launchConfig(target)
+            true
+        }
+        popup.show()
+    }
+
+    private fun resolveConfigIntent(className: String): Intent? {
+        val intent = Intent().setComponent(ComponentName(packageName, className))
+        return if (packageManager.resolveActivity(intent, 0) != null) intent else null
+    }
+
+    private fun launchConfig(className: String) {
+        try {
+            startActivity(Intent().setComponent(ComponentName(packageName, className)))
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, R.string.menu_settings_missing, Toast.LENGTH_LONG).show()
         }
     }
 

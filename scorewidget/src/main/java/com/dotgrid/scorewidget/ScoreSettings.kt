@@ -114,11 +114,20 @@ object ScoreSettings {
         prefs(context).edit().putInt(KEY_ACCENT, choice).apply()
     }
 
-    /** Resolves an accent choice to a colour without going near the stored one. */
+    /**
+     * Resolves an accent choice to a colour without going near the stored one.
+     *
+     * ACCENT_WHITE resolves through `text_primary`, not a literal `nt_white`:
+     * "white" here means "no colour, just the tile's own ink", and that ink is
+     * white on a dark tile but black on a light one. A hardcoded white live dot
+     * painted over a light widget_surface would vanish - resolving through the
+     * split resource keeps it visible in both themes the same way every other
+     * text on the tile already is.
+     */
     fun colorFor(context: Context, choice: Int): Int = context.getColor(
         when (choice) {
             ACCENT_AMBER -> R.color.nt_amber
-            ACCENT_WHITE -> R.color.nt_white
+            ACCENT_WHITE -> R.color.text_primary
             else -> R.color.nt_red
         }
     )

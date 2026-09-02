@@ -49,13 +49,36 @@
             screen. No letterSpacing: the guideline fixes NDot's advance at
             zero, since the font is a matrix face, not a proportional one.
         -->
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/ndot57_aligned"
-            android:text="@string/data_config_headline"
-            android:textColor="@color/text_primary"
-            android:textSize="26sp" />
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/ndot57_aligned"
+                android:text="@string/data_config_headline"
+                android:textColor="@color/text_primary"
+                android:textSize="26sp" />
+
+            <!-- The way to the other three widgets' settings screens - see
+                 ConfigActivity#showWidgetMenu. -->
+            <ImageView
+                android:id="@+id/menu_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/menu_content_description"
+                android:focusable="true"
+                android:padding="8dp"
+                android:src="@drawable/ic_menu" />
+        </LinearLayout>
 
         <!-- The live tile, built from the same code path the launcher uses. -->
         <FrameLayout
@@ -104,7 +127,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:text="@string/config_grant"
-            android:textColor="@color/nt_black"
+            android:textColor="@color/button_text"
             android:textSize="13sp" />
 
         <TextView
@@ -337,7 +360,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp"
             android:text="@string/config_done"
-            android:textColor="@color/nt_black"
+            android:textColor="@color/button_text"
             android:textSize="13sp" />
 
         <TextView

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.DotMatrixScore" parent="@android:style/Theme.Material.NoActionBar">
+    <style name="Theme.DotMatrixScore" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/config_bg</item>
         <item name="android:navigationBarColor">@color/config_bg</item>
         <item name="android:windowBackground">@color/config_bg</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 </resources>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The square tile: 110 x 110dp at 2 x 2, and every square size up to the
+    point where the tile gets wide enough for widget_health_rows.xml instead.
+
+    10dp of padding leaves a 90dp square. The dial fills it and the readout
+    sits inside the dial, so the three lines are budgeted against a circle
+    rather than against the tile - see WidgetRenderer's width ratios.
+
+    Every label is an ImageView. That is not a style choice: AppWidgetHostView
+    inflates through a CONTEXT_RESTRICTED context and TextView skips
+    android:fontFamily when the context is restricted, so a TextView here would
+    silently come out in the system face. See TextRenderer, and the
+    verifyWidgetHasNoTextViews check wired into preBuild.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/health_widget_bg"
+    android:padding="@dimen/widget_padding">
+
+    <!--
+        fitCenter, not fitXY: the bitmap is square and a uniform scale keeps its
+        dots round, so a tile a few pixels off the size we rendered for degrades
+        into a slightly smaller dial rather than into a ring of ellipses.
+    -->
+    <ImageView
+        android:id="@+id/dial"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/cd_dial"
+        android:scaleType="fitCenter" />
+
+    <!--
+        Value and unit are one bitmap, not two views: they are set at different
+        sizes on a shared baseline, and RemoteViews cannot align baselines
+        across ImageViews.
+    -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:baselineAligned="false"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/readout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/health_cd_widget" />
+
+        <ImageView
+            android:id="@+id/line_a"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:contentDescription="@null" />
+
+        <ImageView
+            android:id="@+id/line_b"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:contentDescription="@null" />
+    </LinearLayout>
+
+    <!--
+        Goal indicator. Sits in the gap between the dial's top right and the
+        card's rounded corner - the one piece of the tile the dial does not
+        already occupy.
+
+        Hard into that corner, with no margin of its own. Set in a little, it
+        lands about 6dp off the arc, and when the dial has taken the accent too
+        the dot stops reading as an indicator and starts reading as a stray dot
+        that fell off the scale.
+    -->
+    <ImageView
+        android:id="@+id/accent_dot"
+        android:layout_width="@dimen/alert_dot"
+        android:layout_height="@dimen/alert_dot"
+        android:layout_gravity="top|end"
+        android:contentDescription="@string/cd_goal_met"
+        android:src="@drawable/accent_dot"
+        android:visibility="gone" />
+
+    <!--
+        Border indicator. Drawn over the card rather than swapping the card's
+        own background, so the surface and the stroke stay independent and one
+        colour filter can retint it. The negative margins take it back out over
+        the padding, to the card's own edge.
+    -->
+    <ImageView
+        android:id="@+id/accent_border"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="-10dp"
+        android:layout_marginEnd="-10dp"
+        android:layout_marginBottom="-10dp"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/health_widget_border"
+        android:visibility="gone" />
+
+    <!--
+        Manual refresh. The goal dot already claims the top-right corner, so
+        this takes the top-left - the one other spot the dial itself does not
+        cover. Last in the FrameLayout, after accent_border, so it sits on top
+        for touch even though the border is visually inert (a stroke, not a
+        fill) and would not otherwise matter. 18dp of view for a 12dp glyph,
+        same reasoning as the wide layout's button: the tap target and the
+        mark it shows do not have to be the same size.
+    -->
+    <ImageView
+        android:id="@+id/refresh_button"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_gravity="top|start"
+        android:padding="3dp"
+        android:contentDescription="@string/cd_refresh_now"
+        android:src="@drawable/ic_refresh" />
+</FrameLayout>

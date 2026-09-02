@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.DotMatrix" parent="@android:style/Theme.Material.NoActionBar">
+    <style name="Theme.DotMatrix" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/setup_bg</item>
         <item name="android:navigationBarColor">@color/setup_bg</item>
         <item name="android:windowBackground">@color/setup_bg</item>
+        <!-- These screens are hand-painted with specific brand colours already;
+             the framework's automatic force-dark pass would fight the
+             qualifier-based light/dark split below and darken things
+             unpredictably, so it stays off. -->
+        <item name="android:forceDarkAllowed">false</item>
+        <!-- Light-mode-only: dark icons read against the light setup_bg.
+             Set true only here - values-night overrides it back to false. -->
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 </resources>

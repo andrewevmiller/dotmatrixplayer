@@ -72,6 +72,7 @@ dependencies {
     // tiles ship in a single APK under a single applicationId.
     implementation(project(":datawidget"))
     implementation(project(":scorewidget"))
+    implementation(project(":healthwidget"))
 
     testImplementation("junit:junit:4.13.2")
 }

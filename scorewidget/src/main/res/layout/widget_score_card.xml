@@ -55,9 +55,17 @@
             matrices off it entirely.
 
             So: wrap_content, no adjustViewBounds, and no fit* scaleType
-            anywhere a text bitmap lives. A Space carries the weight instead.
+            anywhere a text bitmap lives. An empty view carries the weight
+            instead.
+
+            It is a FrameLayout and not a Space, which is the obvious choice and
+            crashes. RemoteViews only inflates classes annotated @RemoteView,
+            and Space is a bare View subclass without it - the launcher throws
+            "Class not allowed to be inflated android.widget.Space" and the tile
+            never draws. FrameLayout is on the list, and an empty one draws
+            nothing, which is all this needs to do.
         -->
-        <Space
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1" />
@@ -186,7 +194,9 @@
             android:scaleType="fitCenter"
             android:visibility="gone" />
 
-        <Space
+        <!-- FrameLayout, not Space: see the note in band 1. Space is not on
+             the RemoteViews allowlist and crashes the inflate. -->
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="1dp"
             android:layout_weight="1" />

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Crescent moon, single solid mass, no flourish. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M20.5,15.5
+                           C19.3,16.1 17.95,16.45 16.5,16.45
+                           C11.9,16.45 8.15,12.7 8.15,8.1
+                           C8.15,6.65 8.5,5.3 9.1,4.1
+                           C5.4,5.35 2.75,8.85 2.75,12.95
+                           C2.75,18.1 6.9,22.25 12.05,22.25
+                           C16.15,22.25 19.65,19.6 20.9,15.9
+                           Z" />
+</vector>

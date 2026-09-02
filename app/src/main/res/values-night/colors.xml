@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- The widget is deliberately dark in both themes: Nothing's media
-         surface is always the black card. Only the setup screen follows
-         the system theme. -->
+    <!-- Both the tile and the setup screen now follow the system theme.
+         These are the values the app has always shown - dark mode is a
+         zero-regression carry-forward of what was previously the only
+         look, not a new design. -->
     <color name="widget_surface">#FF1B1B1B</color>
+    <color name="widget_stroke">#1FFFFFFF</color>
+
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#99FFFFFF</color>
+    <color name="text_tertiary">#5CFFFFFF</color>
+
+    <color name="app_glyph">#E0FFFFFF</color>
+
+    <color name="track_active">#FFFFFFFF</color>
+    <color name="track_inactive">#33FFFFFF</color>
+
+    <color name="setup_bg">#FF000000</color>
+    <color name="setup_card">#FF0E0E0E</color>
+
+    <color name="button_surface">#FFFFFFFF</color>
+    <color name="button_text">#FF000000</color>
 </resources>

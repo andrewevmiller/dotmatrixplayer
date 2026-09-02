@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- The tile is deliberately dark in both themes: Nothing's home-screen
-         surface is always the black card. Only the configuration screen
-         follows the system theme, and it is dark either way. -->
+    <!-- Both the tile and the config screen now follow the system theme.
+         These are the values the app has always shown - dark mode is a
+         zero-regression carry-forward of what was previously the only
+         look, not a new design. -->
     <color name="widget_surface">#FF1B1B1B</color>
+    <color name="widget_stroke">#1FFFFFFF</color>
+
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#99FFFFFF</color>
+    <color name="text_tertiary">#5CFFFFFF</color>
+
+    <color name="meter_active">#FFFFFFFF</color>
+    <color name="meter_inactive">#2EFFFFFF</color>
+
+    <color name="config_bg">#FF000000</color>
+    <color name="config_card">#FF0E0E0E</color>
+    <color name="config_field">#FF161616</color>
+    <color name="chip_on">#FFFFFFFF</color>
+    <color name="chip_off">#14FFFFFF</color>
+
+    <color name="button_surface">#FFFFFFFF</color>
+    <color name="button_text">#FF000000</color>
 </resources>

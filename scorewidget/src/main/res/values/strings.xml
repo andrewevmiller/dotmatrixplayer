@@ -7,6 +7,15 @@
     <string name="score_app_name">Dot Matrix Score</string>
     <string name="score_widget_description">Live scores for your teams, drawn as a Glyph Matrix.</string>
 
+    <!-- Cross-widget menu. This module cannot depend on :app or the sibling
+         widget modules (see ConfigActivity#showWidgetMenu), so the media
+         player's own name is duplicated here rather than referenced. -->
+    <string name="menu_media_player">Dot Matrix Player</string>
+    <string name="menu_data_widget">Dot Matrix Data</string>
+    <string name="menu_health_widget">Nothing Health</string>
+    <string name="menu_content_description">Other widgets</string>
+    <string name="menu_settings_missing">That widget\'s settings screen is not part of this build.</string>
+
     <!-- ============ tile states ============ -->
     <!-- Every string the tile draws is authored here rather than assembled
          from the feed, so the type scale can be measured against it. The one

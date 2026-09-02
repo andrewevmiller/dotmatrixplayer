@@ -15,6 +15,7 @@
     smaller is silently rounded up to it.
 -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:label="@string/data_config_title"
     android:description="@string/data_widget_description"
     android:initialLayout="@layout/widget_data"
     android:previewImage="@drawable/data_widget_preview"

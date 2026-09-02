@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        The settings screen. A plain framework theme rather than a Material
+        one: this app has no AppCompat and no Compose, and every control on
+        that screen is a TextView the activity paints itself.
+    -->
+    <style name="Theme.NothingHealth" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/config_bg</item>
+        <item name="android:navigationBarColor">@color/config_bg</item>
+        <item name="android:windowBackground">@color/config_bg</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+</resources>

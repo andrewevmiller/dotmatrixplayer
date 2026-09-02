@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Type for the configuration screen.
+
+    Two base roles, matching Typography.kt - which this file cannot read, so
+    the decision is stated twice and the two have to be kept in step. See
+    docs/BRAND_LANGUAGE.md.
+
+      Body   - body copy, hints, and the figure the user is editing (the
+               step/sleep/heart-rate goal). Geist.
+      Accent - section labels, chips, the stepper's +/- buttons, the status
+               row and every button on this screen. NType 82.
+
+    NDot is neither of these and appears once, on the headline in
+    activity_config.xml, because "Nothing Health" is this app's own product
+    name. It is set inline there rather than as a style so there is exactly
+    one place it can be applied, and at zero tracking, because the guideline
+    fixes NDot's VA at >0< - it is a fixed matrix advance, not a proportional
+    face.
+
+    NType and Geist both take tracking that varies with size, per the
+    guideline's own spacing chart, which is why the caps below keep theirs.
+-->
+<resources>
+
+    <!-- ============ the two base roles ============ -->
+
+    <!--
+        Geist is a variable font with a wght axis; no weight is named because
+        its default instance is 400, which is the only one this app uses.
+        Never set textStyle="bold" on it - that synthesises a fake bold
+        rather than moving the axis. See Typography.kt.
+    -->
+    <style name="Body">
+        <item name="android:fontFamily">@font/geist</item>
+    </style>
+
+    <style name="Accent">
+        <item name="android:fontFamily">@font/ntype82</item>
+    </style>
+
+    <!-- ============ accent: labels and controls ============ -->
+
+    <style name="SectionLabel" parent="Accent">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">30dp</item>
+        <item name="android:letterSpacing">0.18</item>
+        <item name="android:textColor">@color/text_tertiary</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="Chip" parent="Accent">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/health_chip_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:letterSpacing">0.1</item>
+        <item name="android:paddingStart">4dp</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:textColor">@color/chip_text</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <!--
+        NType82, not Ndot. An earlier pass kept these two keys in Ndot 57
+        Aligned on the argument that "+" and "-" are symbols rather than
+        words, so the face was a shape choice and not a normal-font use. A
+        stepper is a control, though, and the family puts controls - chips,
+        steppers, buttons - on the accent face without exception; the data
+        widget's own Stepper inherits its Accent style. Holding a control on
+        a face for the sake of one glyph's shape is the same mistake the
+        family already ruled out when it moved the score widget's arrow keys
+        to vector drawables.
+    -->
+    <style name="Stepper" parent="Accent">
+        <item name="android:layout_width">46dp</item>
+        <item name="android:layout_height">46dp</item>
+        <item name="android:background">@drawable/health_config_field_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <!-- ============ body: copy and figures ============ -->
+
+    <style name="SectionHint" parent="Body">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:textColor">@color/text_tertiary</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <!--
+        The number between the two stepper buttons. It is the goal figure the
+        user is editing, not a control, so it takes Body the same way the
+        data widget's own edited figures do - see the comment at the top of
+        this file.
+    -->
+    <style name="StepperValue" parent="Body">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_primary</item>
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="StepperRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">12dp</item>
+        <item name="android:background">@drawable/health_config_card_bg</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:padding">12dp</item>
+    </style>
+
+    <style name="ChipRow">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+</resources>

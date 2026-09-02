@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  One footprint, not two.
+
+  A pair of feet is the usual mark for a step count, but on the tile this is
+  drawn at 13dp: at that size each foot is about ten pixels tall, its toe dot
+  merges into its sole, and the pair reads as two teardrops - close enough to
+  the droplet on the oxygen row to be mistaken for it. One foot gets the whole
+  viewport, so the sole stays a sole and the toes stay separate.
+
+  The toes are three dots, which is also the vocabulary the dial and the rails
+  are drawn in.
+
+  White, with no android:tint: every glyph on the tile is retinted by
+  RemoteViews.setColorFilter, so the drawable carries shape and nothing else.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- The sole. Fuller at the ball of the foot than at the heel. -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M12,22
+                           C8.3,22 6.1,19.5 6.1,16.1
+                           C6.1,12.3 8.2,9.1 12,9.1
+                           C15.8,9.1 17.9,12.3 17.9,16.1
+                           C17.9,19.5 15.7,22 12,22
+                           Z" />
+
+    <!-- Toes. -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M7.5,6.2 m-1.6,0 a1.6,1.6 0 1,0 3.2,0 a1.6,1.6 0 1,0 -3.2,0 Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M12,4.6 m-1.8,0 a1.8,1.8 0 1,0 3.6,0 a1.8,1.8 0 1,0 -3.6,0 Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M16.5,6.2 m-1.6,0 a1.6,1.6 0 1,0 3.2,0 a1.6,1.6 0 1,0 -3.2,0 Z" />
+</vector>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Heart, solid, with the same optical weight as the other four glyphs. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M12,20.6
+                           L10.5,19.25
+                           C5.2,14.5 1.7,11.35 1.7,7.45
+                           C1.7,4.3 4.2,1.8 7.35,1.8
+                           C9.13,1.8 10.84,2.63 12,3.94
+                           C13.16,2.63 14.87,1.8 16.65,1.8
+                           C19.8,1.8 22.3,4.3 22.3,7.45
+                           C22.3,11.35 18.8,14.5 13.5,19.26
+                           Z" />
+</vector>

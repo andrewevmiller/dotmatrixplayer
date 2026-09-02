@@ -32,14 +32,127 @@ Applied:
 - `nt_amber` in the data widget's over-limit picker is now `#FFC700`
   (N-Yellow) rather than a generic Material amber.
 - N-Blue has no use case in a media/data tile and isn't wired up anywhere.
+- The "WHITE" accent choice (data widget's `COLOR_WHITE`, score widget's
+  `ACCENT_WHITE`, health widget's `COLOR_WHITE`) resolves through
+  `text_primary`, not a literal `nt_white`, as of the light-mode pass below.
+  The choice was never really "the colour white" — the in-code comments call
+  it "keeps the tile strictly monochrome" — so it now means "whatever the
+  tile's own ink colour is," which tracks the theme like every other text on
+  the tile. Resolving it to a literal white broke in light mode: a white
+  alert dot/border/readout painted over a light `widget_surface` was
+  invisible, the same failure mode a plain white status-indicator dot on the
+  settings screen had (`status_dot_on` family, also moved to `text_primary`).
 
-Deliberate departure: the guideline's foundation greys (Window grey,
-N-Grey) are light-mode print/packaging tones. A home-screen widget lives on
-a dark launcher and needs a dark card, so surfaces stay near-black
-(`widget_surface #1B1B1B`) rather than adopting those greys literally. The
-guideline's own rule — "only use black and white for our logo, unless for
-exceptional circumstances" — is the principle carried over: the tile is a
-monochrome system with exactly one signal colour, same as the brand mark.
+Deliberate departure (dark mode only): the guideline's foundation greys
+(Window grey, N-Grey) are light-mode print/packaging tones. A dark-themed
+home-screen widget lives on a dark launcher and needs a dark card, so its
+surfaces stay near-black (`widget_surface #1B1B1B`) rather than adopting
+those greys literally. The guideline's own rule — "only use black and white
+for our logo, unless for exceptional circumstances" — is the principle
+carried over: the tile is a monochrome system with exactly one signal
+colour, same as the brand mark.
+
+### Light mode
+
+As of 2026-08-31, every tile follows the system theme rather than staying
+permanently dark, which retires the rejection above for the light side: a
+light-mode surface is exactly the print/packaging context Window grey and
+N-Grey were specified for, so this is where they finally get used.
+
+**Update, same day:** the card surface (tile and settings card) moved a
+second time within this pass, from N-Grey to pure white, and text alpha
+values were pushed further to keep contrast noticeably crisp on the
+brighter surface rather than just re-clearing 4.5:1 by default. The table
+below reflects that later state; N-Grey is no longer used as a card fill.
+
+| Role | Name | Hex | Used for |
+|---|---|---|---|
+| Card surface | Pure white | `#FFFFFF` | `widget_surface` (the tile) and `config_card`/`setup_card` (the settings screen's card) |
+| Page background | Pure white | `#FFFFFF` | `config_bg`/`setup_bg` |
+| Recessed field | N-Grey/Window grey blend | `#C7C3BE` | `config_field` (steppers, the team search box, the team picker rows) |
+| Primary text | Pure black | `#000000` | `text_primary` |
+| Secondary text | 65% black | `#A6000000` | `text_secondary` |
+| Tertiary text | 80% black | `#CC000000` | `text_tertiary` |
+
+Three decisions worth recording:
+
+**The tile and the settings card share one tone, rather than each getting
+its own the way the dark palette gives the tile `#1B1B1B` against a
+near-black `config_bg`/`config_card` (`#000000`/`#0E0E0E`).** In dark mode the
+tile has to sit visibly *lighter* than the settings chrome around it to read
+as its own card against a near-black background. In light mode that lift
+isn't needed — a light tile next to a light system launcher already reads as
+a card without an extra nudge — so the tile and the settings screen's card
+share one surface. That surface was N-Grey at first, then moved to pure
+white (see below), at which point it became literally identical to the page
+background rather than merely close to it.
+
+**Card surface moved from N-Grey to pure white, on top of the decision
+above.** This means `widget_surface`, `setup_card`/`config_card`, and
+`setup_bg`/`config_bg` are now all `#FFFFFFFF` — three roles, one hex. For
+the tile, this is an accepted tradeoff: a white tile against a light-to-white
+system launcher can lose its edge definition, and the guideline's "only use
+black and white for our logo, unless for exceptional circumstances" rule
+plus this project's own no-tile-border stance rule out compensating with a
+stroke on `widget_bg.xml`, so the tile stays flat white fill. For the
+settings screen, `setup_card`/`config_card` keep the existing
+`widget_stroke` hairline (already applied via `setup_card_bg.xml`'s
+`<stroke>`, previously decorative reinforcement on a card that was already a
+distinct tone) as the *only* remaining separation from `setup_bg`/`config_bg`
+now that the fill itself no longer differs.
+
+**Text alpha values were raised again, past what contrast alone required.**
+Moving the card fill from N-Grey to white gives every existing alpha *more*
+headroom, not less — a lighter surface makes translucent black read darker
+by comparison at the same alpha, if anything. Rather than bank that headroom
+unspent, `text_secondary` moved from 60% (`#99000000`) to 65% (`#A6000000`)
+and `text_tertiary` from 65% (`#A6000000`) to 80% (`#CC000000`), so the
+brighter surface actually reads as crisper type, not merely as "still
+technically passing." `text_primary` stays pure black (100%) — already the
+maximum.
+
+**`text_tertiary`'s alpha is not a straight polarity-flip of the dark value,
+even before the update above.** The dark palette uses `#5CFFFFFF` (36% white)
+for tertiary text on `#1B1B1B`. Naively flipping that to `#5C000000` (36%
+black) on N-Grey computed to about 2.4:1 contrast — well under the 4.5:1 text
+bar, and a confirmed readability bug caught earlier in this pass. Dark-on-
+light and light-on-dark don't scale symmetrically at the same alpha, because
+the surfaces being drawn on aren't symmetric (near-black vs. a mid-light
+grey, not near-black vs. near-white). The alpha was solved for directly
+against the tightest surface in play each time — first N-Grey, now pure
+white — rather than guessed or carried over by symmetry.
+
+`config_field` is a custom blend rather than a literal guideline tone: the
+full Window grey (`#B1B3B3`) is a hard requirement for the "recessed input"
+step down from N-Grey stylistically, but computes to only ~4.4:1 for
+`text_secondary` text drawn on it (the score widget's team-picker rows) —
+just under the bar. `#C7C3BE` sits between N-Grey and Window grey and clears
+4.5:1 for every text colour placed on it while still reading as a distinct,
+darker step from the card.
+
+`art_placeholder` (`#141414`, the "no artwork" swatch behind the media
+tile's disc glyph) and the hairline strokes on settings-screen cards
+(`widget_stroke`/`hairline`, low-alpha black in light mode) stay unsplit or
+lightly-adjusted rather than redesigned: the former is a fixed backdrop for
+a fixed glyph, not a themed surface, the same way `nt_black`/`nt_white` stay
+brand invariants; the latter is decorative structure, not a text pairing, so
+it isn't held to a contrast ratio.
+
+**Known tension, flagged rather than silently resolved:** `nt_amber`
+(`#FFC700`) is occasionally painted as full-opacity *text* (not just a dot or
+border fill) when an accent colour is active — for example the data widget's
+over-limit readout and the health widget's goal-met row value. Amber text
+directly on the N-Grey tile computes to roughly **1.1:1** contrast — it is
+essentially invisible, since N-Grey and N-Yellow sit at nearly the same
+luminance. `nt_red` (`#C8102E`) used the same way computes to roughly
+**4.1:1** — under the 4.5:1 text bar for normal-size text, though it clears
+3:1 for large/bold text. Per this pass's scope, brand-mandated accent hex
+values were not altered to chase contrast; this is recorded here as a real,
+user-reachable gap rather than fixed in place, since fixing it would mean
+either changing N-Yellow's hex (out of scope) or changing which surface an
+accent-coloured *text run* is allowed to sit on in light mode (a rendering
+change, not a colour value, and out of this pass's scope). Worth a follow-up
+pass specifically on accent-as-text in light mode.
 
 ## Typography
 

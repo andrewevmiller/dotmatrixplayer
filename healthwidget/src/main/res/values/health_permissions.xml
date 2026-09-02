@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The permissions Health Connect shows in its rationale sheet for this app.
+
+    Both spellings, matching the manifest: the android.permission.health.*
+    names are the platform ones from Android 14, and the androidx.health.*
+    ones are what the Health Connect APK itself declared before that. A device
+    on either side of the split reads the set it knows and ignores the rest.
+-->
+<resources>
+    <array name="health_permissions">
+        <item>android.permission.health.READ_STEPS</item>
+        <item>android.permission.health.READ_SLEEP</item>
+        <item>android.permission.health.READ_HEART_RATE</item>
+        <item>android.permission.health.READ_OXYGEN_SATURATION</item>
+        <item>android.permission.health.READ_RESPIRATORY_RATE</item>
+        <item>android.permission.health.READ_HEALTH_DATA_IN_BACKGROUND</item>
+
+        <item>androidx.health.permission.Steps.READ</item>
+        <item>androidx.health.permission.SleepSession.READ</item>
+        <item>androidx.health.permission.HeartRate.READ</item>
+        <item>androidx.health.permission.OxygenSaturation.READ</item>
+        <item>androidx.health.permission.RespiratoryRate.READ</item>
+    </array>
+</resources>

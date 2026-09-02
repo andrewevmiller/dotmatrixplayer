@@ -6,6 +6,15 @@
     <string name="data_config_title">Dot Matrix Data</string>
     <string name="data_widget_description">Monthly mobile data on a dot-matrix dial, with your own rollover date and over-limit indicator.</string>
 
+    <!-- Cross-widget menu. This module cannot depend on :app or the sibling
+         widget modules (see ConfigActivity#showWidgetMenu), so the media
+         player's own name is duplicated here rather than referenced. -->
+    <string name="menu_media_player">Dot Matrix Player</string>
+    <string name="menu_score_widget">Dot Matrix Score</string>
+    <string name="menu_health_widget">Nothing Health</string>
+    <string name="menu_content_description">Other widgets</string>
+    <string name="menu_settings_missing">That widget\'s settings screen is not part of this build.</string>
+
     <!-- Widget readout -->
     <string name="limit_format">LIMIT %1$s GB</string>
     <string name="no_limit">NO LIMIT</string>

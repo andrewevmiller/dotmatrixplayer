@@ -2,6 +2,7 @@ package com.dotgrid.mediawidget
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.ComponentName
@@ -11,6 +12,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 
@@ -32,9 +34,7 @@ class SetupActivity : Activity() {
     private lateinit var orderList: LinearLayout
     private lateinit var orderEmpty: TextView
     private lateinit var orderReset: TextView
-    private lateinit var openDataConfig: TextView
-    private lateinit var openScoreConfig: TextView
-    private lateinit var openHealthConfig: TextView
+    private lateinit var menuButton: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,15 +49,32 @@ class SetupActivity : Activity() {
         orderList = findViewById(R.id.source_order_list)
         orderEmpty = findViewById(R.id.source_order_empty)
         orderReset = findViewById(R.id.source_order_reset)
-        openDataConfig = findViewById(R.id.open_data_config)
-        openScoreConfig = findViewById(R.id.open_score_config)
-        openHealthConfig = findViewById(R.id.open_health_config)
+        menuButton = findViewById(R.id.menu_button)
+
+        /*
+         * SetupActivity doubles as the media widget's configure target
+         * (see media_widget_info.xml). configuration_optional means the
+         * tile already landed with defaults before this screen could ever
+         * open, so there is no form to complete here - unlike the sibling
+         * ConfigActivity screens, which gate setResult on a real choice
+         * getting made, this hub has nothing left to gate on. Report
+         * success up front so the reconfigure path from the widget's
+         * long-press menu never reads as a cancel.
+         */
+        val appWidgetId = intent?.extras?.getInt(
+            AppWidgetManager.EXTRA_APPWIDGET_ID,
+            AppWidgetManager.INVALID_APPWIDGET_ID
+        ) ?: AppWidgetManager.INVALID_APPWIDGET_ID
+        if (appWidgetId != AppWidgetManager.INVALID_APPWIDGET_ID) {
+            setResult(
+                RESULT_OK,
+                Intent().putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+            )
+        }
 
         grantButton.setOnClickListener { openListenerSettings() }
         idlePrefRow.setOnClickListener { showIdlePreferencePicker() }
-        bindConfigLink(openDataConfig, "com.dotgrid.datawidget.ConfigActivity")
-        bindConfigLink(openScoreConfig, "com.dotgrid.scorewidget.ConfigActivity")
-        bindConfigLink(openHealthConfig, "com.example.nothinghealthwidget.ConfigActivity")
+        menuButton.setOnClickListener { showWidgetMenu(it) }
         orderReset.setOnClickListener {
             SourceOrder.clear(this)
             renderOrderList()
@@ -218,28 +235,65 @@ class SetupActivity : Activity() {
     }
 
     /**
-     * Links this screen to a sibling widget's settings screen.
+     * The hamburger menu that replaces the old inline "other widgets" card.
      *
-     * The target is named as a string rather than a class literal on purpose:
-     * all four modules call their settings screen ConfigActivity or
-     * SetupActivity, so class literals would need import aliases, and a module
-     * dropped from the bundle would break the build here rather than simply
-     * not offering its row. The row hides itself if the component is not in
-     * this package.
+     * One installed app carries four tiles and only this screen is in the
+     * launcher, so this is the way to the other three settings screens (and,
+     * from each of those, back here and sideways to each other - see the
+     * matching menu in each sibling module's own ConfigActivity). This
+     * screen's own entry is listed too, so the set always reads as "all four
+     * widgets"; tapping it just dismisses the menu.
      */
-    private fun bindConfigLink(row: TextView, className: String) {
-        val component = ComponentName(packageName, className)
-        val intent = Intent().setComponent(component)
-        if (packageManager.resolveActivity(intent, 0) == null) {
-            row.visibility = View.GONE
-            return
-        }
-        row.setOnClickListener {
-            try {
-                startActivity(intent)
-            } catch (e: ActivityNotFoundException) {
-                Toast.makeText(this, R.string.setup_settings_missing, Toast.LENGTH_LONG).show()
+    private fun showWidgetMenu(anchor: View) {
+        val popup = PopupMenu(this, anchor)
+        val entries = listOf(
+            Triple(getString(R.string.app_name), null, 0),
+            Triple(
+                getString(com.dotgrid.datawidget.R.string.data_config_title),
+                "com.dotgrid.datawidget.ConfigActivity",
+                1
+            ),
+            Triple(
+                getString(com.dotgrid.scorewidget.R.string.score_config_title),
+                "com.dotgrid.scorewidget.ConfigActivity",
+                2
+            ),
+            Triple(
+                getString(com.dotgrid.healthwidget.R.string.health_config_title),
+                "com.dotgrid.healthwidget.ConfigActivity",
+                3
+            )
+        )
+        entries.forEach { (label, className, id) ->
+            if (className == null || resolveConfigIntent(className) != null) {
+                popup.menu.add(0, id, id, label)
             }
+        }
+        popup.setOnMenuItemClickListener { item ->
+            val target = entries.firstOrNull { it.third == item.itemId }?.second
+            if (target != null) launchConfig(target)
+            true
+        }
+        popup.show()
+    }
+
+    /**
+     * Resolves a sibling widget's settings screen by class name rather than
+     * class literal: all four modules call their settings screen
+     * ConfigActivity or SetupActivity, so class literals would need import
+     * aliases, and a module dropped from the bundle would break the build
+     * here rather than simply not offering its menu entry.
+     */
+    private fun resolveConfigIntent(className: String): Intent? {
+        val intent = Intent().setComponent(ComponentName(packageName, className))
+        return if (packageManager.resolveActivity(intent, 0) != null) intent else null
+    }
+
+    private fun launchConfig(className: String) {
+        try {
+            startActivity(Intent().setComponent(ComponentName(packageName, className)))
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, R.string.setup_settings_missing, Toast.LENGTH_LONG).show()
         }
     }
 

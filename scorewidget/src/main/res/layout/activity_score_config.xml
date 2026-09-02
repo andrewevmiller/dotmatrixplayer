@@ -50,16 +50,39 @@
         android:paddingEnd="24dp"
         android:paddingBottom="40dp">
 
-        <!-- NDot: this is the product name. Zero tracking, per the guideline. -->
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/ndot57_aligned"
-            android:letterSpacing="0"
-            android:text="@string/score_config_headline"
-            android:textAllCaps="true"
-            android:textColor="@color/text_primary"
-            android:textSize="24sp" />
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <!-- NDot: this is the product name. Zero tracking, per the guideline. -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/ndot57_aligned"
+                android:letterSpacing="0"
+                android:text="@string/score_config_headline"
+                android:textAllCaps="true"
+                android:textColor="@color/text_primary"
+                android:textSize="24sp" />
+
+            <!-- The way to the other three widgets' settings screens - see
+                 ConfigActivity#showWidgetMenu. -->
+            <ImageView
+                android:id="@+id/menu_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/menu_content_description"
+                android:focusable="true"
+                android:padding="8dp"
+                android:src="@drawable/ic_menu" />
+        </LinearLayout>
 
         <!-- The live tile, built from the same code path the launcher uses. -->
         <FrameLayout

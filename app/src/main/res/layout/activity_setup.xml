@@ -17,16 +17,39 @@
              advance that reads as mis-spaced.
              No letterSpacing: the guideline fixes NDot's advance at
              "VA is set to >0<" and forbids manual tracking on it. -->
-        <TextView
-            android:id="@+id/headline_dots"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:fontFamily="@font/ndot57_aligned"
-            android:text="@string/setup_headline"
-            android:textAllCaps="true"
-            android:textColor="@color/text_primary"
-            android:textSize="22sp" />
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/headline_dots"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/ndot57_aligned"
+                android:text="@string/setup_headline"
+                android:textAllCaps="true"
+                android:textColor="@color/text_primary"
+                android:textSize="22sp" />
+
+            <!-- The way to the other three widgets' settings screens - see
+                 SetupActivity#showWidgetMenu. -->
+            <ImageView
+                android:id="@+id/menu_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/setup_menu_content_description"
+                android:focusable="true"
+                android:padding="8dp"
+                android:src="@drawable/ic_menu" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -79,7 +102,7 @@
             android:paddingTop="17dp"
             android:paddingBottom="17dp"
             android:text="@string/setup_grant"
-            android:textColor="@color/nt_black"
+            android:textColor="@color/button_text"
             android:textSize="13sp"
             android:textStyle="bold" />
 
@@ -208,90 +231,6 @@
                 android:textColor="@color/text_tertiary"
                 android:textSize="12sp"
                 android:visibility="gone" />
-        </LinearLayout>
-
-        <!-- The rest of the package. One installed app carries four tiles, and
-             only this screen is in the launcher, so it is the way to the other
-             three settings screens. Rows are wired in SetupActivity. -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/setup_card_bg"
-            android:orientation="vertical"
-            android:padding="18dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Accent"
-                android:text="@string/setup_other_widgets_title"
-                android:textColor="@color/text_primary"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:lineSpacingExtra="3sp"
-                style="@style/Body"
-                android:text="@string/setup_other_widgets_body"
-                android:textColor="@color/text_tertiary"
-                android:textSize="12sp" />
-
-            <TextView
-                android:id="@+id/open_data_config"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:background="@drawable/setup_button_bg"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                style="@style/Accent"
-                android:letterSpacing="0.1"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:text="@string/setup_open_data"
-                android:textColor="@color/nt_black"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/open_score_config"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/setup_button_bg"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                style="@style/Accent"
-                android:letterSpacing="0.1"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:text="@string/setup_open_score"
-                android:textColor="@color/nt_black"
-                android:textSize="13sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/open_health_config"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/setup_button_bg"
-                android:clickable="true"
-                android:focusable="true"
-                android:gravity="center"
-                style="@style/Accent"
-                android:letterSpacing="0.1"
-                android:paddingTop="15dp"
-                android:paddingBottom="15dp"
-                android:text="@string/setup_open_health"
-                android:textColor="@color/nt_black"
-                android:textSize="13sp"
-                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- A live render of the widget, so the setup screen shows the thing

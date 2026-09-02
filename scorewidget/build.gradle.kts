@@ -117,4 +117,60 @@ val verifyWidgetHasNoTextViews = tasks.register("verifyWidgetHasNoTextViews") {
     }
 }
 
+/*
+ * RemoteViews will only inflate a view class annotated @RemoteView, and the list
+ * is short and unguessable. Everything else throws
+ * "Class not allowed to be inflated" at the launcher - which is not a build
+ * error, not a lint warning, and not visible anywhere until the tile is dropped
+ * on a home screen and fails to draw.
+ *
+ * Space is the trap this exists for. It is the obvious element to reach for as a
+ * weighted spacer, it is in android.widget alongside everything that does work,
+ * and it is a bare View subclass without the annotation - so it crashes the
+ * inflate. It shipped here once and was found on a phone. Use an empty
+ * FrameLayout instead.
+ */
+val verifyWidgetViewsAreRemotable = tasks.register("verifyWidgetViewsAreRemotable") {
+    group = "verification"
+    description = "Fails if a widget layout uses a view class RemoteViews cannot inflate."
+
+    val layouts = listOf(
+        "widget_score_strip.xml",
+        "widget_score_banner.xml",
+        "widget_score_card.xml"
+    ).map { layout.projectDirectory.file("src/main/res/layout/$it").asFile }
+    inputs.files(layouts)
+
+    doLast {
+        // Not the whole allowlist - just the classes someone is actually
+        // likely to type into one of these files and be wrong about.
+        val banned = listOf("Space", "View", "ConstraintLayout", "ScrollView", "Guideline")
+
+        // A regex boundary, not a literal "<$it " / "<$it\n": the old check
+        // missed a self-closed tag with no interior space ("<Space/>"), a
+        // fully-qualified name ("<android.widget.Space"), and a CRLF line
+        // ending ("<Space\r\n") - three ways to write the exact same crash
+        // that would have slipped straight past it. The lookahead requires
+        // whitespace, "/" or ">" right after the class name so "SpaceX" is
+        // not flagged as "Space".
+        val offenders = layouts.filter { it.exists() }.flatMap { file ->
+            val text = file.readText()
+            banned.filter { name ->
+                Regex("<(?:[\\w.]*\\.)?$name(?=[\\s/>])").containsMatchIn(text)
+            }.map { "  ${file.name}: <$it>" }
+        }
+        if (offenders.isNotEmpty()) {
+            throw GradleException(
+                "Widget layouts may only use view classes annotated @RemoteView. " +
+                    "The launcher throws \"Class not allowed to be inflated\" for " +
+                    "anything else, and nothing catches it before a phone does. " +
+                    "For a weighted spacer use an empty FrameLayout.\n" +
+                    offenders.joinToString("\n")
+            )
+        }
+    }
+}
+
+tasks.named("preBuild") { dependsOn(verifyWidgetViewsAreRemotable) }
+
 tasks.named("preBuild") { dependsOn(verifyWidgetHasNoTextViews) }

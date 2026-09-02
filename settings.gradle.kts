@@ -23,3 +23,4 @@ rootProject.name = "DotMatrixMediaWidget"
 include(":app")
 include(":datawidget")
 include(":scorewidget")
+include(":healthwidget")

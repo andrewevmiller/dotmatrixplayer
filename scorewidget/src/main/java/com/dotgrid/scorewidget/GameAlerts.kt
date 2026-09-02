@@ -186,7 +186,7 @@ object GameAlerts {
         )
 
         val notification = Notification.Builder(context, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setSmallIcon(R.drawable.score_notification_icon)
             .setContentTitle(game.league.label)
             .setContentText(text)
             .setContentIntent(open)

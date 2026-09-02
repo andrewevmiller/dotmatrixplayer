@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The settings screen.
+
+    Unlike the widget, this is an ordinary activity in an unrestricted context,
+    so android:fontFamily resolves normally and the type can be set in XML.
+    That is the whole difference between this file and the two widget layouts,
+    and it is why the Nothing faces appear here as attributes and there as
+    bitmaps.
+
+    fitsSystemWindows, because from Android 15 an app targeting SDK 35 or above
+    gets an edge-to-edge window whether it asked for one or not - and this one
+    did not. Without it the headline is drawn underneath the status bar and
+    collides with the clock.
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    android:scrollbars="none">
+
+    <!--
+        focusableInTouchMode so the root takes the initial focus. Without it the
+        first focusable view in the tree wins focus on open and the screen
+        arrives scrolled to it, past the preview - which is the one thing here
+        worth seeing first.
+    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:paddingStart="24dp"
+        android:paddingTop="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="40dp">
+
+        <!--
+            The one Ndot 57 Aligned label on this screen: "Nothing Health" is
+            this app's own product name, which is the one thing the guideline
+            reserves the face for - the same treatment the media widget's
+            setup screen gives "Dot Matrix Player". No letterSpacing: Ndot is a
+            fixed matrix advance, and the guideline is explicit that it "should
+            not" take manual tracking.
+        -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/ndot57_aligned"
+                android:text="@string/health_config_headline"
+                android:textAllCaps="true"
+                android:textColor="@color/text_primary"
+                android:textSize="24sp" />
+
+            <!-- The way to the other three widgets' settings screens - see
+                 ConfigActivity#showWidgetMenu. -->
+            <ImageView
+                android:id="@+id/menu_button"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/menu_content_description"
+                android:focusable="true"
+                android:padding="8dp"
+                android:src="@drawable/ic_menu" />
+        </LinearLayout>
+
+        <!--
+            Both tiles, built from the same code path the launcher uses.
+
+            Two rather than one because they are two different layouts, and a
+            setting that only shows on the size you are not looking at is a
+            setting you cannot check. The square is the 2 x 2 and the wide one
+            is the 4 x 2 - the two ends of what a drag can produce.
+        -->
+        <FrameLayout
+            android:id="@+id/preview_square"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="28dp" />
+
+        <FrameLayout
+            android:id="@+id/preview_wide"
+            android:layout_width="250dp"
+            android:layout_height="110dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/status_dot"
+                android:layout_width="6dp"
+                android:layout_height="6dp"
+                android:contentDescription="@null"
+                android:src="@drawable/health_status_dot_off" />
+
+            <TextView
+                android:id="@+id/status_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/ntype82"
+                android:letterSpacing="0.16"
+                android:text="@string/config_status_off"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Body copy explaining the permission ask, not a control or a
+             status line - Geist. -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:fontFamily="@font/geist"
+            android:lineSpacingExtra="4dp"
+            android:text="@string/health_config_body"
+            android:textColor="@color/text_secondary"
+            android:textSize="13sp" />
+
+        <!-- ============ PERMISSIONS ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_permissions" />
+
+        <TextView
+            android:id="@+id/grant_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/health_config_button_bg"
+            android:fontFamily="@font/ntype82"
+            android:gravity="center"
+            android:letterSpacing="0.14"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="@string/config_grant"
+            android:textColor="@color/button_text"
+            android:textSize="13sp" />
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/metric_steps"
+                style="@style/Chip"
+                android:text="@string/metric_steps" />
+
+            <TextView
+                android:id="@+id/metric_sleep"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/metric_sleep" />
+
+            <TextView
+                android:id="@+id/metric_heart"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/metric_heart" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/metric_oxygen"
+                style="@style/Chip"
+                android:text="@string/metric_oxygen" />
+
+            <TextView
+                android:id="@+id/metric_breath"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/metric_breath" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_permissions_hint" />
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/chip_background"
+                style="@style/Chip"
+                android:text="@string/config_background" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_background_hint" />
+
+        <TextView
+            android:id="@+id/manage_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:background="@drawable/config_ghost_bg"
+            android:fontFamily="@font/ntype82"
+            android:gravity="center"
+            android:letterSpacing="0.14"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="@string/config_manage"
+            android:textColor="@color/text_primary"
+            android:textSize="13sp" />
+
+        <!-- ============ SLEEP READING ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_sleep" />
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/sleep_asleep"
+                style="@style/Chip"
+                android:text="@string/config_sleep_asleep" />
+
+            <TextView
+                android:id="@+id/sleep_in_bed"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_sleep_in_bed" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/sleep_restful"
+                style="@style/Chip"
+                android:text="@string/config_sleep_restful" />
+
+            <TextView
+                android:id="@+id/sleep_deep"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_sleep_deep" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_sleep_mode_hint" />
+
+        <!-- ============ SLEEP WINDOW ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_sleep_window" />
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/window_night"
+                style="@style/Chip"
+                android:text="@string/config_window_night" />
+
+            <TextView
+                android:id="@+id/window_24h"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_window_24h" />
+
+            <TextView
+                android:id="@+id/window_today"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_window_today" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_window_hint" />
+
+        <!-- ============ UNSTAGED SESSIONS ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_unstaged" />
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/unstaged_count"
+                style="@style/Chip"
+                android:text="@string/config_unstaged_count" />
+
+            <TextView
+                android:id="@+id/unstaged_ignore"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_unstaged_ignore" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_unstaged_hint" />
+
+        <!-- ============ STEP GOAL ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_steps_goal" />
+
+        <LinearLayout style="@style/StepperRow">
+
+            <TextView
+                android:id="@+id/steps_goal_minus"
+                style="@style/Stepper"
+                android:contentDescription="@string/cd_decrease"
+                android:text="@string/stepper_minus" />
+
+            <TextView
+                android:id="@+id/steps_goal_value"
+                style="@style/StepperValue" />
+
+            <TextView
+                android:id="@+id/steps_goal_plus"
+                style="@style/Stepper"
+                android:contentDescription="@string/cd_increase"
+                android:text="@string/stepper_plus" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_steps_goal_hint" />
+
+        <!-- ============ SLEEP GOAL ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_sleep_goal" />
+
+        <LinearLayout style="@style/StepperRow">
+
+            <TextView
+                android:id="@+id/sleep_goal_minus"
+                style="@style/Stepper"
+                android:contentDescription="@string/cd_decrease"
+                android:text="@string/stepper_minus" />
+
+            <TextView
+                android:id="@+id/sleep_goal_value"
+                style="@style/StepperValue"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/sleep_goal_plus"
+                style="@style/Stepper"
+                android:contentDescription="@string/cd_increase"
+                android:text="@string/stepper_plus" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_sleep_goal_hint" />
+
+        <!-- ============ DIAL SHOWS ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_primary" />
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/primary_steps"
+                style="@style/Chip"
+                android:text="@string/metric_steps" />
+
+            <TextView
+                android:id="@+id/primary_sleep"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/metric_sleep" />
+
+            <TextView
+                android:id="@+id/primary_heart"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/metric_heart" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/primary_oxygen"
+                style="@style/Chip"
+                android:text="@string/metric_oxygen" />
+
+            <TextView
+                android:id="@+id/primary_breath"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/metric_breath" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_primary_hint" />
+
+        <!-- ============ GOAL INDICATOR ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/health_config_section_accent" />
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/style_dot"
+                style="@style/Chip"
+                android:text="@string/config_style_dot" />
+
+            <TextView
+                android:id="@+id/style_ring"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_style_ring" />
+        </LinearLayout>
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/style_value"
+                style="@style/Chip"
+                android:text="@string/config_style_value" />
+
+            <TextView
+                android:id="@+id/style_card"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_style_card" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_accent_hint" />
+
+        <!-- ============ COLOUR ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_color" />
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/color_red"
+                style="@style/Chip"
+                android:text="@string/config_color_red" />
+
+            <TextView
+                android:id="@+id/color_amber"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/health_config_color_amber" />
+
+            <TextView
+                android:id="@+id/color_white"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_color_white" />
+        </LinearLayout>
+
+        <!-- ============ TAP OPENS ============ -->
+        <TextView
+            style="@style/SectionLabel"
+            android:text="@string/config_section_tap" />
+
+        <LinearLayout style="@style/ChipRow">
+
+            <TextView
+                android:id="@+id/tap_settings"
+                style="@style/Chip"
+                android:text="@string/config_tap_settings" />
+
+            <TextView
+                android:id="@+id/tap_health"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_tap_health" />
+
+            <TextView
+                android:id="@+id/tap_fitbit"
+                style="@style/Chip"
+                android:layout_marginStart="8dp"
+                android:text="@string/config_tap_fitbit" />
+        </LinearLayout>
+
+        <TextView
+            style="@style/SectionHint"
+            android:text="@string/config_tap_hint" />
+
+        <TextView
+            android:id="@+id/done_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/health_config_button_bg"
+            android:fontFamily="@font/ntype82"
+            android:gravity="center"
+            android:letterSpacing="0.14"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
+            android:text="@string/config_done"
+            android:textColor="@color/button_text"
+            android:textSize="13sp" />
+
+        <TextView
+            style="@style/SectionHint"
+            android:layout_marginTop="20dp"
+            android:text="@string/health_config_add_widget" />
+    </LinearLayout>
+</ScrollView>

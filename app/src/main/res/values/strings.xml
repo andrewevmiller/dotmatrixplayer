@@ -48,13 +48,9 @@
     <string name="setup_order_title">Carousel order</string>
     <string name="setup_order_body">The order the widget pages through when several apps have something playing at once. Tap the source mark on the widget to move through it.</string>
     <string name="setup_order_reset">RESET</string>
-    <!-- The other tiles in this package. One installed app, one launcher
-         icon, so this screen is the way to their settings screens. -->
-    <string name="setup_other_widgets_title">Other widgets</string>
-    <string name="setup_other_widgets_body">This app also carries the data, score and health tiles. Their settings live on their own screens.</string>
-    <string name="setup_open_data">MOBILE DATA TILE</string>
-    <string name="setup_open_score">LIVE SCORES TILE</string>
-    <string name="setup_open_health">HEALTH TILE</string>
+    <!-- The other tiles in this package live behind the hamburger menu in
+         the header now, not an inline card - see SetupActivity#showWidgetMenu. -->
+    <string name="setup_menu_content_description">Other widgets</string>
 
     <string name="setup_order_empty">Nothing here yet. Apps appear once they have played something, so this list stays to the ones that actually turn up in the widget.</string>
 </resources>

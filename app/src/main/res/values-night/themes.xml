@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.DotMatrix" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:statusBarColor">@color/setup_bg</item>
+        <item name="android:navigationBarColor">@color/setup_bg</item>
+        <item name="android:windowBackground">@color/setup_bg</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <!-- Dark setup_bg needs light icons - the framework default, so this
+             is only here to make the day/night split explicit rather than
+             relying on an unset default. -->
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+        The 2 x 2 tile is 110 x 110dp: 70dp per launcher cell less the 30dp of
+        gutter the grid takes back. 10dp of padding leaves a 90dp square, which
+        the dial fills, and the readout lives inside the dial.
+    -->
+    <dimen name="widget_padding">10dp</dimen>
+
+    <!-- The wide tile gets more air, matching the media tile beside it. -->
+    <dimen name="widget_padding_wide">12dp</dimen>
+
+    <!-- The goal-met dot, when the indicator is set to show one. -->
+    <dimen name="alert_dot">7dp</dimen>
+</resources>

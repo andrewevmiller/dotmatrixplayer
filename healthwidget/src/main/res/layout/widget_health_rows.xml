@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The wide tile: anything from 4 x 2 (250 x 110dp) upwards.
+
+    Where the square tile is one figure in a dial, this one is a list. Each
+    metric gets a row - glyph, label, figure, and a dot rail underneath showing
+    it against its goal or its normal range - and the rows are weighted, so a
+    tile with two rows on it spreads them over the height it has instead of
+    stacking them at the top and leaving a hole. WidgetRenderer hides the rows
+    that do not fit, and the ones the user has turned off.
+
+    Five slots, not five metrics: the renderer fills them in order from
+    whichever metrics are enabled, so slot 0 is whatever comes first.
+
+    Every label is an ImageView - see widget_health_dial.xml for why, and
+    TextRenderer for what it costs.
+-->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/health_widget_bg"
+    android:padding="@dimen/widget_padding_wide">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:baselineAligned="false"
+        android:orientation="vertical">
+
+        <!-- Header: the live dot, the title, and the time the figures are from. -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/status_dot"
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:contentDescription="@null"
+                android:src="@drawable/accent_dot" />
+
+            <ImageView
+                android:id="@+id/header_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:contentDescription="@string/health_cd_widget" />
+
+            <!-- FrameLayout, not Space: Space is not on the RemoteViews allowlist. -->
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                tools:ignore="UselessLeaf" />
+
+            <!--
+                Manual refresh. Sized as a 16dp tap target with 2dp of padding
+                around a 12dp glyph, rather than the glyph's own bounds - a
+                10-12dp icon is a fine thing to look at and a poor thing to
+                aim a thumb at, and the header has just enough spare height
+                to grow the target without growing the mark.
+            -->
+            <ImageView
+                android:id="@+id/refresh_button"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginStart="6dp"
+                android:padding="2dp"
+                android:contentDescription="@string/cd_refresh_now"
+                android:src="@drawable/ic_refresh" />
+
+            <ImageView
+                android:id="@+id/header_stamp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:contentDescription="@string/cd_last_updated" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginTop="4dp"
+            android:baselineAligned="false"
+            android:orientation="vertical"
+            tools:ignore="NestedWeights">
+
+            <LinearLayout
+                android:id="@+id/row_0"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/row_0_icon"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:contentDescription="@null" />
+
+                    <ImageView
+                        android:id="@+id/row_0_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:contentDescription="@null" />
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        tools:ignore="UselessLeaf" />
+
+                    <ImageView
+                        android:id="@+id/row_0_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+
+                <!--
+                    The rail is rendered at its on-screen width, so fitXY only
+                    ever draws it 1:1 and the dots stay round. Stretch it and
+                    they turn into ellipses.
+                -->
+                <ImageView
+                    android:id="@+id/row_0_rail"
+                    android:layout_width="match_parent"
+                    android:layout_height="7dp"
+                    android:layout_marginTop="4dp"
+                    android:contentDescription="@null"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_1"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/row_1_icon"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:contentDescription="@null" />
+
+                    <ImageView
+                        android:id="@+id/row_1_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:contentDescription="@null" />
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        tools:ignore="UselessLeaf" />
+
+                    <ImageView
+                        android:id="@+id/row_1_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+
+                <!--
+                    The rail is rendered at its on-screen width, so fitXY only
+                    ever draws it 1:1 and the dots stay round. Stretch it and
+                    they turn into ellipses.
+                -->
+                <ImageView
+                    android:id="@+id/row_1_rail"
+                    android:layout_width="match_parent"
+                    android:layout_height="7dp"
+                    android:layout_marginTop="4dp"
+                    android:contentDescription="@null"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/row_2_icon"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:contentDescription="@null" />
+
+                    <ImageView
+                        android:id="@+id/row_2_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:contentDescription="@null" />
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        tools:ignore="UselessLeaf" />
+
+                    <ImageView
+                        android:id="@+id/row_2_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+
+                <!--
+                    The rail is rendered at its on-screen width, so fitXY only
+                    ever draws it 1:1 and the dots stay round. Stretch it and
+                    they turn into ellipses.
+                -->
+                <ImageView
+                    android:id="@+id/row_2_rail"
+                    android:layout_width="match_parent"
+                    android:layout_height="7dp"
+                    android:layout_marginTop="4dp"
+                    android:contentDescription="@null"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_3"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/row_3_icon"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:contentDescription="@null" />
+
+                    <ImageView
+                        android:id="@+id/row_3_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:contentDescription="@null" />
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        tools:ignore="UselessLeaf" />
+
+                    <ImageView
+                        android:id="@+id/row_3_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+
+                <!--
+                    The rail is rendered at its on-screen width, so fitXY only
+                    ever draws it 1:1 and the dots stay round. Stretch it and
+                    they turn into ellipses.
+                -->
+                <ImageView
+                    android:id="@+id/row_3_rail"
+                    android:layout_width="match_parent"
+                    android:layout_height="7dp"
+                    android:layout_marginTop="4dp"
+                    android:contentDescription="@null"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/row_4"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/row_4_icon"
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:contentDescription="@null" />
+
+                    <ImageView
+                        android:id="@+id/row_4_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:contentDescription="@null" />
+
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_weight="1"
+                        tools:ignore="UselessLeaf" />
+
+                    <ImageView
+                        android:id="@+id/row_4_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:contentDescription="@null" />
+                </LinearLayout>
+
+                <!--
+                    The rail is rendered at its on-screen width, so fitXY only
+                    ever draws it 1:1 and the dots stay round. Stretch it and
+                    they turn into ellipses.
+                -->
+                <ImageView
+                    android:id="@+id/row_4_rail"
+                    android:layout_width="match_parent"
+                    android:layout_height="7dp"
+                    android:layout_marginTop="4dp"
+                    android:contentDescription="@null"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- See widget_health_dial.xml: over the card, retinted by colour filter. -->
+    <ImageView
+        android:id="@+id/accent_border"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="-12dp"
+        android:layout_marginTop="-12dp"
+        android:layout_marginEnd="-12dp"
+        android:layout_marginBottom="-12dp"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/health_widget_border"
+        android:visibility="gone" />
+</FrameLayout>

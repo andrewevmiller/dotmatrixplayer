@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Lands as a 2 x 2 and resizes both ways from there.
+
+    minWidth/minHeight are what the launcher offers in the picker: 110 x 110dp,
+    which is two cells on a standard grid - 70dp each, less the 30dp of gutter
+    the grid takes back. targetCellWidth/Height say the same thing to launchers
+    from Android 12 that think in cells rather than dp.
+
+    minResize is the same 110dp square, so the tile can be pulled back down to
+    the size it arrived at. maxResize is 5 x 4: past that the rows have more
+    height than five of them can spend and the tile is just a large black card.
+
+    resizeMode is both axes, and WidgetRenderer swaps layouts across the
+    250dp width mark rather than stretching one - a dial pulled wide is an
+    ellipse, and a list squeezed narrow has nowhere to put its figures.
+    onAppWidgetOptionsChanged is what repaints after a drag; without it the
+    tile keeps whatever bitmap it was given at its old size.
+
+    widgetFeatures says configuration_optional, so the tile lands on the home
+    screen the moment it is dropped and shows the defaults instead of opening
+    a form first. reconfigurable keeps ConfigActivity on the widget's own
+    long-press menu, and a tap on the tile opens it too unless the user has
+    pointed taps somewhere else.
+
+    updatePeriodMillis is the floor under the alarm in RefreshScheduler, not
+    the main clock. It survives a reboot and a host restart on its own, where
+    an alarm has to be re-armed. 30 minutes is the platform minimum; anything
+    smaller is silently rounded up to it.
+-->
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:label="@string/health_config_title"
+    android:description="@string/health_widget_description"
+    android:initialLayout="@layout/widget_health_dial"
+    android:previewImage="@drawable/health_widget_preview"
+    android:configure="com.dotgrid.healthwidget.ConfigActivity"
+
+    android:minWidth="110dp"
+    android:minHeight="110dp"
+
+    android:targetCellWidth="2"
+    android:targetCellHeight="2"
+
+    android:minResizeWidth="110dp"
+    android:minResizeHeight="110dp"
+    android:maxResizeWidth="600dp"
+    android:maxResizeHeight="320dp"
+
+    android:resizeMode="horizontal|vertical"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable|configuration_optional"
+    android:updatePeriodMillis="1800000" />

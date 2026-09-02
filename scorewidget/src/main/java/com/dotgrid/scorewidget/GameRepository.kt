@@ -4,6 +4,9 @@ import android.content.Context
 import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.concurrent.Callable
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 /**
  * The cards the tiles are drawing, and where they came from.
@@ -34,6 +37,19 @@ object GameRepository {
      */
     private const val STALE_AFTER_MS = 6L * 60 * 60 * 1000
 
+    /**
+     * How long [fetchInParallel] will wait for any one league before giving up
+     * on it.
+     *
+     * [EspnClient] bounds a single request to roughly sixteen seconds of its
+     * own - eight to connect, eight to read - and this adds a small margin on
+     * top for thread scheduling rather than trusting that budget exactly.
+     * Because every league's request runs on its own thread, this is the whole
+     * wall-clock cost of a slow-but-not-dead network, no matter how many
+     * leagues are active - not that cost multiplied by the league count.
+     */
+    private const val FETCH_TIMEOUT_MS = 18_000L
+
     private fun prefs(context: Context) =
         context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
 
@@ -59,15 +75,10 @@ object GameRepository {
          * rivals costs no extra request. That is why the feature is on by
          * default: it is free.
          */
-        val fetched = ArrayList<Game>()
-        var anySucceeded = false
-        leagues.forEach { league ->
-            val games = EspnClient.scoreboard(league)
-            // An empty list is ambiguous - an off day looks exactly like a
-            // failed request. Treat any league returning anything as proof the
-            // network is up, and fall back to the cache only if none did.
-            if (games.isNotEmpty()) anySucceeded = true
-            fetched.addAll(games)
+        val (fetched, anySucceeded) = if (leagues.isEmpty()) {
+            emptyList<Game>() to false
+        } else {
+            fetchInParallel(leagues)
         }
 
         if (!anySucceeded && leagues.isNotEmpty()) {
@@ -85,6 +96,57 @@ object GameRepository {
 
         write(context, ranked)
         return ranked
+    }
+
+    /**
+     * Fetches every active league's scoreboard at once rather than one after
+     * another.
+     *
+     * The five leagues are independent requests to independent endpoints, and
+     * fetching them in sequence turns "the network is slow" into "the network
+     * is slow, five times over" - up to eighty seconds inside a single
+     * [Background.run] pass with every league configured. That is long enough
+     * for the system to consider the update wedged and abandon it before it
+     * ever reaches the cache, which is the one situation this cache exists to
+     * survive. Fanning the requests out over one thread each bounds the whole
+     * pass to [FETCH_TIMEOUT_MS] regardless of how many leagues are active.
+     *
+     * The pool is sized to the call and does not outlive it - this is not a
+     * standing thread pool like [Background]'s, which already serialises
+     * refreshes against each other; this only fans a single one of them out.
+     *
+     * @return the games from every league that answered, and whether any
+     *   league answered at all - a league that is fetched and genuinely has
+     *   nothing on is indistinguishable from one that timed out until this
+     *   flag says which.
+     */
+    private fun fetchInParallel(leagues: List<League>): Pair<List<Game>, Boolean> {
+        val executor = Executors.newFixedThreadPool(leagues.size)
+        try {
+            val futures = leagues.map { league ->
+                league to executor.submit(Callable { EspnClient.scoreboard(league) })
+            }
+
+            val fetched = ArrayList<Game>()
+            var anySucceeded = false
+            futures.forEach { (league, future) ->
+                val games = runCatching { future.get(FETCH_TIMEOUT_MS, TimeUnit.MILLISECONDS) }
+                    .onFailure { Log.w(TAG, "Scoreboard fetch timed out for " + league.code, it) }
+                    .getOrDefault(emptyList())
+                // An empty list is ambiguous - an off day looks exactly like a
+                // failed request. Treat any league returning anything as proof
+                // the network is up, and fall back to the cache only if none did.
+                if (games.isNotEmpty()) anySucceeded = true
+                fetched.addAll(games)
+            }
+            return fetched to anySucceeded
+        } finally {
+            // Not graceful shutdown: a thread still blocked in a socket read
+            // past this method's own timeout is not doing anything worth
+            // waiting for, and the call is already on its way out regardless
+            // of whether that thread ever notices the interrupt.
+            executor.shutdownNow()
+        }
     }
 
     /** The cached cards, or empty when there are none or they have gone stale. */

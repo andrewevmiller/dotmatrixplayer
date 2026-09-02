@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The picker thumbnail: the real card, with a schematic of the dial on it. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/health_widget_bg" />
+    <item android:drawable="@drawable/preview_dial" />
+</layer-list>

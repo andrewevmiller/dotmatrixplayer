@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -14,6 +15,7 @@ import android.text.TextWatcher
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import java.text.SimpleDateFormat
@@ -104,6 +106,7 @@ class ConfigActivity : Activity() {
         cycleNext = findViewById(R.id.cycle_next)
         limitField = findViewById(R.id.limit_value)
         thresholdValue = findViewById(R.id.threshold_value)
+        findViewById<ImageView>(R.id.menu_button).setOnClickListener { showWidgetMenu(it) }
 
         styleChips = mapOf(
             DataSettings.STYLE_DOT to findViewById<TextView>(R.id.style_dot),
@@ -304,13 +307,28 @@ class ConfigActivity : Activity() {
             chip.backgroundTintList = ColorStateList.valueOf(color)
             chip.setTextColor(
                 getColor(
-                    if (choice == DataSettings.COLOR_WHITE) R.color.nt_black else R.color.nt_white
+                    // WHITE now resolves through text_primary (theme-aware), so
+                    // the fill flips with the theme too: nt_black text reads on
+                    // the dark-mode white fill, nt_white text on the light-mode
+                    // black fill. RED and AMBER's own fills don't flip, so they
+                    // keep the white label they've always had.
+                    if (choice == DataSettings.COLOR_WHITE) {
+                        if (isNightMode()) R.color.nt_black else R.color.nt_white
+                    } else {
+                        R.color.nt_white
+                    }
                 )
             )
         } else {
             chip.backgroundTintList = null
             chip.setTextColor(getColorStateList(R.color.chip_text))
         }
+    }
+
+    /** Whether the system is currently in dark mode, per the active configuration. */
+    private fun isNightMode(): Boolean {
+        val flags = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return flags == Configuration.UI_MODE_NIGHT_YES
     }
 
     private fun openUsageAccessSettings() {
@@ -344,4 +362,50 @@ class ConfigActivity : Activity() {
      * would go on printing month names in the old language.
      */
     private fun monthDayFormat() = SimpleDateFormat("d MMM", Locale.getDefault())
+
+    /**
+     * The way to the other three widgets' settings screens - the same menu
+     * this module's siblings (:app's SetupActivity, :scorewidget's and
+     * :healthwidget's own ConfigActivity) each carry in their own header.
+     *
+     * :datawidget cannot depend on :app or on the sibling widget modules
+     * (see build.gradle.kts - :app already depends on all three, so the
+     * reverse edge would be circular), so the other three activities are
+     * targeted by string component name rather than a class literal, exactly
+     * the way the manifest already merges all four into one package without
+     * any module knowing about the others at compile time.
+     */
+    private fun showWidgetMenu(anchor: android.view.View) {
+        val popup = PopupMenu(this, anchor)
+        val entries = listOf(
+            Triple(getString(R.string.menu_media_player), "com.dotgrid.mediawidget.SetupActivity", 0),
+            Triple(getString(R.string.data_config_title), null, 1),
+            Triple(getString(R.string.menu_score_widget), "com.dotgrid.scorewidget.ConfigActivity", 2),
+            Triple(getString(R.string.menu_health_widget), "com.dotgrid.healthwidget.ConfigActivity", 3)
+        )
+        entries.forEach { (label, className, id) ->
+            if (className == null || resolveConfigIntent(className) != null) {
+                popup.menu.add(0, id, id, label)
+            }
+        }
+        popup.setOnMenuItemClickListener { item ->
+            val target = entries.firstOrNull { it.third == item.itemId }?.second
+            if (target != null) launchConfig(target)
+            true
+        }
+        popup.show()
+    }
+
+    private fun resolveConfigIntent(className: String): Intent? {
+        val intent = Intent().setComponent(android.content.ComponentName(packageName, className))
+        return if (packageManager.resolveActivity(intent, 0) != null) intent else null
+    }
+
+    private fun launchConfig(className: String) {
+        try {
+            startActivity(Intent().setComponent(android.content.ComponentName(packageName, className)))
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(this, R.string.menu_settings_missing, Toast.LENGTH_LONG).show()
+        }
+    }
 }

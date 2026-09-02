@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Both spellings of every read. The android.permission.health.* names are
+        the platform permissions from Android 14; the androidx.health.* ones are
+        what the Health Connect APK declared before the platform took the API
+        over. A device grants whichever set it knows, so both have to be here
+        for one build to work either side of that split.
+    -->
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_SLEEP" />
+    <uses-permission android:name="android.permission.health.READ_HEART_RATE" />
+    <uses-permission android:name="android.permission.health.READ_OXYGEN_SATURATION" />
+    <uses-permission android:name="android.permission.health.READ_RESPIRATORY_RATE" />
+
+    <uses-permission android:name="androidx.health.permission.Steps.READ" />
+    <uses-permission android:name="androidx.health.permission.SleepSession.READ" />
+    <uses-permission android:name="androidx.health.permission.HeartRate.READ" />
+    <uses-permission android:name="androidx.health.permission.OxygenSaturation.READ" />
+    <uses-permission android:name="androidx.health.permission.RespiratoryRate.READ" />
+
+    <!--
+        A home-screen tile is read while the app is not running, by definition.
+        Without this Health Connect answers only in the foreground and the tile
+        shows whatever it last managed to read. It is granted separately from
+        the reads themselves, so the settings screen asks for it separately.
+    -->
+    <uses-permission android:name="android.permission.health.READ_HEALTH_DATA_IN_BACKGROUND" />
+
+    <!-- Alarms do not survive a reboot, so the refresh has to be re-armed. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!--
+        Package visibility. From Android 11 a package the manifest does not name
+        is invisible: getLaunchIntentForPackage returns null and the tap on the
+        tile would silently do nothing. These are the three the tile can be
+        pointed at, plus the Health Connect settings action for the manage
+        button.
+    -->
+    <queries>
+        <package android:name="com.google.android.apps.healthdata" />
+        <package android:name="com.fitbit.FitbitMobile" />
+        <intent>
+            <action android:name="androidx.health.ACTION_HEALTH_CONNECT_SETTINGS" />
+        </intent>
+    </queries>
+
+    <!--
+        A library manifest, merged into :app.
+
+        No <application> attributes here on purpose. icon, label, theme,
+        allowBackup and the two backup-rule resources are app identity, and
+        :app owns them - restating them in a library either loses the merge or
+        needs a tools:replace that would silently override the app. What is
+        left is the components, which is all a library has to contribute.
+
+        The activity below therefore names its own theme, which it used to
+        inherit from the <application> tag.
+    -->
+    <application>
+
+        <!--
+            One screen, five entrances: the widget's own reconfigure item, a tap
+            on the tile, and Health Connect's rationale/onboarding actions below.
+            No MAIN/LAUNCHER filter any more - the combined app has one launcher
+            entry, :app's SetupActivity, which links here; four icons in the app
+            drawer for one installed app is not what a single package should
+            look like.
+        -->
+        <activity
+            android:name="com.dotgrid.healthwidget.ConfigActivity"
+            android:exported="true"
+            android:label="@string/health_config_title"
+            android:theme="@style/Theme.NothingHealth"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+
+            <!-- Health Connect opens these when the user asks why we want data. -->
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.health.connect.action.SHOW_MIGRATION_INFO" />
+            </intent-filter>
+
+            <meta-data
+                android:name="health_permissions"
+                android:resource="@array/health_permissions" />
+        </activity>
+
+        <!--
+            Android 14 routes the privacy-policy entry through a separate
+            action guarded by a system permission. An alias rather than a second
+            activity: it is the same screen, reached by a different door.
+        -->
+        <activity-alias
+            android:name="com.dotgrid.healthwidget.ViewPermissionUsageActivity"
+            android:exported="true"
+            android:permission="android.permission.START_VIEW_PERMISSION_USAGE"
+            android:targetActivity="com.dotgrid.healthwidget.ConfigActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+                <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+            </intent-filter>
+        </activity-alias>
+
+        <activity-alias
+            android:name="com.dotgrid.healthwidget.ShowOnboardingActivity"
+            android:exported="true"
+            android:permission="android.permission.health.START_ONBOARDING"
+            android:targetActivity="com.dotgrid.healthwidget.ConfigActivity">
+            <intent-filter>
+                <action android:name="android.health.connect.action.SHOW_ONBOARDING" />
+            </intent-filter>
+        </activity-alias>
+
+        <receiver
+            android:name="com.dotgrid.healthwidget.NothingHealthWidgetProvider"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/health_widget_info" />
+        </receiver>
+
+        <!--
+            Exported because the system is the sender: BOOT_COMPLETED and
+            MY_PACKAGE_REPLACED are both delivered from outside the app, and
+            neither action can be forged by another app - the system holds them.
+        -->
+        <receiver
+            android:name="com.dotgrid.healthwidget.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

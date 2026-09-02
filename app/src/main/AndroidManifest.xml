@@ -24,6 +24,7 @@
     -->
 
     <application
+        android:name=".DotMatrixApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -33,12 +34,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DotMatrix">
 
+        <!-- SetupActivity is both the combined app's one launcher entry and
+             the media widget's own configure target - unlike the sibling
+             widgets' ConfigActivity, which only needs the APPWIDGET_CONFIGURE
+             filter since :app already supplies the MAIN/LAUNCHER entry, this
+             activity has to answer to both. -->
         <activity
             android:name=".SetupActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
         </activity>
 

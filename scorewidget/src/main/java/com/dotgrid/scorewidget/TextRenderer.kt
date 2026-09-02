@@ -3,12 +3,15 @@ package com.dotgrid.scorewidget
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
 import android.graphics.Typeface
 import android.text.TextPaint
 import android.util.Log
 import android.util.LruCache
 import kotlin.math.ceil
 import kotlin.math.max
+import kotlin.math.roundToInt
 
 /**
  * Draws a string into a bitmap using one of the bundled Nothing faces.
@@ -78,26 +81,56 @@ object TextRenderer {
                 }
         }
 
+    /**
+     * How far the pill's edge sits from the glyphs it backs, in dp. Small
+     * enough to read as a tight label rather than a button - this is a
+     * legibility fix, not a new piece of chrome.
+     */
+    private const val PILL_PAD_H_DP = 4f
+    private const val PILL_PAD_V_DP = 2f
+    private const val PILL_RADIUS_DP = 3f
+
     fun render(
         context: Context,
         text: String,
         fontRes: Int,
         sizePx: Float,
         color: Int,
-        letterSpacingEm: Float = 0f
+        letterSpacingEm: Float = 0f,
+        pillColor: Int? = null
     ): Bitmap {
-        val key = "$text|$fontRes|$sizePx|$color|$letterSpacingEm"
+        val key = "$text|$fontRes|$sizePx|$color|$letterSpacingEm|$pillColor"
         cache.get(key)?.let { if (!it.isRecycled) return it }
 
         val paint = paint(context, fontRes, sizePx, letterSpacingEm).apply { this.color = color }
         val shown = text.ifEmpty { " " }
 
         val metrics = paint.fontMetricsInt
-        val width = max(1, ceil(paint.measureText(shown)).toInt())
-        val height = max(1, metrics.descent - metrics.ascent)
+        val textWidth = max(1, ceil(paint.measureText(shown)).toInt())
+        val textHeight = max(1, metrics.descent - metrics.ascent)
+
+        /*
+         * The pill is baked into the same bitmap as the glyphs rather than a
+         * sibling drawable behind the ImageView: every ImageView these land
+         * in is wrap_content with no slack around the text, so a background
+         * drawn to the view's own bounds would exactly hug the glyphs anyway
+         * - the padding has to come from inside this bitmap or not at all.
+         */
+        val density = context.resources.displayMetrics.density
+        val padH = if (pillColor != null) (PILL_PAD_H_DP * density) else 0f
+        val padV = if (pillColor != null) (PILL_PAD_V_DP * density) else 0f
+
+        val width = max(1, textWidth + (padH * 2).roundToInt())
+        val height = max(1, textHeight + (padV * 2).roundToInt())
 
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        Canvas(bitmap).drawText(shown, 0f, -metrics.ascent.toFloat(), paint)
+        val canvas = Canvas(bitmap)
+        if (pillColor != null) {
+            val radius = PILL_RADIUS_DP * density
+            val fill = Paint(Paint.ANTI_ALIAS_FLAG).apply { this.color = pillColor }
+            canvas.drawRoundRect(RectF(0f, 0f, width.toFloat(), height.toFloat()), radius, radius, fill)
+        }
+        canvas.drawText(shown, padH, padV - metrics.ascent.toFloat(), paint)
 
         cache.put(key, bitmap)
         return bitmap

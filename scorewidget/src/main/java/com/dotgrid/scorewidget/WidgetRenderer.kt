@@ -5,6 +5,7 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.view.View
 import android.widget.RemoteViews
 import kotlin.math.max
@@ -304,7 +305,7 @@ object WidgetRenderer {
         )
         views.setContentDescription(R.id.clock_line, clockText)
 
-        val contextText = contextText(game)
+        val contextText = contextText(game, size)
         val contextWidthPx = contextBudgetPx(context, size, tileWidthDp, density)
         if (contextText != null) {
             val fitted = TextRenderer.shrinkToFit(sp(CONTEXT_SP)) { candidate ->
@@ -312,12 +313,14 @@ object WidgetRenderer {
                     context, contextText, Typography.BODY, candidate, LABEL_TRACKING
                 ) <= contextWidthPx
             }
+            val contextColor = if (game.situation.isRedZone) accent else tertiary
             views.setImageViewBitmap(
                 R.id.context_line,
                 TextRenderer.render(
                     context, contextText, Typography.BODY, fitted,
-                    if (game.situation.isRedZone) accent else tertiary,
-                    LABEL_TRACKING
+                    contextColor,
+                    LABEL_TRACKING,
+                    pillColorFor(context, contextColor)
                 )
             )
             views.setViewVisibility(R.id.context_line, View.VISIBLE)
@@ -399,8 +402,18 @@ object WidgetRenderer {
      * the count and the runners are a picture there. On the banner, which has
      * no room for a diamond, it comes back as text.
      */
-    private fun contextText(game: Game): String? {
+    private fun contextText(game: Game, size: Size): String? {
         if (!game.isLive) {
+            /*
+             * The broadcast fills this slot before a game starts, but only
+             * where nothing else is already showing it.
+             *
+             * The 4x2 card has a broadcast label of its own in its top band, so
+             * returning it here too printed it twice - "MLB.TV" in the corner
+             * and "MLB.TV" again under the score. The banner has no such label
+             * and no room for one, which is the case this branch exists for.
+             */
+            if (size == Size.CARD) return null
             return game.broadcast?.takeIf { game.isScheduled }
         }
         return when (game.league) {
@@ -714,6 +727,44 @@ object WidgetRenderer {
                     context, league.label, Typography.ACCENT, textPx * 0.85f, tertiary, LABEL_TRACKING
                 )
             )
+        }
+    }
+
+    /**
+     * Whether the light-mode tile is on screen right now.
+     *
+     * `WidgetRenderer` has no Activity to ask, only the `Context` the
+     * provider hands it - but `Configuration.uiMode` is a plain resource
+     * lookup, not an Activity API, so the same check ConfigActivity uses for
+     * its own light/dark branch works here unchanged.
+     */
+    private fun isNightMode(context: Context): Boolean {
+        val flags = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return flags == Configuration.UI_MODE_NIGHT_YES
+    }
+
+    /**
+     * The pill behind [textColor] when it is the settings accent painted as
+     * *text* rather than the live dot, a rail marker, or the pager.
+     *
+     * N-Red and N-Yellow are the brand's own hexes and are not up for
+     * changing (see ScoreSettings.colorFor) - but as plain text on the
+     * light-mode N-Grey surface both fail WCAG 4.5:1, and they fail in
+     * opposite directions. Amber is nearly white and needs a dark backing;
+     * red is already dark and reads *better* lifted onto a light one - no
+     * single flat pill clears 4.5:1 for both at once (the best any one
+     * colour manages is red on black, ~3.6:1), so which pill comes back
+     * depends on which hex actually arrived. ACCENT_WHITE resolves through
+     * `text_primary`, already legible, and falls through to null here.
+     * Null in dark mode too, where both hexes already clear the bar against
+     * the dark tile untouched.
+     */
+    private fun pillColorFor(context: Context, textColor: Int): Int? {
+        if (isNightMode(context)) return null
+        return when (textColor) {
+            context.getColor(R.color.nt_red) -> context.getColor(R.color.nt_white)
+            context.getColor(R.color.nt_amber) -> context.getColor(R.color.nt_black)
+            else -> null
         }
     }
 

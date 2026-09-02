@@ -5,30 +5,70 @@
     <color name="nt_black">#FF000000</color>
     <color name="nt_white">#FFFFFFFF</color>
 
-    <!-- Widget surface. Near-black rather than pure black so the card still
-         reads as an object against a black wallpaper. -->
-    <color name="widget_surface">#FF1B1B1B</color>
-    <color name="widget_stroke">#1FFFFFFF</color>
+    <!-- Light tile surface: pure white, matching setup_bg. Superseded the
+         earlier N-Grey (#DCD7D2) fill - see docs/BRAND_LANGUAGE.md for the
+         rationale and the resulting tradeoff (tile and page background can
+         now read as one continuous white plane on a light launcher; brand
+         rules forbid compensating with a tile border/stroke, so this is
+         accepted as-is). Same tone as setup_card, which shares the same
+         reasoning. -->
+    <color name="widget_surface">#FFFFFFFF</color>
+    <!-- Decorative hairline only (settings-screen cards, never the tile -
+         widget_bg.xml stays fill-only). Not a text pairing, so it isn't held
+         to a contrast ratio; kept as the same low-alpha black-on-light the
+         dark version uses white-on-dark, just inverted polarity. Now also
+         the one thing separating setup_card from setup_bg now that both are
+         pure white - see activity_setup layout. -->
+    <color name="widget_stroke">#1F000000</color>
 
-    <color name="text_primary">#FFFFFFFF</color>
-    <color name="text_secondary">#99FFFFFF</color>
-    <color name="text_tertiary">#5CFFFFFF</color>
+    <color name="text_primary">#FF000000</color>
+    <!-- Raised from 60% (#99) to 65% (#A6) alongside the widget_surface move
+         to pure white: white gave every alpha more headroom than it had
+         against N-Grey, and rather than just bank that headroom this was
+         spent on crisper type, matching the tertiary/app_glyph pattern of
+         "highest alpha that still reads as a distinct step below primary". -->
+    <color name="text_secondary">#A6000000</color>
+    <!-- Raised from 65% (#A6) to 80% (#CC) alongside the widget_surface move
+         to pure white. #A6 already cleared 6:1 against N-Grey and clears
+         more against white, but the brighter surface was an explicit chance
+         to push tertiary text noticeably crisper rather than only banking
+         the extra headroom; #CC is still a visible step below text_primary. -->
+    <color name="text_tertiary">#CC000000</color>
 
     <!-- The source-app mark. Brighter than the tertiary text it sits beside:
          it is only 20dp across, and a small shape needs more contrast than a
          line of type to stay legible. Still short of the white used for the
          title, so it identifies without competing. -->
-    <color name="app_glyph">#E0FFFFFF</color>
+    <color name="app_glyph">#E0000000</color>
 
-    <color name="track_active">#FFFFFFFF</color>
-    <color name="track_inactive">#33FFFFFF</color>
+    <color name="track_active">#FF000000</color>
+    <color name="track_inactive">#33000000</color>
 
     <!-- The one accent. Used only for "this is live".
          N-Red from Nothing's brand guidelines: HEX #C8102E. -->
     <color name="nt_red">#FFC8102E</color>
 
+    <!-- Deliberately unsplit, like nt_black/nt_white: this is the "no
+         artwork" swatch behind the disc glyph, not a themed surface. It
+         stays a dark backdrop in both themes, same reasoning a photo mat
+         stays a fixed tone regardless of the page around it - the artwork
+         it's standing in for has no light/dark version either. Nothing else
+         in the family reads text against it. -->
     <color name="art_placeholder">#FF141414</color>
 
-    <color name="setup_bg">#FF000000</color>
-    <color name="setup_card">#FF0E0E0E</color>
+    <!-- Highlight extreme (pure white, per the guideline) - the setup
+         screen's page background. setup_card now matches it exactly (see
+         widget_surface above); widget_stroke's hairline is what keeps the
+         card visually distinct from the page, not a tonal gap. -->
+    <color name="setup_bg">#FFFFFFFF</color>
+    <color name="setup_card">#FFFFFFFF</color>
+
+    <!-- CTA pill button on the settings screen. Inverted from the fixed
+         nt_white/nt_black pairing that used to be hardcoded: on the now
+         pure-white setup_bg, a white pill with black text had no visible
+         boundary at all, so light mode flips to a black pill with white
+         text (the same "invert" convention used elsewhere in this family).
+         Dark mode keeps the original white-pill/black-text look unchanged. -->
+    <color name="button_surface">#FF000000</color>
+    <color name="button_text">#FFFFFFFF</color>
 </resources>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nothing OS reads as a monochrome system with one signal colour.
+         Everything is pure black / pure white; colour is reserved for state. -->
+    <color name="nt_black">#FF000000</color>
+    <color name="nt_white">#FFFFFFFF</color>
+
+    <!-- Light tile surface: pure white, not N-Grey (#DCD7D2). Flattened to
+         match config_bg so the tile reads as clean as the rest of the light
+         system chrome; the text/foreground alphas below were raised to
+         compensate, since a brighter surface pulls contrast down for every
+         translucent-black colour drawn on it. -->
+    <color name="widget_surface">#FFFFFFFF</color>
+    <!-- Decorative hairline only (settings-screen cards, never the tile -
+         widget_bg.xml stays fill-only). Not a text pairing, so it isn't held
+         to a contrast ratio; kept as the same low-alpha black-on-light the
+         dark version uses white-on-dark, just inverted polarity. Now the
+         only thing that separates config_card from config_bg, since both
+         are pure white - see config_card below. -->
+    <color name="widget_stroke">#1F000000</color>
+
+    <color name="text_primary">#FF000000</color>
+    <!-- 65% black (#A6), up from 60% (#99): the tile surface moved from
+         N-Grey to pure white, which drops every translucent-black colour's
+         contrast, so this was pushed a step darker to hold its margin
+         against the brighter background. -->
+    <color name="text_secondary">#A6000000</color>
+    <!-- 80% black (#CC), up from 65% (#A6) for the same reason as
+         text_secondary above. Dark-on-light and light-on-dark don't scale
+         symmetrically at the same alpha, so this isn't a mirror of the dark
+         palette's tertiary - it's tuned against this surface directly: #CC
+         clears >8:1 against pure white, comfortably past the 4.5:1 text
+         bar with room to spare now that the surface has no grey step to
+         lean on. -->
+    <color name="text_tertiary">#CC000000</color>
+
+    <!-- The dial and the rails: lit dots against a dim rail. -->
+    <color name="meter_active">#FF000000</color>
+    <color name="meter_inactive">#2E000000</color>
+
+    <!-- Metric glyphs. -->
+    <color name="glyph">#E0000000</color>
+
+    <!-- The accents, straight from Nothing's brand guidelines (N-Red /
+         N-Yellow: HEX #C8102E / #FFC700), not invented reds and ambers.
+         Red is the default and the guideline's own signal colour; amber is
+         a step below alarm; white keeps the tile strictly monochrome and
+         lets goal-met signal by weight alone. -->
+    <color name="nt_red">#FFC8102E</color>
+    <color name="nt_amber">#FFFFC700</color>
+
+    <!-- Highlight extreme (pure white, per the guideline) - the config
+         screen's page background, distinct from the N-Grey card it frames. -->
+    <color name="config_bg">#FFFFFFFF</color>
+    <!-- Now identical to config_bg - config_card lost the N-Grey tone that
+         used to separate it from the page. health_config_card_bg.xml draws
+         widget_stroke as a 1dp outline around this fill, so the card still
+         reads as its own shape; that hairline was already there for the
+         N-Grey version and does the job on white too. -->
+    <color name="config_card">#FFFFFFFF</color>
+    <!-- A step darker than config_card, same as before, but the step now
+         reads against pure white instead of N-Grey - a bigger jump, so the
+         "recessed input" feel is if anything clearer than it was. Left at
+         the same blend between N-Grey and the guideline's Window grey
+         (#B1B3B3) that was already tuned to clear 4.5:1 for every text
+         colour drawn on it: against this field, text_primary is ~10:1,
+         the raised text_secondary (#A6) is ~5:1, and the raised
+         text_tertiary (#CC) is ~7.3:1 - all still comfortably past the bar
+         after the alpha increases above. -->
+    <color name="config_field">#FFC7C3BE</color>
+    <!-- chip_on stays white on purpose: chip_text.xml pairs the selected
+         state with nt_black text, and nt_black/nt_white are brand
+         invariants left unsplit (see report) - a black fill would make that
+         text unreadable. -->
+    <color name="chip_on">#FFFFFFFF</color>
+    <!-- Raised from 8% (#14) to 16% (#29): on N-Grey, 8% black was already a
+         subtle wash and still visible against that darker surface. Against
+         pure white it computed to under 1.2:1, essentially invisible, so
+         this was doubled to stay a visible (if still deliberately quiet)
+         "unselected" fill on the brighter card/field. Not a text colour, so
+         it isn't held to 4.5:1 - only to being perceptibly distinct from
+         its background. -->
+    <color name="chip_off">#29000000</color>
+
+    <!-- CTA pill button on the config screen. Inverted from the fixed
+         nt_white/nt_black pairing that used to be hardcoded: on the now
+         pure-white config_bg, a white pill with black text had no visible
+         boundary at all, so light mode flips to a black pill with white
+         text. Dark mode keeps the original white-pill/black-text look. -->
+    <color name="button_surface">#FF000000</color>
+    <color name="button_text">#FFFFFFFF</color>
+</resources>
