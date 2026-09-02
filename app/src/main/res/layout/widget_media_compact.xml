@@ -89,7 +89,9 @@
 
             <!-- Source switcher; see widget_media.xml. Tighter here, but the
                  vertical padding still lifts the target well past the 15dp
-                 mark it wraps. -->
+                 mark it wraps. paddingStart widened the same way and for the
+                 same reason as widget_media.xml: it eats into the row's
+                 weighted spacer, not the glyph's own position. -->
             <LinearLayout
                 android:id="@+id/source_switcher"
                 android:layout_width="wrap_content"
@@ -100,7 +102,7 @@
                 android:orientation="horizontal"
                 android:paddingTop="7dp"
                 android:paddingBottom="7dp"
-                android:paddingStart="8dp"
+                android:paddingStart="13dp"
                 android:paddingEnd="0dp">
 
                 <ImageView

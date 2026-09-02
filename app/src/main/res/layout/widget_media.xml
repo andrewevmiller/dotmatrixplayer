@@ -100,7 +100,20 @@
                      which is well under the 48dp touch minimum - the padding
                      here buys a real target without changing what is drawn.
                      Both children are hidden when there is nothing to show or
-                     nowhere to page to. -->
+                     nowhere to page to.
+
+                     paddingStart is wider than the mark needs on purpose: this
+                     row ends in a weighted spacer (see above) that absorbs
+                     whatever width isn't claimed, so growing into it here
+                     enlarges the tap target leftward without moving the glyph
+                     - the switcher stays flush with the row's right edge
+                     either way. paddingEnd stays 0 for the same reason
+                     paddingTop/Bottom are untouched: both are already flush
+                     against a fixed boundary (the row's right edge; the
+                     metadata column's tight 94dp vertical budget - see
+                     WidgetRenderer's statusWidthPx/glyphSpacePx accounting),
+                     so growing either risks colliding with or clipping a
+                     sibling instead of eating dead space. -->
                 <LinearLayout
                     android:id="@+id/source_switcher"
                     android:layout_width="wrap_content"
@@ -111,7 +124,7 @@
                     android:orientation="horizontal"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    android:paddingStart="10dp"
+                    android:paddingStart="16dp"
                     android:paddingEnd="0dp">
 
                     <ImageView
