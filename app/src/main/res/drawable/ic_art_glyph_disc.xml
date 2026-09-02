@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Empty-artwork state: the same disc-with-play-triangle mark used as the
-    source-app stand-in, sized up to fill the tile. Shown whenever there is no
-    album art to draw - no session at all, or a session whose app published
-    neither an artwork bitmap nor a URI ArtworkTools could decode.
-
-    One glyph, reused rather than invented twice: a monochrome mark this
-    project already treats as "a Nothing OS mark for unidentified audio"
-    everywhere else it needs one.
+    Empty-artwork state: vinyl record as the no-art placeholder.
+    A solid white disc with a dark center label, mimicking a vinyl record.
+    Shown whenever there is no album art to draw - no session at all, or a
+    session whose app published neither an artwork bitmap nor a URI ArtworkTools
+    could decode.
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="72dp"
@@ -15,14 +12,15 @@
     android:viewportWidth="72"
     android:viewportHeight="72">
 
-    <!-- Disc and triangle as one path, filled even-odd: the triangle is a
-         counter in the shape, not a separate erase pass - correct as a
-         static drawable, where there is no card content behind it to erase
-         through. -->
-    <path
-        android:fillColor="#FFFFFFFF"
-        android:fillAlpha="0.16"
-        android:fillType="evenOdd"
-        android:pathData="M68,36 A32,32 0 1,0 4,36 A32,32 0 1,0 68,36 Z
-                           M25.2,22.61 L51.55,36 L25.2,49.39 Z" />
+    <!-- Outer vinyl disc (white) -->
+    <path android:fillColor="#FFFFFFFF"
+        android:pathData="M36,0 A36,36 0 1,0 36,72 A36,36 0 1,0 36,0 Z" />
+
+    <!-- Center record label (dark) -->
+    <path android:fillColor="#FF1a1a1a"
+        android:pathData="M36,22 A14,14 0 1,0 36,50 A14,14 0 1,0 36,22 Z" />
+
+    <!-- Small center spindle hole -->
+    <path android:fillColor="#FFFFFFFF"
+        android:pathData="M36,34 A2,2 0 1,0 36,38 A2,2 0 1,0 36,34 Z" />
 </vector>
