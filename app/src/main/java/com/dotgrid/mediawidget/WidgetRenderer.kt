@@ -51,6 +51,21 @@ object WidgetRenderer {
     private const val GLYPH_DP = 20f
     private const val COMPACT_GLYPH_DP = 15f
 
+    /**
+     * source_switcher's own chrome - marginStart + paddingStart + paddingEnd
+     * in the layout XML, not counting the glyph itself. Added to the glyph's
+     * width in glyphSpacePx so a title/status label can never be given a
+     * width budget wide enough to push the switcher past the card's edge.
+     * Must match source_switcher's layout_marginStart/paddingStart/paddingEnd
+     * in the corresponding XML - update this alongside any change there.
+     */
+    private const val SWITCHER_CHROME_DP = 20f          // widget_media.xml: 4 + 16 + 0
+    private const val COMPACT_SWITCHER_CHROME_DP = 15f  // widget_media_compact.xml: 2 + 13 + 0
+
+    /** source_dots' own marginEnd in the two layouts. */
+    private const val DOTS_GAP_DP = 7f
+    private const val COMPACT_DOTS_GAP_DP = 5f
+
     /** Carousel page indicator, one dot per source. */
     private const val SOURCE_DOT_DP = 4f
     private const val SOURCE_DOT_GAP_DP = 3f
@@ -163,10 +178,15 @@ object WidgetRenderer {
         val dotPx = px(if (compact) COMPACT_SOURCE_DOT_DP else SOURCE_DOT_DP)
         val dotGapPx = px(if (compact) COMPACT_SOURCE_DOT_GAP_DP else SOURCE_DOT_GAP_DP)
         val dotsWidthPx = SourceDots.widthPx(snapshot.sourceCount, dotPx, dotGapPx)
-        val dotsSpacePx = if (dotsWidthPx > 0) dotsWidthPx + px(if (compact) 5f else 7f) else 0
+        val dotsSpacePx = if (dotsWidthPx > 0) {
+            dotsWidthPx + px(if (compact) COMPACT_DOTS_GAP_DP else DOTS_GAP_DP)
+        } else {
+            0
+        }
 
         val glyphSpacePx =
-            px(if (compact) COMPACT_GLYPH_DP + 6f else GLYPH_DP + 8f) + dotsSpacePx
+            px(if (compact) COMPACT_GLYPH_DP + COMPACT_SWITCHER_CHROME_DP
+               else GLYPH_DP + SWITCHER_CHROME_DP) + dotsSpacePx
         val statusWidthPx = max(px(48f), metaWidthPx - indentPx - if (compact) 0 else glyphSpacePx)
         val nameWidthPx = max(px(48f), metaWidthPx - indentPx - if (compact) glyphSpacePx else 0)
 
